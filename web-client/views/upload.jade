@@ -1,0 +1,159 @@
+doctype html
+html
+  head
+    title GRNsight
+    link(href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css", rel="stylesheet")
+    link(href="stylesheets/grnsight.css", rel="stylesheet")
+    link(href="stylesheets/print.css", rel="stylesheet", media="print")
+    link(href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css", rel="stylesheet")
+    script(src="http://code.jquery.com/jquery-1.9.1.js")
+    script(src="http://code.jquery.com/ui/1.10.1/jquery-ui.js")
+  
+  body
+
+    nav(class='navbar navbar-default' role='navigation')
+      div(class='container-fluid')
+        div(class='navbar-header')
+          button(type='button' class='navbar-toggle' data-toggle='collapse' data-target='#header-nav')
+            span(class='sr-only') Toggle Navigation
+            span(class='icon-bar')
+            span(class='icon-bar')
+            span(class='icon-bar')
+        div(class='collapse navbar-collapse' id='header-nav')
+          ul(class='nav navbar-nav')
+            li(class='dropdown')
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') File
+              ul(class='dropdown-menu' role='menu')
+                li
+                  a(href='#' id='open-item')
+                    label(for='upload' id='open')
+                      span(class='glyphicon glyphicon-folder-open')
+                      | &nbsp; Open
+                    input(type='file', name='upload', id='upload', accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+                    input(type='hidden', id='service-root', value='#{serviceRoot}')
+                li
+                  a(href='#' id='reload')
+                    span(class='glyphicon glyphicon-repeat')
+                    | &nbsp; Reload
+                li(class='divider')
+                li(class='disabled')
+                  a(href='#')
+                    span(class='glyphicon glyphicon-export')
+                    | &nbsp; Export
+                li(class='divider')
+                li
+                  a(href='#' id='printGraph')
+                    span(class='glyphicon glyphicon-print')
+                    | &nbsp; Print
+            li(class='dropdown')
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown' disabled) Edit
+              ul(class='dropdown-menu' role='menu')
+                li(class='disabled')
+                  a(href='#') 
+                    span(class='glyphicon invisible')
+                    | &nbsp; Undo
+                li(class='disabled')
+                  a(href='#') 
+                    span(class='glyphicon invisible')
+                    | &nbsp; Redo
+                li(class='divider')
+                li(class='dropdown-submenu')
+                  a(href='#')
+                    span(class='glyphicon glyphicon-wrench')
+                    | &nbsp; Preferences
+                  ul(class='dropdown-menu')
+                    li
+                      a(href='#' id='formatOptimal' class='selectedColoring') 
+                        span(class='glyphicon glyphicon-ok')
+                        | &nbsp; Format edges based on optimized weight parameters
+                    li
+                      a(href='#' id='formatDefault' class='deselectedColoring') 
+                        span(class='glyphicon invisible')
+                        | &nbsp; Default to black edges with regular arrowheads
+            li(class='dropdown')
+              a(href='#' class='dropdown-toggle', data-toggle='dropdown') Format
+              ul(class='dropdown-menu' role='menu')
+                li
+                  a(href='#' class='noGlyph' id='lockSlidersMenu')
+                    span(class='glyphicon invisible')
+                    | &nbsp; Lock Force Graph Parameters
+                li(class='disabled')
+                  a(href='#' class='noGlyph') 
+                    span(class='glyphicon invisible')
+                    | &nbsp; Lock Nodes
+                li(class='divider')
+                li
+                  a(href='#' id='resetSlidersMenu') 
+                    span(class='glyphicon invisible')
+                    | &nbsp; Reset Force Graph Parameters
+                li
+                  a(href='#' id='undoResetMenu')
+                    span(class='glyphicon invisible')
+                    | &nbsp; Undo Reset
+            li(class='dropdown') 
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Data
+              ul(class='dropdown-menu' role='menu')
+                li(class='disabled')
+                  a(href='#') Node Coloring Settings
+                li(class='disabled')
+                  a(href='#') Edge Coloring Settings
+            li(class='dropdown')
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Help
+              ul(class='dropdown-menu' role='menu')
+                li
+                  a(href='http://dondi.github.io/GRNsight/documentation.html#gettingStarted', target='_blank') Getting Started 
+                li
+                  a(href='https://github.com/dondi/GRNsight/wiki', target='_blank') GRNsight Wiki
+                li
+                  a(href='http://dondi.github.io/GRNsight/about.html', target='_blank') About GRNsight
+            li(class='dropdown')
+              a(href='#' class='dropdown-toggle' data-toggle='dropdown') Demo
+              ul(class='dropdown-menu' role='menu')
+                li
+                  a(href='#' id='unweighted') Demo #1: Unweighted GRN
+                li
+                  a(href='#' id='weighted') Demo #2: Weighted GRN
+            li
+              a(href='#' id='fileName')
+
+    div(class='container')
+      div(class='grnsight-container')
+    div(class='sliders')
+        form
+          label(for='linkDistInput', class='info', data-toggle='tooltip', title='Increases/decreases the length of the edges that connect the nodes.') Link Distance (1 - 1000): 
+          span(id='linkDistVal' class='forceVal') 500
+          input(class='form-control', type='range', min='1', max='1000', value='500', step='1', id='linkDistInput', name='linkDistInput')
+          label(for='chargeInput', class='info', data-toggle='tooltip', title='Increases/decreases the strength of the force that causes the nodes to repel each other.') Charge (-2000 - 0):
+          span(id='chargeVal' class='forceVal') -1000
+          input(class='form-control', type='range', min='-2000', max='0', value='-1000', step='1', id='chargeInput', name='chargeInput')
+          label(for='chargeDistInput' class='info', data-toggle='tooltip', title='Increases/decreases the size of the charged area around a node.') Charge Distance (0 - 2000):
+          span(id='chargeDistVal' class='forceVal') 1000
+          input(class='form-control', type='range', min='0', max='2000', value='1000', step='1', id='chargeDistInput', name='chargeDistInput')
+          label(for='gravityInput', class='info', data-toggle='tooltip', title='Increases/decreases the strength of the force holding the nodes to the center of the graph.') Gravity (0 - 1):
+          span(id='gravityVal' class='forceVal') 0.10
+          input(class='form-control', type='range', min='0', max='1', value='0.1', step='0.01', id='gravityInput', name='gravityInput')
+        form
+          input(id='lockSliders', type='checkbox', value='lockSliders')
+          label(for='lockSliders' style='font-weight:normal') Lock Force Graph Parameters
+        form
+          input(id='resetSliders' type='button' class='btn btn-default' value='Reset Force Graph Parameters') 
+          input(id='undoReset' type='button' class='btn btn-default' value='Undo Reset' disabled)
+        //form
+          //input(id='lockNodes', type='checkbox', value='lockNodes' disabled)
+          //label(for='lockNodes', style='font-weight:normal') Lock Nodes
+    div(id='myModal' class='modal fade' tab-index='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true')
+      div(class='modal-dialog modal-sm')
+        div(class='modal-content')
+          div(class='modal-header')
+            input(type='button' class='close' data-dismiss='modal' aria-hidden='true' value='X')
+            h4(class='modal-title') Error
+          div(class='modal-body')
+            p(id='error')
+          div(class='modal-footer')
+            input(type='button' class='btn btn-default' data-dismiss='modal' value='Close')
+            input(type='button' id='launchFileOpen' class='btn btn-primary' data-dismiss='modal' value='Select New File' onclick="$('#upload').click()")
+  script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
+  script(src='lib/bootstrap.file-input/bootstrap.file-input.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/d3/3.4.4/d3.min.js')
+  script(src='js/graph.js')
+  script(src='js/upload.js')
