@@ -1,1 +1,0 @@
-The GRNsight server is a node.js based service. More information to follow.
