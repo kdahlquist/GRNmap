@@ -1,4 +1,8 @@
-MAKE SURE THAT THE INPUT SHEET IS IN THE SAME DIRECTORY AS THE GRNMODEL.
+MAKE SURE THAT THE EXCEL INPUT SHEET IS IN THE SAME DIRECTORY AS THE GRNMODEL.
+
+The MATLAB Compiler Runtime library is needed for GRNmap. You can download the latest version at
+   http://www.mathworks.com/products/compiler/mcr/index.html
+
 
 When the program begins it will prompt you to select the Excel sheet.
 Make sure that the sheet is in the proper format and select it.
