@@ -1,6 +1,6 @@
 % Allows user to choose an .xls or .xlsx file. If unsupported file is chosen
 % the program is aborted.
-GRNstruct.inputFile = uigetfile({'*.xls';'*.xlsx'},'Select Input Worksheet for Simulation.');
+GRNstruct.inputFile = uigetfile({'*.xlsx'},'Select Input Worksheet for Simulation.');
 if GRNstruct.inputFile == 0
     msgbox('Select An .xls or .xlsx File To Run Simulation.','Empty Input Error');
     return
