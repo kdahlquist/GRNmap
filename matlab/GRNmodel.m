@@ -11,9 +11,6 @@ if ~strcmp(ext,'.xls') && ~strcmp(ext,'.xlsx')
     return
 end
 
-figHandles  = findobj('Type','figure');
-nfig        = max(figHandles);
-
 % Back Simulation
 tic
 % Populates the structur as well as the global variables
