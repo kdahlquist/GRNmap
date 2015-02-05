@@ -12,7 +12,7 @@ if ~strcmp(ext,'.xls') && ~strcmp(ext,'.xlsx')
 end
 
 % Back Simulation
-tic
+% tic
 % Populates the structur as well as the global variables
 GRNstruct = readInputSheet(GRNstruct); % We've called Parameters
 GRNstruct = lse(GRNstruct);
