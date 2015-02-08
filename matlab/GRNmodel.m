@@ -7,7 +7,7 @@ if GRNstruct.inputFile == 0
 end
 [p,n,ext] = fileparts( GRNstruct.inputFile );
 if ~strcmp(ext,'.xls') && ~strcmp(ext,'.xlsx')
-    msgbox('Select An .xls or .xlsx File To Run Simulation.','Invalid Input Error');
+    msgbox('Select An .xls or .xlsx File To Run GRNmap.','Invalid Input Error');
     return
 end
 
