@@ -54,7 +54,6 @@ end
 [GRNstruct.degRates,GRNstruct.labels.TX0] = xlsread(input_file,'degradation_rates');
 [GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]     = xlsread(input_file,'network_weights');
 [GRNstruct.GRNParams.A,GRNstruct.labels.TX3]         = xlsread(input_file,'network');
-%[GRNstruct.GRNOutput.simtime,GRNstruct.labels.TX4]   = xlsread(input_file,'simulation_times');
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]   = xlsread(input_file,'production_rates');
 GRNstruct.GRNParams.nedges          = sum(GRNstruct.GRNParams.A(:));
 GRNstruct.GRNParams.n_active_genes  = length(GRNstruct.GRNParams.A(1,:));
