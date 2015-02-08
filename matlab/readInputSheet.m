@@ -11,7 +11,6 @@ input_file      = GRNstruct.inputFile;
 [type, sheets]  = xlsfinfo(input_file);
 
 [parms0,parmnames0]  = xlsread(input_file,'optimization_parameters');
-
 [np,mp] = size(parmnames0);
 
 qq = 0;
@@ -55,7 +54,7 @@ end
 [GRNstruct.degRates,GRNstruct.labels.TX0] = xlsread(input_file,'degradation_rates');
 [GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]     = xlsread(input_file,'network_weights');
 [GRNstruct.GRNParams.A,GRNstruct.labels.TX3]         = xlsread(input_file,'network');
-[GRNstruct.GRNOutput.simtime,GRNstruct.labels.TX4]   = xlsread(input_file,'simulation_times');
+%[GRNstruct.GRNOutput.simtime,GRNstruct.labels.TX4]   = xlsread(input_file,'simulation_times');
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]   = xlsread(input_file,'production_rates');
 GRNstruct.GRNParams.nedges          = sum(GRNstruct.GRNParams.A(:));
 GRNstruct.GRNParams.n_active_genes  = length(GRNstruct.GRNParams.A(1,:));
@@ -66,6 +65,7 @@ GRNstruct.GRNParams.n_genes = length(GRNstruct.microData(1).data(:,1))-1;
 GRNstruct.GRNParams.n_times = length(time);
 
 % This sets the control paramenters
+GRNstruct.controlParams.simtime = simtime;
 GRNstruct.controlParams.kk_max = kk_max;
 GRNstruct.controlParams.MaxIter = MaxIter;
 GRNstruct.controlParams.MaxFunEval = MaxFunEval;

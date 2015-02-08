@@ -9,7 +9,7 @@ end
 positions   = GRNstruct.GRNParams.positions;
 nedges      = GRNstruct.GRNParams.nedges;
 n_forced    = GRNstruct.GRNParams.n_forced;
-simtime     = GRNstruct.GRNOutput.simtime;
+simtime     = GRNstruct.controlParams.simtime;
 w0          = GRNstruct.locals.w0;
 w1          = GRNstruct.locals.w1;
 
