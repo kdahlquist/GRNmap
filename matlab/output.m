@@ -62,20 +62,21 @@ for qq = 1:length(Strain)
     input_file = GRNstruct.inputFile(1:(ind - 1));
     output_file = [input_file '_estimation_output.xls'];
     output_mat  = [input_file '_estimation_output.mat'];
+    copyfile([input_file '.xls'], output_file);
     
     
-    xlswrite(output_file,outputdata,'log2_concentrations');
-    xlswrite(output_file,outputcells,'log2_optimized_concentrations');
-    xlswrite(output_file,outputdeg,'degradation_rates');
-    xlswrite(output_file,outputpro,'production_rates');
-    xlswrite(output_file,outputtimes,'measurement_times');
-    xlswrite(output_file,outputnet,'network');
+    xlswrite(output_file,outputdata,'out_log2_expression');
+    xlswrite(output_file,outputcells,'out_log2_optimized_expression');
+    xlswrite(output_file,outputdeg,'out_degradation_rates');
+    xlswrite(output_file,outputpro,'out_production_rates');
+    xlswrite(output_file,outputtimes,'out_measurement_times');
+    xlswrite(output_file,outputnet,'out_network');
     
     for ii = 1:nedges
         outputnet{positions(ii,1)+1,positions(ii,2)+1} = w0(ii);
     end
     
-    xlswrite(output_file,outputnet,'network_weights');
+    xlswrite(output_file,outputnet,'out_network_weights');
     
     if Sigmoid == 1
         outputpro{1,3} = 'b';
@@ -86,7 +87,7 @@ for qq = 1:length(Strain)
             for ii = 1:length(no_inputs)
                 outputpro{no_inputs(ii)+1,3} = 0;
             end
-            xlswrite(output_file,outputpro,'network_optimized_b');
+            xlswrite(output_file,outputpro,'out_network_optimized_b');
         end
         if fix_b == 1
             for ii = 1:n_forced
@@ -95,7 +96,7 @@ for qq = 1:length(Strain)
             for ii = 1:length(no_inputs)
                 outputpro{no_inputs(ii)+1,3} = 0;
             end
-            xlswrite(output_file,outputpro,'network_b');
+            xlswrite(output_file,outputpro,'out_network_b');
         end
     end
     
@@ -103,7 +104,7 @@ for qq = 1:length(Strain)
         outputnet{positions(ii,1)+1,positions(ii,2)+1} = w1(ii);
     end
     
-    xlswrite(output_file,outputnet,'network_optimized_weights');
+    xlswrite(output_file,outputnet,'out_network_optimized_weights');
     
     
     GRNstruct.GRNOutput.name     = GRNstruct.inputFile;
