@@ -43,7 +43,6 @@ for ii = 2:np
 end 
 
 % These varaibles call data from Excel files
-
 for ii = 1:length(Strain)
     [GRNstruct.microData(ii).data,GRNstruct.labels.TX1]      = xlsread(input_file,Strain{ii});
     GRNstruct.microData(ii).Strain = Strain(ii);

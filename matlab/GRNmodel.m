@@ -13,7 +13,7 @@ end
 
 % Back Simulation
 % tic
-% Populates the structur as well as the global variables
+% Populates the structure as well as the global variables
 GRNstruct = readInputSheet(GRNstruct); % We've called Parameters
 GRNstruct = lse(GRNstruct);
 GRNstruct = output(GRNstruct);

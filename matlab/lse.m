@@ -72,7 +72,7 @@ for qq = 1:length(Strain)
     log2FC(qq).model    = (log2(model))';
     log2FC(qq).simtime  = simtime';
     GRNstruct.GRNModel(qq).model    = log2FC(qq).model;
-    GRNstruct.GRNModel(qq).simtime  = log2FC(qq).simtime ;
+    GRNstruct.GRNModel(qq).simtime  = log2FC(qq).simtime;
 end
 
 
