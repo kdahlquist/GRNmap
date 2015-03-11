@@ -1,5 +1,5 @@
 % Allows user to choose an .xls or .xlsx file. If unsupported file is chosen
-% the program is aborted.
+% the program is aborted. The dialog box defaults to .xlsx files.
 GRNstruct.inputFile = uigetfile({'*.xlsx'},'Select Input Worksheet for Simulation.');
 if GRNstruct.inputFile == 0
     msgbox('Select An .xls or .xlsx File To Run Simulation.','Empty Input Error');
