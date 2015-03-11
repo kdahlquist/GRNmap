@@ -9,9 +9,15 @@ end
 positions   = GRNstruct.GRNParams.positions;
 nedges      = GRNstruct.GRNParams.nedges;
 n_forced    = GRNstruct.GRNParams.n_forced;
-simtime     = GRNstruct.GRNOutput.simtime;
+simtime     = GRNstruct.controlParams.simtime;
 w0          = GRNstruct.locals.w0;
 w1          = GRNstruct.locals.w1;
+
+ind = strfind(GRNstruct.inputFile,'.xls');
+input_file = GRNstruct.inputFile(1:(ind - 1));
+output_file = [input_file '_estimation_output.xls'];
+output_mat  = [input_file '_estimation_output.mat'];
+copyfile([input_file '.xls'], output_file);
 
 for qq = 1:length(Strain)
     
@@ -54,69 +60,62 @@ for qq = 1:length(Strain)
         end
     end
     
-    
-    %     output_file = [input_file_name '_estimation_output_' num2str(alpha) '_' Strain{qq} '.xls'];
-    %     output_mat  = [input_file_name '_estimation_output_' num2str(alpha) '_' Strain{qq} '.mat'];
-    
-    ind = strfind(GRNstruct.inputFile,'.xls');
-    input_file = GRNstruct.inputFile(1:(ind - 1));
-    output_file = [input_file '_estimation_output.xls'];
-    output_mat  = [input_file '_estimation_output.mat'];
-    
-    
-    xlswrite(output_file,outputdata,'log2_concentrations');
-    xlswrite(output_file,outputcells,'log2_optimized_concentrations');
-    xlswrite(output_file,outputdeg,'degradation_rates');
-    xlswrite(output_file,outputpro,'production_rates');
-    xlswrite(output_file,outputtimes,'measurement_times');
-    xlswrite(output_file,outputnet,'network');
-    
-    for ii = 1:nedges
-        outputnet{positions(ii,1)+1,positions(ii,2)+1} = w0(ii);
-    end
-    
-    xlswrite(output_file,outputnet,'network_weights');
-    
-    if Sigmoid == 1
-        outputpro{1,3} = 'b';
-        if fix_b == 0
-            for ii = 1:n_forced
-                outputpro{i_forced(ii)+1,3} = w1(ii+nedges);
-            end
-            for ii = 1:length(no_inputs)
-                outputpro{no_inputs(ii)+1,3} = 0;
-            end
-            xlswrite(output_file,outputpro,'network_optimized_b');
-        end
-        if fix_b == 1
-            for ii = 1:n_forced
-                outputpro{i_forced(ii)+1,3} = b(ii);
-            end
-            for ii = 1:length(no_inputs)
-                outputpro{no_inputs(ii)+1,3} = 0;
-            end
-            xlswrite(output_file,outputpro,'network_b');
-        end
-    end
-    
-    for ii = 1:nedges
-        outputnet{positions(ii,1)+1,positions(ii,2)+1} = w1(ii);
-    end
-    
-    xlswrite(output_file,outputnet,'network_optimized_weights');
-    
-    
-    GRNstruct.GRNOutput.name     = GRNstruct.inputFile;
-    GRNstruct.GRNOutput.prorate  = prorate;
-    GRNstruct.GRNOutput.degrate  = degrate;
-    GRNstruct.GRNOutput.wts      = wts;
-    GRNstruct.GRNOutput.b        = b;
-    GRNstruct.GRNOutput.A        = A;
-    GRNstruct.GRNOutput.active   = GRNstruct.GRNParams.active;
-    GRNstruct.GRNOutput.tspan    = time;
     GRNstruct.GRNOutput.d        = log2FC(qq).data(2:end,:);
-    GRNstruct.GRNOutput.alpha    = alpha;
-    
-    my_string = ['save(''' output_mat ''')'];
-    eval(my_string);
+    xlswrite(output_file,outputcells,[Strain{qq} '_log2_optimized_expression']);
 end
+    
+    
+% output_file = [input_file_name '_estimation_output_' num2str(alpha) '_' Strain{qq} '.xls'];
+% output_mat  = [input_file_name '_estimation_output_' num2str(alpha) '_' Strain{qq} '.mat'];
+xlswrite(output_file,outputdeg,'out_degradation_rates');
+xlswrite(output_file,outputpro,'out_production_rates');
+xlswrite(output_file,outputtimes,'out_measurement_times');
+xlswrite(output_file,outputnet,'out_network');
+
+for ii = 1:nedges
+    outputnet{positions(ii,1)+1,positions(ii,2)+1} = w0(ii);
+end
+
+xlswrite(output_file,outputnet,'out_network_weights');
+
+if Sigmoid == 1
+    outputpro{1,3} = 'b';
+    if fix_b == 0
+        for ii = 1:n_forced
+            outputpro{i_forced(ii)+1,3} = w1(ii+nedges);
+        end
+        for ii = 1:length(no_inputs)
+            outputpro{no_inputs(ii)+1,3} = 0;
+        end
+        xlswrite(output_file,outputpro,'out_network_optimized_b');
+    end
+    if fix_b == 1
+        for ii = 1:n_forced
+            outputpro{i_forced(ii)+1,3} = b(ii);
+        end
+        for ii = 1:length(no_inputs)
+            outputpro{no_inputs(ii)+1,3} = 0;
+        end
+        xlswrite(output_file,outputpro,'out_network_b');
+    end
+end
+
+for ii = 1:nedges
+    outputnet{positions(ii,1)+1,positions(ii,2)+1} = w1(ii);
+end
+
+xlswrite(output_file,outputnet,'out_network_optimized_weights');
+
+
+GRNstruct.GRNOutput.name     = GRNstruct.inputFile;
+GRNstruct.GRNOutput.prorate  = prorate;
+GRNstruct.GRNOutput.degrate  = degrate;
+GRNstruct.GRNOutput.wts      = wts;
+GRNstruct.GRNOutput.b        = b;
+GRNstruct.GRNOutput.A        = A;
+GRNstruct.GRNOutput.active   = GRNstruct.GRNParams.active;
+GRNstruct.GRNOutput.tspan    = time;
+GRNstruct.GRNOutput.alpha    = alpha;
+
+my_string = ['save(''' output_mat ''')'];
+eval(my_string);

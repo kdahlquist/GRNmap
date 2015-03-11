@@ -36,7 +36,7 @@ for qq = 1:length(log2FC)
 end
 
 figHandles  = findobj('Type','figure');
-nfig        = max(figHandles);
+nfig        = size(figHandles,1);
 
 for kk = 3:nfig
     eval(['figure(' num2str(kk) ')'])

@@ -8,7 +8,7 @@ n_active_genes = GRNstruct.GRNParams.n_active_genes;
 n_forced       = GRNstruct.GRNParams.n_forced;
 iestimate      = GRNstruct.controlParams.iestimate;
 kk_max         = GRNstruct.controlParams.kk_max;
-simtime        = GRNstruct.GRNOutput.simtime;
+simtime        = GRNstruct.controlParams.simtime;
 x0             = GRNstruct.GRNParams.x0;
 MaxIter = GRNstruct.controlParams.MaxIter;
 MaxFunEval = GRNstruct.controlParams.MaxFunEval;
@@ -72,7 +72,7 @@ for qq = 1:length(Strain)
     log2FC(qq).model    = (log2(model))';
     log2FC(qq).simtime  = simtime';
     GRNstruct.GRNModel(qq).model    = log2FC(qq).model;
-    GRNstruct.GRNModel(qq).simtime  = log2FC(qq).simtime ;
+    GRNstruct.GRNModel(qq).simtime  = log2FC(qq).simtime;
 end
 
 
