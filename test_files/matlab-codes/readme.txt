@@ -1,4 +1,4 @@
-This readme contains information on the files in this compressed folder.
+This readme contains information on the files in this folder.
 
 The scenario is a four gene network. Two genes are purely self regulated; two others feedback to each other.
 The data was created by executing two forward simulations, one with all four and one with a single gene deleted. 
