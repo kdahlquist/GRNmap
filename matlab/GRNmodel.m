@@ -12,13 +12,11 @@ if ~strcmp(ext,'.xls') && ~strcmp(ext,'.xlsx')
 end
 
 % Back Simulation
-% tic
 % Populates the structure as well as the global variables
 GRNstruct = readInputSheet(GRNstruct); % We've called Parameters
 GRNstruct = lse(GRNstruct);
 GRNstruct = output(GRNstruct);
 
 % LSE
-% toc
 % Graphs;
 % Output;
