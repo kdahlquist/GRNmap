@@ -67,7 +67,7 @@ end
     
 % output_file = [input_file_name '_estimation_output_' num2str(alpha) '_' Strain{qq} '.xls'];
 % output_mat  = [input_file_name '_estimation_output_' num2str(alpha) '_' Strain{qq} '.mat'];
-xlswrite(output_file,outputdeg,'out_degradation_rates');
+% xlswrite(output_file,outputdeg,'out_degradation_rates');
 xlswrite(output_file,outputpro,'out_production_rates');
 xlswrite(output_file,outputtimes,'out_measurement_times');
 xlswrite(output_file,outputnet,'out_network');
