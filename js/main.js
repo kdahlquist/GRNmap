@@ -6,17 +6,32 @@ $(function() {
         if( ($(window).scrollLeft() >= 30 && $(window).scrollTop() > 140) || ($(window).scrollTop() < 140 &&  $("#stickyBar").attr('class') != 'affix-top') ) {
             $("#stickyBar").attr('class', 'affix-top');
         // Re-sticks the sidebar after being unstuck due to left scroll.
-        } else if($(window).scrollTop() > 140 && $("#stickyBar").attr('class') != 'affix') {
+            } else if($(window).scrollTop() > 140 && $("#stickyBar").attr('class') != 'affix') {
             $("#stickyBar").attr('class', 'affix');
         } 
     })
 
-    // Documentation page only: Makes links open their respective sections when clicked
-    $('#section2Content').on('shown.bs.collapse', function() {
-        window.location.href = '#section2';
-    });
-    $('#section3Content').on('shown.bs.collapse', function() {
-        window.location.href = '#section3';
+    var setupClickableItems = function (clickableSelector, contentId, targetHref) {
+        // Documentation page only: Makes links open their respective sections when clicked
+        $(contentId).on('shown.bs.collapse', function () {
+            window.location.href = targetHref;
+        });
+        
+        // If the links are already open, the above handlers won't fire, so we force the page to change in that case
+        // Using .on because using .click doesn't work for some reason
+        $(clickableSelector).on('click', function () {
+            $(contentId).collapse('show');
+            if($(contentId).attr('class') === 'panel-collapse collapse in') {
+                window.location.href = targetHref;
+            };
+        });
+    };
+
+    [
+        [ '.showSection2', '#section2Content', '#section2' ],
+        [ '.showSection3', '#section3Content', '#section3' ]
+    ].forEach(function (clickableItem) {
+        setupClickableItems.apply(null, clickableItem);
     });
 
     // Change the modified time of the web page
