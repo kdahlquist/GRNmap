@@ -14,8 +14,6 @@ Ai = Ar>0;
 %i_forced  = find(Ai == 1);
 n_forced  = sum(Ai);
 
-%error('Whaaaa???');
-
 n_active_genes = length(A(1,:));
 
 wts         = theta(1:nedges);

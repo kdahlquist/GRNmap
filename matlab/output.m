@@ -13,11 +13,10 @@ simtime     = GRNstruct.controlParams.simtime;
 w0          = GRNstruct.locals.w0;
 w1          = GRNstruct.locals.w1;
 
-ind = strfind(GRNstruct.inputFile,'.xls');
-input_file = GRNstruct.inputFile(1:(ind - 1));
-output_file = [input_file '_estimation_output.xls'];
+[~,input_file,ext] = fileparts(GRNstruct.inputFile);
+output_file = [input_file '_estimation_output' ext];
 output_mat  = [input_file '_estimation_output.mat'];
-copyfile([input_file '.xls'], output_file);
+copyfile([input_file ext], output_file);
 
 for qq = 1:length(Strain)
     
