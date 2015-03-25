@@ -7,7 +7,7 @@ W   = zeros(size(A));
 D   = degrate(:);
 B   = zeros(n_genes,1);
 
-if fix_b == 0
+if ~fix_b
     B(i_forced) = b;
 end
 
@@ -27,7 +27,6 @@ for ii = 1:length(zz)
 end
 
 if deletion ~= 0
-
     W(deletion,:) = 0;
     W(:,deletion) = 0;
     B(deletion) = 0;
