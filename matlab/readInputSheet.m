@@ -69,8 +69,8 @@ GRNstruct.controlParams.MaxIter = MaxIter;
 GRNstruct.controlParams.MaxFunEval = MaxFunEval;
 GRNstruct.controlParams.TolFun = TolFun;
 GRNstruct.controlParams.TolX = TolX;
-GRNstruct.controlParams.iestimate = iestimate;
-GRNstruct.controlParams.igraph = igraph;
+GRNstruct.controlParams.estimateParams = estimateParams;
+GRNstruct.controlParams.makeGraphs = makeGraphs;
 GRNstruct.controlParams.Sigmoid = Sigmoid;
 GRNstruct.controlParams.fix_b = fix_b;
 GRNstruct.controlParams.fix_P = fix_P;
@@ -78,10 +78,9 @@ GRNstruct.controlParams.fix_P = fix_P;
 
 % Populate the global variables
 
-if GRNstruct.controlParams.Sigmoid == 1
+if GRNstruct.controlParams.Sigmoid
     [GRNstruct.GRNParams.b,GRNstruct.labels.TX6]    = xlsread(input_file,'network_b');
     b = GRNstruct.GRNParams.b;
-    %b = bvec;
 else
     GRNstruct.controlParams.fix_b = 1;
     fix_b = 1;

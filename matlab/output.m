@@ -2,7 +2,7 @@ function GRNstruct = output(GRNstruct)
 
 global A alpha b degrate fix_b i_forced log2FC n_genes n_times no_inputs prorate Sigmoid Strain time wts
 
-if GRNstruct.controlParams.igraph == 1
+if GRNstruct.controlParams.makeGraphs
     GRNstruct = graphs(GRNstruct);
 end
 
@@ -13,11 +13,10 @@ simtime     = GRNstruct.controlParams.simtime;
 w0          = GRNstruct.locals.w0;
 w1          = GRNstruct.locals.w1;
 
-ind = strfind(GRNstruct.inputFile,'.xls');
-input_file = GRNstruct.inputFile(1:(ind - 1));
-output_file = [input_file '_estimation_output.xls'];
+[~,input_file,ext] = fileparts(GRNstruct.inputFile);
+output_file = [input_file '_estimation_output' ext];
 output_mat  = [input_file '_estimation_output.mat'];
-copyfile([input_file '.xls'], output_file);
+copyfile([input_file ext], output_file);
 
 for qq = 1:length(Strain)
     
@@ -64,11 +63,10 @@ for qq = 1:length(Strain)
     xlswrite(output_file,outputcells,[Strain{qq} '_log2_optimized_expression']);
 end
     
-    
-% output_file = [input_file_name '_estimation_output_' num2str(alpha) '_' Strain{qq} '.xls'];
-% output_mat  = [input_file_name '_estimation_output_' num2str(alpha) '_' Strain{qq} '.mat'];
-xlswrite(output_file,outputdeg,'out_degradation_rates');
-xlswrite(output_file,outputpro,'out_production_rates');
+if GRNstruct.controlParams.fix_P
+    xlswrite(output_file,outputpro,'out_production_rates');
+end
+
 xlswrite(output_file,outputtimes,'out_measurement_times');
 xlswrite(output_file,outputnet,'out_network');
 
@@ -78,7 +76,7 @@ end
 
 xlswrite(output_file,outputnet,'out_network_weights');
 
-if Sigmoid == 1
+if Sigmoid
     outputpro{1,3} = 'b';
     if fix_b == 0
         for ii = 1:n_forced
@@ -87,9 +85,7 @@ if Sigmoid == 1
         for ii = 1:length(no_inputs)
             outputpro{no_inputs(ii)+1,3} = 0;
         end
-        xlswrite(output_file,outputpro,'out_network_optimized_b');
-    end
-    if fix_b == 1
+    else
         for ii = 1:n_forced
             outputpro{i_forced(ii)+1,3} = b(ii);
         end

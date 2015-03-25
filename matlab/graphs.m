@@ -20,7 +20,7 @@ end
 
 for qq = 1:length(log2FC)
     td  = (log2FC(qq).data(1,:));
-    if GRNstruct.controlParams.igraph == 1
+    if GRNstruct.controlParams.makeGraphs
         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
         error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
         for ii=1:GRNstruct.GRNParams.n_active_genes

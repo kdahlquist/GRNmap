@@ -1,5 +1,5 @@
 % Allows user to choose an .xls or .xlsx file. If unsupported file is chosen
-% the program is aborted.
+% the program is aborted. The dialog box defaults to .xlsx files.
 GRNstruct.inputFile = uigetfile({'*.xlsx'},'Select Input Worksheet for Simulation.');
 if GRNstruct.inputFile == 0
     msgbox('Select An .xls or .xlsx File To Run Simulation.','Empty Input Error');
@@ -12,13 +12,11 @@ if ~strcmp(ext,'.xls') && ~strcmp(ext,'.xlsx')
 end
 
 % Back Simulation
-% tic
 % Populates the structure as well as the global variables
 GRNstruct = readInputSheet(GRNstruct); % We've called Parameters
 GRNstruct = lse(GRNstruct);
 GRNstruct = output(GRNstruct);
 
 % LSE
-% toc
 % Graphs;
 % Output;
