@@ -3,7 +3,6 @@ classdef lseTest < matlab.unittest.TestCase
     methods (Test)
         
         function test01SteadyState (testCase)
-            addpath('../matlab');
             GRNstruct.inputFile = '../data-samples/Test01SteadyState.xls';
             GRNstruct = readInputSheet(GRNstruct);
             

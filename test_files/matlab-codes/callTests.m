@@ -5,5 +5,5 @@ clc
 addpath(('..\..\matlab'));
 
 %Begin running tests
-run(readInputSheetTest);
-run(lseTest);
+readInputSheetTestResult = run(readInputSheetTest);
+lseTestResult = run(lseTest);
