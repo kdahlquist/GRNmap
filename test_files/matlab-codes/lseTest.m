@@ -11,6 +11,8 @@ classdef lseTest < matlab.unittest.TestCase
             
             %Cheated a little bit. Still not sure why the matrix is [1, 1; 2, 2; 3, 3]
             testCase.assertEqual(GRNstruct.GRNParams.positions, [1, 1; 2, 2; 3, 3]);
+            
+            %testCase.assertEqual(GRNstruct.GRNOutput.lse_0, 
         end
             
     end

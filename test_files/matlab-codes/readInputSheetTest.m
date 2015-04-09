@@ -49,7 +49,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
             
             %These are just copies of the ones above so are they really
             %needed?
-            testCase.assertEqual(GRNstruct.degRates, [0.5,0.8,1]);
+            testCase.assertEqual(GRNstruct.degRates, [0.5;0.8;1]);
             testCase.assertEqual(GRNstruct.GRNParams.wtmat, [0.1, 0, 0; 0, 0.1, 0; 0, 0, 0.1]);
             testCase.assertEqual(GRNstruct.GRNParams.A, [1, 0, 0; 0, 1, 0; 0, 0, 1]);
             testCase.assertEqual(GRNstruct.GRNParams.prorate, [1; 1.6; 2]);
