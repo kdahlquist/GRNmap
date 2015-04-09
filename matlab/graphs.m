@@ -24,7 +24,7 @@ for qq = 1:length(log2FC)
         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
         error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
         for ii=1:GRNstruct.GRNParams.n_active_genes
-            figure(ii+2),hold on
+            figure(ii+1),hold on
             plot(td,log2FC(qq).data(ii+1,:),[plot_colors(qq) 'o'],'LineWidth',3),axis([tmin tmax -3 3]);
             plot(log2FC(qq).simtime,log2FC(qq).model(ii,:),[plot_colors(qq) '-']);
             legend(Targets,'Location','NorthEastOutside');
@@ -38,7 +38,7 @@ end
 figHandles  = findobj('Type','figure');
 nfig        = size(figHandles,1);
 
-for kk = 3:nfig
-    eval(['figure(' num2str(kk) ')'])
-    eval(['print -djpeg figure_' num2str(kk-2)]);
+for kk = 1:nfig-1
+    eval(['figure(' num2str(kk+1) ')'])
+    eval(['print -djpeg figure_' num2str(kk)]);
 end
