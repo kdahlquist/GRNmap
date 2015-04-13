@@ -2,6 +2,7 @@ function GRNstruct = graphs(GRNstruct)
 
 global log2FC Strain time
 
+directory = GRNstruct.directory;
 
 tmin = 0;
 tmax = max(time);
@@ -24,7 +25,7 @@ for qq = 1:length(log2FC)
         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
         error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
         for ii=1:GRNstruct.GRNParams.n_active_genes
-            figure(ii+1),hold on
+            figure(ii),hold on
             plot(td,log2FC(qq).data(ii+1,:),[plot_colors(qq) 'o'],'LineWidth',3),axis([tmin tmax -3 3]);
             plot(log2FC(qq).simtime,log2FC(qq).model(ii,:),[plot_colors(qq) '-']);
             legend(Targets,'Location','NorthEastOutside');
@@ -38,7 +39,7 @@ end
 figHandles  = findobj('Type','figure');
 nfig        = size(figHandles,1);
 
-for kk = 1:nfig-1
-    eval(['figure(' num2str(kk+1) ')'])
-    eval(['print -djpeg figure_' num2str(kk)]);
+for kk = 1:GRNstruct.GRNParams.n_active_genes
+    eval(['figure(' num2str(kk) ')'])
+    eval(['print -djpeg ' directory 'figure_' num2str(kk)]);
 end
