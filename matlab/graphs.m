@@ -15,14 +15,14 @@ if length(Strain) == 1
     Targets = {[Strain{1} ' data'],[Strain{1} ' model']};
 else
     Targets = cell(1,(length(Strain)*2));
-    for i = 0:((length(Strain))-1)
+    for i = 0:(length(Strain)-1)
         Targets{2*(i)+1} = [Strain{i+1} ' data'];
         Targets{(i+1)*2} = [Strain{i+1} ' model'];
     end
 end
 
 for qq = 1:length(log2FC)
-    td  = (log2FC(qq).data(1,:));
+    td  = log2FC(qq).data(1,:);
     if GRNstruct.controlParams.makeGraphs
         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
         error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);

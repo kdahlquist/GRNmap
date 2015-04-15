@@ -10,16 +10,16 @@ estimateParams = GRNstruct.controlParams.estimateParams;
 kk_max         = GRNstruct.controlParams.kk_max;
 simtime        = GRNstruct.controlParams.simtime;
 x0             = GRNstruct.GRNParams.x0;
-MaxIter = GRNstruct.controlParams.MaxIter;
-MaxFunEval = GRNstruct.controlParams.MaxFunEval;
-TolFun = GRNstruct.controlParams.TolFun;
-TolX = GRNstruct.controlParams.TolX;
+MaxIter        = GRNstruct.controlParams.MaxIter;
+MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
+TolFun         = GRNstruct.controlParams.TolFun;
+TolX           = GRNstruct.controlParams.TolX;
 
 for ii = 1:nedges
     w0(ii,1) = wtmat(positions(ii,1),positions(ii,2));
 end
 
-if ~fix_b == 0
+if ~fix_b
     for ii = i_forced
         w0(ii+nedges,1)   = 0;
     end
@@ -67,12 +67,12 @@ for qq = 1:length(Strain)
     else
         [t,model]   = ode45(@general_network_dynamics_mm,simtime,x0);
     end
-    GRNstruct.GRNOutput.t = t;
-    GRNstruct.GRNOutput.model = model;
-    log2FC(qq).model    = (log2(model))';
-    log2FC(qq).simtime  = simtime';
-    GRNstruct.GRNModel(qq).model    = log2FC(qq).model;
-    GRNstruct.GRNModel(qq).simtime  = log2FC(qq).simtime;
+    GRNstruct.GRNOutput.t          = t;
+    GRNstruct.GRNOutput.model      = model;
+    log2FC(qq).model               = (log2(model))';
+    log2FC(qq).simtime             = simtime';
+    GRNstruct.GRNModel(qq).model   = log2FC(qq).model;
+    GRNstruct.GRNModel(qq).simtime = log2FC(qq).simtime;
 end
 
 

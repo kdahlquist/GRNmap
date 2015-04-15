@@ -11,7 +11,7 @@ if ~fix_b
     B(i_forced) = b;
 end
 
-parms_used  = 0;
+parms_used = 0;
 
 for ii = 1:length(zz)
 

@@ -9,9 +9,6 @@ counter = counter + 1;
 nedges = sum(A(:));
 Ar = sum(A,2);
 Ai = Ar>0;
-
-%no_inputs = find(Ai==0);
-%i_forced  = find(Ai == 1);
 n_forced  = sum(Ai);
 
 n_active_genes = length(A(1,:));

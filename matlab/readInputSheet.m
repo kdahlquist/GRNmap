@@ -50,36 +50,37 @@ for ii = 1:length(Strain)
 end
 
 % Populate the structure
-[GRNstruct.degRates,GRNstruct.labels.TX0] = xlsread(input_file,'degradation_rates');
-[GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]     = xlsread(input_file,'network_weights');
-[GRNstruct.GRNParams.A,GRNstruct.labels.TX3]         = xlsread(input_file,'network');
-[GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]   = xlsread(input_file,'production_rates');
+[GRNstruct.degRates,GRNstruct.labels.TX0]          = xlsread(input_file,'degradation_rates');
+[GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]   = xlsread(input_file,'network_weights');
+[GRNstruct.GRNParams.A,GRNstruct.labels.TX3]       = xlsread(input_file,'network');
+[GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5] = xlsread(input_file,'production_rates');
+
 GRNstruct.GRNParams.nedges          = sum(GRNstruct.GRNParams.A(:));
 GRNstruct.GRNParams.n_active_genes  = length(GRNstruct.GRNParams.A(1,:));
 GRNstruct.GRNParams.active          = 1:GRNstruct.GRNParams.n_active_genes;
 GRNstruct.GRNParams.alpha           = alpha;
-GRNstruct.GRNParams.time = time;
-GRNstruct.GRNParams.n_genes = length(GRNstruct.microData(1).data(:,1))-1;
-GRNstruct.GRNParams.n_times = length(time);
+GRNstruct.GRNParams.time            = time;
+GRNstruct.GRNParams.n_genes         = length(GRNstruct.microData(1).data(:,1))-1;
+GRNstruct.GRNParams.n_times         = length(time);
 
 % This sets the control paramenters
-GRNstruct.controlParams.simtime = simtime;
-GRNstruct.controlParams.kk_max = kk_max;
-GRNstruct.controlParams.MaxIter = MaxIter;
-GRNstruct.controlParams.MaxFunEval = MaxFunEval;
-GRNstruct.controlParams.TolFun = TolFun;
-GRNstruct.controlParams.TolX = TolX;
+GRNstruct.controlParams.simtime        = simtime;
+GRNstruct.controlParams.kk_max         = kk_max;
+GRNstruct.controlParams.MaxIter        = MaxIter;
+GRNstruct.controlParams.MaxFunEval     = MaxFunEval;
+GRNstruct.controlParams.TolFun         = TolFun;
+GRNstruct.controlParams.TolX           = TolX;
 GRNstruct.controlParams.estimateParams = estimateParams;
-GRNstruct.controlParams.makeGraphs = makeGraphs;
-GRNstruct.controlParams.Sigmoid = Sigmoid;
-GRNstruct.controlParams.fix_b = fix_b;
-GRNstruct.controlParams.fix_P = fix_P;
+GRNstruct.controlParams.makeGraphs     = makeGraphs;
+GRNstruct.controlParams.Sigmoid        = Sigmoid;
+GRNstruct.controlParams.fix_b          = fix_b;
+GRNstruct.controlParams.fix_P          = fix_P;
 
 
 % Populate the global variables
 
 if GRNstruct.controlParams.Sigmoid
-    [GRNstruct.GRNParams.b,GRNstruct.labels.TX6]    = xlsread(input_file,'network_b');
+    [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'network_b');
     b = GRNstruct.GRNParams.b;
 else
     GRNstruct.controlParams.fix_b = 1;
@@ -88,15 +89,10 @@ else
     b = zeros(length(degrate),1);
 end
 
-
-%Number of target genes
-%%Revision to old way of computing nn
-nn = length(GRNstruct.microData(1).data(:,1));
-
 %TX1 contains both the systemic and standard names
 %TX11 is the list of standard (common) names
 %%Revision to old way of computing TX11
-for ii = 1:nn
+for ii = 1:length(GRNstruct.microData(1).data(:,1));
     GRNstruct.labels.TX11{ii,1} = GRNstruct.labels.TX1{ii,2};
 end
 
@@ -111,7 +107,7 @@ GRNstruct.degRates = GRNstruct.degRates';
 
 for i = 1:length(Strain)
     % % The first row of the GRNstruct.microData data indicating all of the replicate timepoints
-    reps               = (GRNstruct.microData(i).data(1,:));
+    reps = (GRNstruct.microData(i).data(1,:));
     % % Finds the indices in reps that correspond to each timepoint in tspan.
     for jj = 1:length(time)
         log2FC(i).t(jj).indx = find(reps == time(jj));
@@ -124,26 +120,24 @@ for i = 1:length(Strain)
 
     % % The average GRNstruct.microData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.n_times
-        GRNstruct.microData(i).avg(:,iT) = mean(GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx),2);
-        GRNstruct.microData(i).stdev(:,iT) =  std(GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx),0,2);
+        data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
+        GRNstruct.microData(i).avg(:,iT) = mean(data,2);
+        GRNstruct.microData(i).stdev(:,iT) =  std(data,0,2);
         log2FC(i).avg(:,iT) = mean(log2FC(i).data(2:end,log2FC(i).t(iT).indx),2);
         log2FC(i).stdev(:,iT) =  std(log2FC(i).data(2:end,log2FC(i).t(iT).indx),0,2);
-
     end
 
     log2FC(i).deletion  = Deletion(i);
     log2FC(i).strain    = Strain(i);
     GRNstruct.microData(i).deletion  = Deletion(i);
-
-
 end
 
 % # of interactions between controlling and affected TF's
 % sum each row of matrix A (network)
-Ar          = sum(GRNstruct.GRNParams.A,2);
+Ar = sum(GRNstruct.GRNParams.A,2);
 
 % Whether or not genes are affected T(1)/F(0)
-Ai          = Ar>0;
+Ai = Ar > 0;
 GRNstruct.GRNParams.no_inputs = find(Ai == 0);
 GRNstruct.GRNParams.i_forced  = find(Ai == 1);
 GRNstruct.GRNParams.n_forced  = sum(Ai);
@@ -154,16 +148,16 @@ GRNstruct.GRNParams.n_forced  = sum(Ai);
 [ig,jg] = find(GRNstruct.GRNParams.A == 1);
 GRNstruct.GRNParams.positions = sortrows([ig,jg],1);
 
-GRNstruct.GRNParams.x0      = ones(GRNstruct.GRNParams.n_genes,1);
+GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.n_genes,1);
 
 % Populating the globals
-i_forced    = GRNstruct.GRNParams.i_forced;
-n_genes     = GRNstruct.GRNParams.n_genes;
-n_times     = GRNstruct.GRNParams.n_times;
-degrate     = GRNstruct.degRates;
-A           = GRNstruct.GRNParams.A;
-prorate     = GRNstruct.GRNParams.prorate;
-wtmat       = GRNstruct.GRNParams.wtmat;
+i_forced  = GRNstruct.GRNParams.i_forced;
+n_genes   = GRNstruct.GRNParams.n_genes;
+n_times   = GRNstruct.GRNParams.n_times;
+degrate   = GRNstruct.degRates;
+A         = GRNstruct.GRNParams.A;
+prorate   = GRNstruct.GRNParams.prorate;
+wtmat     = GRNstruct.GRNParams.wtmat;
 
 
 end

@@ -105,15 +105,15 @@ end
 xlswrite(output_file,outputnet,'out_network_optimized_weights');
 
 
-GRNstruct.GRNOutput.name     = GRNstruct.inputFile;
-GRNstruct.GRNOutput.prorate  = prorate;
-GRNstruct.GRNOutput.degrate  = degrate;
-GRNstruct.GRNOutput.wts      = wts;
-GRNstruct.GRNOutput.b        = b;
-GRNstruct.GRNOutput.A        = A;
-GRNstruct.GRNOutput.active   = GRNstruct.GRNParams.active;
-GRNstruct.GRNOutput.tspan    = time;
-GRNstruct.GRNOutput.alpha    = alpha;
+GRNstruct.GRNOutput.name    = GRNstruct.inputFile;
+GRNstruct.GRNOutput.prorate = prorate;
+GRNstruct.GRNOutput.degrate = degrate;
+GRNstruct.GRNOutput.wts     = wts;
+GRNstruct.GRNOutput.b       = b;
+GRNstruct.GRNOutput.A       = A;
+GRNstruct.GRNOutput.active  = GRNstruct.GRNParams.active;
+GRNstruct.GRNOutput.tspan   = time;
+GRNstruct.GRNOutput.alpha   = alpha;
 
 my_string = ['save(''' output_mat ''')'];
 eval(my_string);
