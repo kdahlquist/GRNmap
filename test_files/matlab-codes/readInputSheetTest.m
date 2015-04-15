@@ -10,11 +10,13 @@ classdef readInputSheetTest < matlab.unittest.TestCase
             
             % Tests for populating the structure
             testCase.assertEqual(GRNstruct.degRates, [0.5, 0.8, 1]);
-            disp(GRNstruct.labels.TX0)
             testCase.assertEqual(GRNstruct.labels.TX0, {'SystematicName','StandardName','DegradationRate';'sysGene1','QT1','';'sysGene2','SMRT1','';'sysGene3','WRD2',''})
             testCase.assertEqual(GRNstruct.GRNParams.wtmat, [0.1, 0, 0; 0, 0.1, 0; 0, 0, 0.1]);
+            testCase.assertEqual(GRNstruct.labels.TX2, {'rows genes affected/cols genes controlling','QT1','SMRT1','WRD2';'QT1','','','';'SMRT1','','','';'WRD2','','',''});
             testCase.assertEqual(GRNstruct.GRNParams.A, [1, 0, 0; 0, 1, 0; 0, 0, 1]);
+            testCase.assertEqual(GRNstruct.labels.TX3,{'rows genes affected/cols genes controlling','QT1','SMRT1','WRD2';'QT1','','','';'SMRT1','','','';'WRD2','','',''});
             testCase.assertEqual(GRNstruct.GRNParams.prorate, [1; 1.6; 2]);
+            testCase.assertEqual(GRNstruct.labels.TX5, {'SystematicName','StandardName','production_rates';'sysGene1','QT1','';'sysGene2','SMRT1','';'sysGene3','WRD2',''});
             testCase.assertEqual(GRNstruct.GRNParams.nedges, 3);
             testCase.assertEqual(GRNstruct.GRNParams.n_active_genes, 3);
             testCase.assertEqual(GRNstruct.GRNParams.active, [1, 2, 3]);
@@ -38,9 +40,18 @@ classdef readInputSheetTest < matlab.unittest.TestCase
             
             % Tests for setting global variables
             testCase.assertEqual(GRNstruct.GRNParams.b, [0; 0; 0]);
-            %testCase.assertEqual(nn, 
+            testCase.assertEqual(GRNstruct.labels.TX6,{'rows genes affected/cols genes controlling';'QT1';'SMRT1';'WRD2'});
+            testCase.assertEqual(GRNstruct.labels.TX11, {'StandardName';'QT1';'SMRT1';'WRD2'});
+            %testCase.assertEqual(GRNstruct.microData.t.t);
+            disp(GRNstruct.GRNParams.no_inputs)
+            %testCase.assertEqual(nn,
             
+            testCase.assertEqual(GRNstruct.GRNParams.no_inputs, zeros(0,1));
             testCase.assertEqual(GRNstruct.GRNParams.i_forced, [1; 2; 3]);
+            testCase.assertEqual(GRNstruct.GRNParams.n_forced, 3);
+            
+            testCase.assertEqual(GRNstruct.GRNParams.positions,[1, 1;2, 2;3, 3]);
+            testCase.assertEqual(GRNstruct.GRNParams.x0, [1; 1; 1])
             
             
         end

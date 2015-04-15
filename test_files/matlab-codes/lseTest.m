@@ -8,7 +8,6 @@ classdef lseTest < matlab.unittest.TestCase
             %For some reason, a .jpg file for Figure 1 counter = 100 pops up when lse is run
             GRNstruct = lse(readInputSheet(GRNstruct));
             
-            %Cheated a little bit. Still not sure why the matrix is [1, 1; 2, 2; 3, 3]
             testCase.assertEqual(GRNstruct.GRNParams.positions, [1, 1; 2, 2; 3, 3]);
             
             %testCase.assertEqual(GRNstruct.GRNOutput.lse_0, 
