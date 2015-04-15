@@ -16,7 +16,7 @@ input_file      = GRNstruct.inputFile;
 qq = 0;
 for ii = 2:np
     inan = find(isnan(parms0(ii-1,:))==0);
-    if isempty(inan) == 0
+    if ~isempty(inan)
         eval([parmnames0{ii,1} '= [' num2str(parms0(ii-1,inan)) '];']);
         if length(inan) == 1
             qq = qq + 1;
@@ -26,17 +26,17 @@ for ii = 2:np
     else
         ipe = 0;
         ife = 0;
-        while(ife==0)
+        while ~ife
             ipe = ipe + 1;
             if ipe < mp
                 parmstr = parmnames0{ii,1+ipe};
-                if isempty(parmstr)==0
+                if ~isempty(parmstr)
                     eval([parmnames0{ii,1} '{ipe}= parmstr;']);
                 else
-                    ife=1;
+                    ife = 1;
                 end
             else
-                ife=1;
+                ife = 1;
             end
         end
     end
@@ -44,7 +44,7 @@ end
 
 % These varaibles call data from Excel files
 for ii = 1:length(Strain)
-    [GRNstruct.microData(ii).data,GRNstruct.labels.TX1]      = xlsread(input_file,Strain{ii});
+    [GRNstruct.microData(ii).data,GRNstruct.labels.TX1] = xlsread(input_file,Strain{ii});
     GRNstruct.microData(ii).Strain = Strain(ii);
     log2FC(ii).data = xlsread(input_file,Strain{ii});
 end
@@ -129,7 +129,7 @@ for i = 1:length(Strain)
 
     log2FC(i).deletion  = Deletion(i);
     log2FC(i).strain    = Strain(i);
-    GRNstruct.microData(i).deletion  = Deletion(i);
+    GRNstruct.microData(i).deletion = Deletion(i);
 end
 
 % # of interactions between controlling and affected TF's

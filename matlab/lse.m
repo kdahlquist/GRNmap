@@ -21,19 +21,19 @@ end
 
 if ~fix_b
     for ii = i_forced
-        w0(ii+nedges,1)   = 0;
+        w0(ii+nedges,1) = 0;
     end
 end
 
 if ~fix_P
     for ii = 1:n_active_genes
-        w0(ii+n_forced*(1-fix_b)+nedges)   = prorate(ii);
+        w0(ii+n_forced*(1-fix_b)+nedges) = prorate(ii);
     end
 end
 
-lb              = zeros(size(w0));
-ub              = 10*ones(size(w0));
-lb(1:nedges)    = -10*ones(nedges,1);
+lb           = zeros(size(w0));
+ub           = 10*ones(size(w0));
+lb(1:nedges) = -10*ones(nedges,1);
 
 if ~fix_b
     lb(nedges+1:n_forced+nedges) = -10*ones(n_forced,1);
@@ -42,7 +42,7 @@ end
 % Call the least squares error program, store the sum of the squares of the
 % errors in lse_0
 counter = 0;
-GRNstruct.GRNOutput.lse_0       = general_least_squares_error(w0);
+GRNstruct.GRNOutput.lse_0   = general_least_squares_error(w0);
 GRNstruct.GRNOutput.lse_out = lse_out;
 w1      = w0;
 
@@ -63,9 +63,9 @@ for qq = 1:length(Strain)
     
     deletion = GRNstruct.microData(qq).deletion;
     if Sigmoid
-        [t,model]   = ode45(@general_network_dynamics_sigmoid,simtime,x0);
+        [t,model] = ode45(@general_network_dynamics_sigmoid,simtime,x0);
     else
-        [t,model]   = ode45(@general_network_dynamics_mm,simtime,x0);
+        [t,model] = ode45(@general_network_dynamics_mm,simtime,x0);
     end
     GRNstruct.GRNOutput.t          = t;
     GRNstruct.GRNOutput.model      = model;

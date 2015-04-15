@@ -6,14 +6,14 @@ if GRNstruct.controlParams.makeGraphs
     GRNstruct = graphs(GRNstruct);
 end
 
-fileName    = GRNstruct.fileName;
-directory   = GRNstruct.directory; 
-positions   = GRNstruct.GRNParams.positions;
-nedges      = GRNstruct.GRNParams.nedges;
-n_forced    = GRNstruct.GRNParams.n_forced;
-simtime     = GRNstruct.controlParams.simtime;
-w0          = GRNstruct.locals.w0;
-w1          = GRNstruct.locals.w1;
+fileName   = GRNstruct.fileName;
+directory  = GRNstruct.directory; 
+positions  = GRNstruct.GRNParams.positions;
+nedges     = GRNstruct.GRNParams.nedges;
+n_forced   = GRNstruct.GRNParams.n_forced;
+simtime    = GRNstruct.controlParams.simtime;
+w0         = GRNstruct.locals.w0;
+w1         = GRNstruct.locals.w1;
 
 [~,~,ext] = fileparts(GRNstruct.inputFile);
 output_file = [directory fileName '_estimation_output' ext];
@@ -24,16 +24,16 @@ for qq = 1:length(Strain)
     
     for ik = 1:n_genes+1
         
-        outputnet{1,ik} = GRNstruct.labels.TX2{1,ik};
-        outputnet{ik,1} = GRNstruct.labels.TX2{1,ik};
+        outputnet{1,ik}   = GRNstruct.labels.TX2{1,ik};
+        outputnet{ik,1}   = GRNstruct.labels.TX2{1,ik};
         outputcells{ik,1} = GRNstruct.labels.TX0{ik,1};
         outputcells{ik,2} = GRNstruct.labels.TX0{ik,2};
-        outputdata{ik,1} = GRNstruct.labels.TX0{ik,1};
-        outputdata{ik,2} = GRNstruct.labels.TX0{ik,2};
-        outputdeg{ik,1} = GRNstruct.labels.TX0{ik,1};
-        outputdeg{ik,2} = GRNstruct.labels.TX0{ik,2};
-        outputpro{ik,1} = GRNstruct.labels.TX0{ik,1};
-        outputpro{ik,2} = GRNstruct.labels.TX0{ik,2};
+        outputdata{ik,1}  = GRNstruct.labels.TX0{ik,1};
+        outputdata{ik,2}  = GRNstruct.labels.TX0{ik,2};
+        outputdeg{ik,1}   = GRNstruct.labels.TX0{ik,1};
+        outputdeg{ik,2}   = GRNstruct.labels.TX0{ik,2};
+        outputpro{ik,1}   = GRNstruct.labels.TX0{ik,1};
+        outputpro{ik,2}   = GRNstruct.labels.TX0{ik,2};
         
         if ik>=2
             for jj = 2:length(simtime)+1
@@ -56,12 +56,12 @@ for qq = 1:length(Strain)
             end
             for jj = 2:n_times+1
                 outputdata{ik,jj+1} = time(jj-1);
-                outputtimes{1,jj} = time(jj-1);
+                outputtimes{1,jj}   = time(jj-1);
             end
         end
     end
     
-    GRNstruct.GRNOutput.d        = log2FC(qq).data(2:end,:);
+    GRNstruct.GRNOutput.d = log2FC(qq).data(2:end,:);
     xlswrite(output_file,outputcells,[Strain{qq} '_log2_optimized_expression']);
 end
     

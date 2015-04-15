@@ -13,17 +13,17 @@ n_forced  = sum(Ai);
 
 n_active_genes = length(A(1,:));
 
-wts         = theta(1:nedges);
+wts = theta(1:nedges);
 
-if fix_b == 0
-    b           = theta(nedges+1:n_forced*(1-fix_b)+nedges);
+if ~fix_b
+    b = theta(nedges+1:n_forced*(1-fix_b)+nedges);
 end
-if fix_P == 0
-    prorate     = theta((n_forced*(1-fix_b))+nedges+1:nedges+(n_forced*(1-fix_b))+n_active_genes);
+if ~fix_P
+    prorate = theta((n_forced*(1-fix_b))+nedges+1:nedges+(n_forced*(1-fix_b))+n_active_genes);
 end
 
 % Initial concentrations
-x0      = ones(n_active_genes,1);
+x0 = ones(n_active_genes,1);
 
 if time(1) > 1e-6
     tspan1 = [0;time(:)];
@@ -62,7 +62,7 @@ for qq = 1:length(log2FC)
     end
     
     % Output graph every 100 iterations.
-    if( rem(counter,100) ==  0)
+    if rem(counter,100) ==  0
         figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter)])
         subplot(212),plot(log2FC(qq).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
     end
@@ -74,8 +74,8 @@ end
 
 
 % This is the sum of all the errors
-L           = sum(errormat(:))/length(errormat(:));
-lse_out     = L;
+L        = sum(errormat(:))/length(errormat(:));
+lse_out  = L;
 
 % Add the penalty term to get the bowl shape for better optimization
 
