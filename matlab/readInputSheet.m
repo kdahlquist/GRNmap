@@ -1,52 +1,48 @@
-% Notes: Include everything that is created into the structure. We will
-% have to take log2FC apart and put it into different parts of GRNstruct
-
 function GRNstruct = readInputSheet( GRNstruct )
 
 global A alpha b degrate fix_b fix_P i_forced log2FC n_genes n_times prorate Sigmoid Strain wtmat time
 
 alpha = 0;
 
-input_file      = GRNstruct.inputFile;
-[type, sheets]  = xlsfinfo(input_file);
+input_file = GRNstruct.inputFile;
 
-[parms0,parmnames0]  = xlsread(input_file,'optimization_parameters');
-[np,mp] = size(parmnames0);
+[parms0,parmnames0] = xlsread(input_file,'optimization_parameters');
+[numRows,numCols] = size(parmnames0);
 
-qq = 0;
-for ii = 2:np
-    inan = find(isnan(parms0(ii-1,:))==0);
-    if ~isempty(inan)
-        eval([parmnames0{ii,1} '= [' num2str(parms0(ii-1,inan)) '];']);
-        if length(inan) == 1
-            qq = qq + 1;
-            parmnames{qq} = parmnames0{ii,1};
-            parms(qq) = parms0(ii-1,1);
-        end
+% This part of the code reads the optimization parameter sheet and creates
+% variables for the parameters.
+for currentRow = 2:numRows
+    % Gives us the indexes of the numerical values in the row.
+    indexVec = find(isnan(parms0(currentRow-1,:))==0);
+    
+    % If the parameter in the sheet has numerical values in its row,
+    % create a row vector with that paramter's name and whose values are
+    % the numerical entries in that row
+    if ~isempty(indexVec)
+        eval([parmnames0{currentRow,1} '= [' num2str(parms0(currentRow-1,indexVec)) '];']);
+    % If the parameter in the sheet has strings in its row, we create a
+    % cell array with that parameter's name and whose values are the
+    % strings in that row.
     else
-        ipe = 0;
-        ife = 0;
-        while ~ife
-            ipe = ipe + 1;
-            if ipe < mp
-                parmstr = parmnames0{ii,1+ipe};
-                if ~isempty(parmstr)
-                    eval([parmnames0{ii,1} '{ipe}= parmstr;']);
-                else
-                    ife = 1;
-                end
-            else
-                ife = 1;
-            end
+        currentCol = 2;
+        parmstr = parmnames0{currentRow,currentCol};
+        % If we are at the end of the row or if there is no string at the
+        % current column, we're done. Otherwise, add string to cell array.
+        while currentCol <= numCols && ~isempty(parmstr) 
+           eval([parmnames0{currentRow,1} '{currentCol - 1}= parmstr;']);
+           currentCol = currentCol + 1;
+           parmstr = parmnames0{currentRow,currentCol};
         end
     end
-end 
+end
 
-% These varaibles call data from Excel files
-for ii = 1:length(Strain)
-    [GRNstruct.microData(ii).data,GRNstruct.labels.TX1] = xlsread(input_file,Strain{ii});
-    GRNstruct.microData(ii).Strain = Strain(ii);
-    log2FC(ii).data = xlsread(input_file,Strain{ii});
+
+% This reads the microarray data for each strain.
+for index = 1:length(Strain)
+    currentStrain = Strain{index};
+    [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,currentStrain);
+    GRNstruct.microData(index).Strain = currentStrain;
+    log2FC(index).data = GRNstruct.microData(index).data;
 end
 
 % Populate the structure
@@ -86,7 +82,7 @@ else
     GRNstruct.controlParams.fix_b = 1;
     fix_b = 1;
     GRNstruct.GRNParams.b = zeros(length(degrate),1);
-    b = zeros(length(degrate),1);
+    b = GRNstruct.GRNParams.b;
 end
 
 %TX1 contains both the systemic and standard names
@@ -106,19 +102,19 @@ GRNstruct.degRates = GRNstruct.degRates';
 % are using a different network.
 
 for i = 1:length(Strain)
-    % % The first row of the GRNstruct.microData data indicating all of the replicate timepoints
+    % The first row of the GRNstruct.microData data indicating all of the replicate timepoints
     reps = (GRNstruct.microData(i).data(1,:));
-    % % Finds the indices in reps that correspond to each timepoint in tspan.
+    % Finds the indices in reps that correspond to each timepoint in tspan.
     for jj = 1:length(time)
         log2FC(i).t(jj).indx = find(reps == time(jj));
         log2FC(i).t(jj).t    = time(jj); 
-        GRNstruct.microData(i).t(jj).indx = find(reps == time(jj));
-        GRNstruct.microData(i).t(jj).t    = time(jj);
+        GRNstruct.microData(i).t(jj).indx = log2FC(i).t(jj).indx;
+        GRNstruct.microData(i).t(jj).t    =  time(jj);
     end
-    % % GRNstruct.microData data for all strains
-    %GRNstruct.microData(i).data  = (GRNstruct.microData(i).d(2:end,:));
+    % GRNstruct.microData data for all strains
+    % GRNstruct.microData(i).data  = (GRNstruct.microData(i).d(2:end,:));
 
-    % % The average GRNstruct.microData for each timepoint for each gene.
+    % The average GRNstruct.microData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.n_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
         GRNstruct.microData(i).avg(:,iT) = mean(data,2);
@@ -143,10 +139,10 @@ GRNstruct.GRNParams.i_forced  = find(Ai == 1);
 GRNstruct.GRNParams.n_forced  = sum(Ai);
 
 %Where the edges are in the network
-%i corresponds to row (genes affected)
-%j correspond to column (genes controlling)
-[ig,jg] = find(GRNstruct.GRNParams.A == 1);
-GRNstruct.GRNParams.positions = sortrows([ig,jg],1);
+% rows corresponds to row (genes affected)
+% columns correspond to column (genes controlling)
+[rows,columns] = find(GRNstruct.GRNParams.A == 1);
+GRNstruct.GRNParams.positions = sortrows([rows,columns],1);
 
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.n_genes,1);
 
@@ -158,6 +154,5 @@ degrate   = GRNstruct.degRates;
 A         = GRNstruct.GRNParams.A;
 prorate   = GRNstruct.GRNParams.prorate;
 wtmat     = GRNstruct.GRNParams.wtmat;
-
 
 end
