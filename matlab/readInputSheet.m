@@ -1,6 +1,6 @@
 function GRNstruct = readInputSheet( GRNstruct )
 
-global A alpha b degrate fix_b fix_P i_forced log2FC n_genes n_times prorate Sigmoid Strain wtmat time
+global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
 
 alpha = 0;
 
@@ -46,18 +46,18 @@ for index = 1:length(Strain)
 end
 
 % Populate the structure
-[GRNstruct.degRates,GRNstruct.labels.TX0]          = xlsread(input_file,'degradation_rates');
-[GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]   = xlsread(input_file,'network_weights');
-[GRNstruct.GRNParams.A,GRNstruct.labels.TX3]       = xlsread(input_file,'network');
-[GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5] = xlsread(input_file,'production_rates');
+[GRNstruct.degRates,GRNstruct.labels.TX0]                = xlsread(input_file,'degradation_rates');
+[GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]         = xlsread(input_file,'network_weights');
+[GRNstruct.GRNParams.adjacency_mat,GRNstruct.labels.TX3] = xlsread(input_file,'network');
+[GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
 
-GRNstruct.GRNParams.nedges          = sum(GRNstruct.GRNParams.A(:));
-GRNstruct.GRNParams.n_active_genes  = length(GRNstruct.GRNParams.A(1,:));
-GRNstruct.GRNParams.active          = 1:GRNstruct.GRNParams.n_active_genes;
-GRNstruct.GRNParams.alpha           = alpha;
-GRNstruct.GRNParams.time            = time;
-GRNstruct.GRNParams.n_genes         = length(GRNstruct.microData(1).data(:,1))-1;
-GRNstruct.GRNParams.n_times         = length(time);
+GRNstruct.GRNParams.num_edges        = sum(GRNstruct.GRNParams.adjacency_mat(:));
+GRNstruct.GRNParams.num_active_genes = length(GRNstruct.GRNParams.adjacency_mat(1,:));
+GRNstruct.GRNParams.active           = 1:GRNstruct.GRNParams.num_active_genes;
+GRNstruct.GRNParams.alpha            = alpha;
+GRNstruct.GRNParams.time             = time;
+GRNstruct.GRNParams.num_genes        = length(GRNstruct.microData(1).data(:,1))-1;
+GRNstruct.GRNParams.num_times        = length(time);
 
 % This sets the control paramenters
 GRNstruct.controlParams.simtime        = simtime;
@@ -115,7 +115,7 @@ for i = 1:length(Strain)
     % GRNstruct.microData(i).data  = (GRNstruct.microData(i).d(2:end,:));
 
     % The average GRNstruct.microData for each timepoint for each gene.
-    for iT = 1:GRNstruct.GRNParams.n_times
+    for iT = 1:GRNstruct.GRNParams.num_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
         GRNstruct.microData(i).avg(:,iT) = mean(data,2);
         GRNstruct.microData(i).stdev(:,iT) =  std(data,0,2);
@@ -129,30 +129,30 @@ for i = 1:length(Strain)
 end
 
 % # of interactions between controlling and affected TF's
-% sum each row of matrix A (network)
-Ar = sum(GRNstruct.GRNParams.A,2);
+% sum each row of matrix adjacency_mat (network)
+num_controlling_genes = sum(GRNstruct.GRNParams.adjacency_mat,2);
 
 % Whether or not genes are affected T(1)/F(0)
-Ai = Ar > 0;
-GRNstruct.GRNParams.no_inputs = find(Ai == 0);
-GRNstruct.GRNParams.i_forced  = find(Ai == 1);
-GRNstruct.GRNParams.n_forced  = sum(Ai);
+is_controlled = num_controlling_genes > 0;
+GRNstruct.GRNParams.no_inputs  = find(is_controlled == 0);
+GRNstruct.GRNParams.is_forced  = find(is_controlled == 1);
+GRNstruct.GRNParams.num_forced = sum(is_controlled);
 
-%Where the edges are in the network
+% Where the edges are in the network
 % rows corresponds to row (genes affected)
 % columns correspond to column (genes controlling)
-[rows,columns] = find(GRNstruct.GRNParams.A == 1);
+[rows,columns] = find(GRNstruct.GRNParams.adjacency_mat == 1);
 GRNstruct.GRNParams.positions = sortrows([rows,columns],1);
 
-GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.n_genes,1);
+GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
 
 % Populating the globals
-i_forced  = GRNstruct.GRNParams.i_forced;
-n_genes   = GRNstruct.GRNParams.n_genes;
-n_times   = GRNstruct.GRNParams.n_times;
-degrate   = GRNstruct.degRates;
-A         = GRNstruct.GRNParams.A;
-prorate   = GRNstruct.GRNParams.prorate;
-wtmat     = GRNstruct.GRNParams.wtmat;
+is_forced     = GRNstruct.GRNParams.is_forced;
+num_genes     = GRNstruct.GRNParams.num_genes;
+num_times     = GRNstruct.GRNParams.num_times;
+degrate       = GRNstruct.degRates;
+adjacency_mat = GRNstruct.GRNParams.adjacency_mat;
+prorate       = GRNstruct.GRNParams.prorate;
+wtmat         = GRNstruct.GRNParams.wtmat;
 
 end

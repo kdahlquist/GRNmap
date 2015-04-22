@@ -1,11 +1,13 @@
 function GRNstruct = lse (GRNstruct)
 
-global counter deletion fix_b fix_P i_forced log2FC lse_out penalty_out prorate Sigmoid Strain wtmat      
+global counter deletion fix_b fix_P is_forced log2FC lse_out penalty_out prorate Sigmoid Strain wtmat      
 
+% We store relevant values and matrices from
+% the struct into local variables
 positions      = GRNstruct.GRNParams.positions;
-nedges         = GRNstruct.GRNParams.nedges;
-n_active_genes = GRNstruct.GRNParams.n_active_genes;
-n_forced       = GRNstruct.GRNParams.n_forced;
+num_edges      = GRNstruct.GRNParams.num_edges;
+num_active_genes = GRNstruct.GRNParams.num_active_genes;
+num_forced     = GRNstruct.GRNParams.num_forced;
 estimateParams = GRNstruct.controlParams.estimateParams;
 kk_max         = GRNstruct.controlParams.kk_max;
 simtime        = GRNstruct.controlParams.simtime;
@@ -15,28 +17,29 @@ MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
 TolFun         = GRNstruct.controlParams.TolFun;
 TolX           = GRNstruct.controlParams.TolX;
 
-for ii = 1:nedges
+
+for ii = 1:num_edges
     w0(ii,1) = wtmat(positions(ii,1),positions(ii,2));
 end
 
 if ~fix_b
-    for ii = i_forced
-        w0(ii+nedges,1) = 0;
+    for ii = is_forced
+        w0(ii+num_edges,1) = 0;
     end
 end
 
 if ~fix_P
-    for ii = 1:n_active_genes
-        w0(ii+n_forced*(1-fix_b)+nedges) = prorate(ii);
+    for ii = 1:num_active_genes
+        w0(ii+num_forced*(1-fix_b)+num_edges) = prorate(ii);
     end
 end
 
 lb           = zeros(size(w0));
 ub           = 10*ones(size(w0));
-lb(1:nedges) = -10*ones(nedges,1);
+lb(1:num_edges) = -10*ones(num_edges,1);
 
 if ~fix_b
-    lb(nedges+1:n_forced+nedges) = -10*ones(n_forced,1);
+    lb(num_edges+1:num_forced+num_edges) = -10*ones(num_forced,1);
 end
 
 % Call the least squares error program, store the sum of the squares of the

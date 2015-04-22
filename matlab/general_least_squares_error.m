@@ -1,29 +1,29 @@
 function L = general_least_squares_error(theta)
 % USAGE  L = general_least_squares_error(theta)
 % This program is used with fminsearch to find the optimum weights vector.
-global A alpha b counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid time wts      
+global adjacency_mat alpha b counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid time wts      
 
-% no_inputs and i_forced were previously global. Revert if test fails.
+% no_inputs and is_forced were previously global. Revert if test fails.
 counter = counter + 1;
 
-nedges = sum(A(:));
-Ar = sum(A,2);
+num_edges = sum(adjacency_mat(:));
+Ar = sum(adjacency_mat,2);
 Ai = Ar>0;
-n_forced  = sum(Ai);
+num_forced  = sum(Ai);
 
-n_active_genes = length(A(1,:));
+num_active_genes = length(adjacency_mat(1,:));
 
-wts = theta(1:nedges);
+wts = theta(1:num_edges);
 
 if ~fix_b
-    b = theta(nedges+1:n_forced*(1-fix_b)+nedges);
+    b = theta(num_edges+1:num_forced*(1-fix_b)+num_edges);
 end
 if ~fix_P
-    prorate = theta((n_forced*(1-fix_b))+nedges+1:nedges+(n_forced*(1-fix_b))+n_active_genes);
+    prorate = theta((num_forced*(1-fix_b))+num_edges+1:num_edges+(num_forced*(1-fix_b))+num_active_genes);
 end
 
 % Initial concentrations
-x0 = ones(n_active_genes,1);
+x0 = ones(num_active_genes,1);
 
 if time(1) > 1e-6
     tspan1 = [0;time(:)];

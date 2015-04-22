@@ -1,22 +1,22 @@
 function dz = general_network_dynamics_sigmoid(t,zz)
 % USAGE  dz = general_network_dynamics_sigmoid(t,zz)
-global A b degrate deletion  fix_b i_forced n_genes prorate wts  
+global adjacency_mat b degrate deletion  fix_b is_forced num_genes prorate wts  
 
 dz  = zeros(size(zz));
-W   = zeros(size(A));
+W   = zeros(size(adjacency_mat));
 D   = degrate(:);
-B   = zeros(n_genes,1);
+B   = zeros(num_genes,1);
 
 if ~fix_b
-    B(i_forced) = b;
+    B(is_forced) = b;
 end
 
 parms_used = 0;
 
 for ii = 1:length(zz)
 
-    nAii = sum(A(ii,:));
-    jj   = find(A(ii,:)==1);
+    nAii = sum(adjacency_mat(ii,:));
+    jj   = find(adjacency_mat(ii,:)==1);
     p1   = parms_used+1;
     p2   = parms_used+nAii;
     wtii = wts(p1:p2);
