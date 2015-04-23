@@ -52,7 +52,7 @@ end
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
 
 GRNstruct.GRNParams.num_edges        = sum(GRNstruct.GRNParams.adjacency_mat(:));
-GRNstruct.GRNParams.num_active_genes = length(GRNstruct.GRNParams.adjacency_mat(1,:));
+GRNstruct.GRNParams.num_active_genes = size(GRNstruct.GRNParams.adjacency_mat,2);
 GRNstruct.GRNParams.active           = 1:GRNstruct.GRNParams.num_active_genes;
 GRNstruct.GRNParams.alpha            = alpha;
 GRNstruct.GRNParams.time             = time;
@@ -143,6 +143,8 @@ GRNstruct.GRNParams.num_forced = sum(is_controlled);
 % columns correspond to column (genes controlling)
 [rows,columns] = find(GRNstruct.GRNParams.adjacency_mat == 1);
 GRNstruct.GRNParams.positions = sortrows([rows,columns],1);
+
+GRNstruct.GRNParams.positions
 
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
 

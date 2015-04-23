@@ -17,17 +17,20 @@ MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
 TolFun         = GRNstruct.controlParams.TolFun;
 TolX           = GRNstruct.controlParams.TolX;
 
-
+% We read across the weight matrix row by row and add all nonzero entries
+% to the w0 vector.
 for ii = 1:num_edges
     w0(ii,1) = wtmat(positions(ii,1),positions(ii,2));
 end
 
+% If the thresholds aren't fixed we add zeros to the matrix.
+% The number of zeros that we add is the same as the highest index
+% of the controlled genes.
 if ~fix_b
-    for ii = is_forced
-        w0(ii+num_edges,1) = 0;
-    end
+    w0(is_forced(end)+num_edges,1) = 0;
 end
 
+% If the production rates aren't fixed 
 if ~fix_P
     for ii = 1:num_active_genes
         w0(ii+num_forced*(1-fix_b)+num_edges) = prorate(ii);

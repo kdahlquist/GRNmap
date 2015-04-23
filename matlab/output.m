@@ -16,8 +16,8 @@ w0         = GRNstruct.locals.w0;
 w1         = GRNstruct.locals.w1;
 
 [~,~,ext] = fileparts(GRNstruct.inputFile);
-output_file = [directory fileName '_estimation_output' ext];
-output_mat  = [directory fileName '_estimation_output.mat'];
+output_file = [directory fileName '_output' ext];
+output_mat  = [directory fileName '_output.mat'];
 copyfile(GRNstruct.inputFile, output_file);
 
 for qq = 1:length(Strain)
