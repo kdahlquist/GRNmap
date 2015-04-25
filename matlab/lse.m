@@ -30,10 +30,11 @@ if ~fix_b
     w0(is_forced(end)+num_edges,1) = 0;
 end
 
-% If the production rates aren't fixed 
+% If the production rates aren't fixed
+offset = num_forced*(1-fix_b);
 if ~fix_P
     for ii = 1:num_active_genes
-        w0(ii+num_forced*(1-fix_b)+num_edges) = prorate(ii);
+        w0(ii+offset+num_edges,1) = prorate(ii);
     end
 end
 
