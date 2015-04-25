@@ -52,11 +52,10 @@ end
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
 
 GRNstruct.GRNParams.num_edges        = sum(GRNstruct.GRNParams.adjacency_mat(:));
-GRNstruct.GRNParams.num_active_genes = size(GRNstruct.GRNParams.adjacency_mat,2);
-GRNstruct.GRNParams.active           = 1:GRNstruct.GRNParams.num_active_genes;
+GRNstruct.GRNParams.num_genes        = size(GRNstruct.GRNParams.adjacency_mat,2);
+GRNstruct.GRNParams.active           = 1:GRNstruct.GRNParams.num_genes;
 GRNstruct.GRNParams.alpha            = alpha;
 GRNstruct.GRNParams.time             = time;
-GRNstruct.GRNParams.num_genes        = length(GRNstruct.microData(1).data(:,1))-1;
 GRNstruct.GRNParams.num_times        = length(time);
 
 % This sets the control paramenters

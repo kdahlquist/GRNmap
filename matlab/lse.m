@@ -6,7 +6,7 @@ global counter deletion fix_b fix_P is_forced log2FC lse_out penalty_out prorate
 % the struct into local variables
 positions      = GRNstruct.GRNParams.positions;
 num_edges      = GRNstruct.GRNParams.num_edges;
-num_active_genes = GRNstruct.GRNParams.num_active_genes;
+num_genes      = GRNstruct.GRNParams.num_genes;
 num_forced     = GRNstruct.GRNParams.num_forced;
 estimateParams = GRNstruct.controlParams.estimateParams;
 kk_max         = GRNstruct.controlParams.kk_max;
@@ -33,7 +33,7 @@ end
 % If the production rates aren't fixed
 offset = num_forced*(1-fix_b);
 if ~fix_P
-    for ii = 1:num_active_genes
+    for ii = 1:num_genes
         w0(ii+offset+num_edges,1) = prorate(ii);
     end
 end
