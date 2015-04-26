@@ -3,6 +3,12 @@ function GRNstruct = readInputSheet( GRNstruct )
 global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
 
 alpha = 0;
+% If we do multiple runs in a row the Strain variable should be cleared
+% before each run.
+Strain = [];
+adjacency_mat = [];
+num_genes = [];
+
 
 input_file = GRNstruct.inputFile;
 
@@ -11,6 +17,7 @@ input_file = GRNstruct.inputFile;
 
 % This part of the code reads the optimization parameter sheet and creates
 % variables for the parameters.
+
 for currentRow = 2:numRows
     % Gives us the indexes of the numerical values in the row.
     indexVec = find(isnan(parms0(currentRow-1,:))==0);
@@ -20,18 +27,21 @@ for currentRow = 2:numRows
     % the numerical entries in that row
     if ~isempty(indexVec)
         eval([parmnames0{currentRow,1} '= [' num2str(parms0(currentRow-1,indexVec)) '];']);
+ 
     % If the parameter in the sheet has strings in its row, we create a
     % cell array with that parameter's name and whose values are the
     % strings in that row.
     else
         currentCol = 2;
-        parmstr = parmnames0{currentRow,currentCol};
         % If we are at the end of the row or if there is no string at the
         % current column, we're done. Otherwise, add string to cell array.
-        while currentCol <= numCols && ~isempty(parmstr) 
-           eval([parmnames0{currentRow,1} '{currentCol - 1}= parmstr;']);
-           currentCol = currentCol + 1;
+        while currentCol <= numCols
            parmstr = parmnames0{currentRow,currentCol};
+           if isempty(parmstr)
+               break
+           end
+           eval([parmnames0{currentRow,1} '{currentCol - 1}= parmstr;']);
+           currentCol = currentCol + 1; 
         end
     end
 end
@@ -116,10 +126,16 @@ for i = 1:length(Strain)
     % The average GRNstruct.microData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.num_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
+        % Preallocate these arrays. Should probably be done somewhere else
+        GRNstruct.microData(i).avg = zeros(size(data,1),1);
+        GRNstruct.microData(i).stdev = zeros(size(data,1),1);
+        log2FC(i).avg = zeros(size(data,1),1);
+        log2FC(i).stdev = zeros(size(data,1),1);
+        
         GRNstruct.microData(i).avg(:,iT) = mean(data,2);
         GRNstruct.microData(i).stdev(:,iT) =  std(data,0,2);
-        log2FC(i).avg(:,iT) = mean(log2FC(i).data(2:end,log2FC(i).t(iT).indx),2);
-        log2FC(i).stdev(:,iT) =  std(log2FC(i).data(2:end,log2FC(i).t(iT).indx),0,2);
+        log2FC(i).avg(:,iT) = mean(data,2);
+        log2FC(i).stdev(:,iT) = std(data,0,2);
     end
 
     log2FC(i).deletion  = Deletion(i);
@@ -140,10 +156,12 @@ GRNstruct.GRNParams.num_forced = sum(is_controlled);
 % Where the edges are in the network
 % rows corresponds to row (genes affected)
 % columns correspond to column (genes controlling)
+% Positions gives us ordered pair of genes in the form of
+% (aff_gene, contr_gene), where the first gene is controlled
+% by the second gene.
 [rows,columns] = find(GRNstruct.GRNParams.adjacency_mat == 1);
 GRNstruct.GRNParams.positions = sortrows([rows,columns],1);
 
-GRNstruct.GRNParams.positions
 
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
 
