@@ -19,6 +19,8 @@ TolX           = GRNstruct.controlParams.TolX;
 
 % We read across the weight matrix row by row and add all nonzero entries
 % to the w0 vector.
+
+% w0 has num_edges + is_forced(end)*(1-fix_b)
 for ii = 1:num_edges
     w0(ii,1) = wtmat(positions(ii,1),positions(ii,2));
 end
@@ -31,6 +33,7 @@ if ~fix_b
 end
 
 % If the production rates aren't fixed
+% We add the production rates to the w0 vector.
 offset = num_forced*(1-fix_b);
 if ~fix_P
     for ii = 1:num_genes
