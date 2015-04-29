@@ -1,7 +1,7 @@
 function L = general_least_squares_error(theta)
 % USAGE  L = general_least_squares_error(theta)
 % This program is used with fminsearch to find the optimum weights vector.
-global adjacency_mat alpha b counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid time wts      
+global adjacency_mat alpha b counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain time wts      
 
 counter = counter + 1;
 
@@ -37,7 +37,7 @@ end
 errormat = 0;
 
 % % Call for all deletion strains simultaneously
-for qq = 1:length(log2FC)
+for qq = 1:length(Strain)
     
     deletion = log2FC(qq).deletion;
     d        = log2FC(qq).data(2:end,:);

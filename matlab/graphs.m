@@ -21,7 +21,7 @@ else
     end
 end
 
-for qq = 1:length(log2FC)
+for qq = 1:length(Strain)
     td  = log2FC(qq).data(1,:);
     if GRNstruct.controlParams.makeGraphs
         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);

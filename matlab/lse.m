@@ -19,12 +19,12 @@ TolX           = GRNstruct.controlParams.TolX;
 
 % initial_guesses contains all weights, and optionally the threshholds for
 % controlled genes and optionally the production rates
-initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P));
+initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P),1);
 
 % We read across the weight matrix row by row and add all nonzero entries
 % to the initial_guesses vector.
 for ii = 1:num_edges
-    initial_guesses(ii,1) = wtmat(positions(ii,1),positions(ii,2));
+    initial_guesses(ii) = wtmat(positions(ii,1),positions(ii,2));
 end
 
 % If the production rates aren't fixed
@@ -32,7 +32,7 @@ end
 offset = num_forced*(1-fix_b) + num_edges;
 if ~fix_P
     for ii = 1:num_genes
-        initial_guesses(ii+offset,1) = prorate(ii);
+        initial_guesses(ii+offset) = prorate(ii);
     end
 end
 
