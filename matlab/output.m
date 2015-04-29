@@ -68,14 +68,16 @@ if GRNstruct.controlParams.fix_P
     xlswrite(output_file,outputpro,'out_production_rates');
 end
 
-xlswrite(output_file,outputtimes,'out_measurement_times');
-xlswrite(output_file,outputnet,'out_network');
+% This data is already copied over from the original input sheet.
+% xlswrite(output_file,outputtimes,'out_measurement_times');
+% xlswrite(output_file,outputnet,'out_network');
 
 for ii = 1:num_edges
     outputnet{positions(ii,1)+1,positions(ii,2)+1} = initial_guesses(ii);
 end
 
-xlswrite(output_file,outputnet,'out_network_weights');
+% This data is already copied over from the original input sheet.
+% xlswrite(output_file,outputnet,'out_network_weights');
 
 if Sigmoid
     outputpro{1,3} = 'b';
