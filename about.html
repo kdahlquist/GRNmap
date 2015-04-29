@@ -107,8 +107,26 @@
                                         </div> <!--panel-heading-->
                                         <div id='v1_0_6Content' class='panel-collapse collapse'>
                                             <div class='panel-body'>
+                                                GRNmap v1.0.6 includes the following new features and bug fixes:
                                                 <ul>
-                                                    <li>Currently under construction.</li>
+                                                    <li>
+                                                        The input Microsoft Excel workbook is now not required to be in the same directory as the GRNmodel code and can now be located in any folder.
+                                                    </li>
+                                                    <li>
+                                                        A bug was fixed where the last graph generated was not being automatically saved; now all graphs are saved in the same folder as the input workbook.
+                                                    </li>
+                                                    <li>
+                                                        The input test files were updated to comply with changes made to the optimization parameter variable names made in release v1.0.4.
+                                                    </li>
+                                                    <li>
+                                                        Ensured that all temporary information is cleared between consecutive estimation or simulation runs.
+                                                    </li>
+                                                    <li>
+                                                        GRNmap now outputs log2expression sheets for each strain.
+                                                    </li>
+                                                    <li>
+                                                        The test file structure and naming convention has been implemented as documented in the <a href='The test file structure and naming convention has been implemented as documented in the wiki'>wiki</a>
+                                                    </li>
                                                 </ul>
                                             </div> <!--panel-body-->
                                         </div> <!--panel-collapse collapse in-->
@@ -124,8 +142,28 @@
                                         </div> <!--panel-heading-->
                                         <div id='v1_0_4Content' class='panel-collapse collapse'>
                                             <div class='panel-body'>
+                                                GRNmap v1.0.4 includes the following new features and bug fixes:
                                                 <ul>
-                                                    <li>Currently under construction.</li>
+                                                    <li>
+                                                        The requirements for the input spreadsheet have been modified as follows:
+                                                        <ul> 
+                                                            <li>
+                                                                The name of the parameter iestimate has been replaced with estimateParams.
+                                                            </li>
+                                                            <li>
+                                                                The name of the parameter igraph has been replaced with makeGraphs.
+                                                            </li>
+                                                            <li>
+                                                                These changes were made to make the parameter names more descriptive.
+                                                            </li>
+                                                        </ul>
+                                                        <li>
+                                                            The output spreadsheet now contains all the worksheets from the spreadsheet.
+                                                        </li>
+                                                        <li>
+                                                            The output spreadsheet now includes worksheets for all the parameters that were estimated by GRNmap. These output sheets have names that begin with "out_".
+                                                        </li>
+                                                    </li>
                                                 </ul>
                                             </div> <!--panel-body-->
                                         </div> <!--panel-collapse collapse in-->
@@ -141,9 +179,19 @@
                                         </div> <!--panel-heading-->
                                         <div id='v1_0_2Content' class='panel-collapse collapse'>
                                             <div class='panel-body'>
+                                                GRNmap v1.0.2 includes the following new features and bug fixes:
                                                 <ul>
-                                                    <li>Currently under construction.</li>
+                                                    <li>
+                                                        Some known bugs in v1.0 have been fixed.
+                                                    </li>
+                                                    <li>
+                                                        The code has been updated to be compatible with MATLAB 2014b. Version 1.0 would fail when generating graphs because of the way that MATLAB treated figure handles had changed.
+                                                    </li>
+                                                    <li>
+                                                        GRNmap now outputs an individual worksheet containing the optimized expression values for each strain.
+                                                    </li>
                                                 </ul>
+                                                
                                             </div> <!--panel-body-->
                                         </div> <!--panel-collapse collapse in-->
                                     </div> <!--panel panel-default-->
@@ -158,9 +206,7 @@
                                         </div> <!--panel-heading-->
                                         <div id='v1_0Content' class='panel-collapse collapse'>
                                             <div class='panel-body'>
-                                                <ul>
-                                                    <li>Currently under construction.</li>
-                                                </ul>
+                                                This is the first release of the GRNmap code and executable.
                                             </div> <!--panel-body-->
                                         </div> <!--panel-collapse collapse in-->
                                     </div> <!--panel panel-default-->
