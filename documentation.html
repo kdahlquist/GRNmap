@@ -4,7 +4,7 @@
     <head>
 
         <title>GRNmap - Documentation</title>
-        <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+        <link href="http://dondi.github.io/GRNsight/stylesheets/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="stylesheets/main.css">
         <script src="https://code.jquery.com/jquery.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -53,7 +53,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                  <p id='modText' class='modNav'>
-                    Last modified: 1/29/2015
+                    Last modified: 4/29/2015
                 </p>
             </div>
         </div>
@@ -61,9 +61,238 @@
         <div id='mainContent'>
             <p id='pageTitle'>Documentation</p>
             <div id='pageContent'>
-                <p>
-                    This page is currently under construction.
-                </p>
+                <h3>How to format the input file for GRNmap</h3>
+                <div id='accordian' class='panel-group'>
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section1'>
+                                <a href='#section1Content' data-toggle='collapse'>
+                                    production_rates sheet
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section1Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                This sheet contains initial guesses for the production rate parameters, P, for all genes in the network. Assuming that the system is in steady state with the relative expression of all genes equal to 1, (P/2) - lambda = 0, where lambda is the degradation rate, is a reasonable initial guess. The sheet should contain three columns (from left to right) entitled, "SystematicName", "StandardName", and "production_rates". The SytematicName refers to the gene ID from the <a href='http://www.yeastgenome.org/'>Saccharomyces Genome Database (SGD)</a>, for example, YLR131C. The StandardName refers to the corresponding Standard Name for that gene from SGD, for example, ACE2. The "production_rates" column should then contain the initial guesses for the P parameter as described above.
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section2'>
+                                <a href='#section2Content' data-toggle='collapse'>
+                                    degradation_rates sheet
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section2Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                This sheet contains degradation rates for all genes in the network, which are provided by the user. Currently, the Dahlquist Lab is using data based on published protein half-life data from <a href='http://www.pnas.org/content/103/35/13004'>Belle et al. (2006)</a>. We converted the half-life data values to the degradation rates by taking the natural log of the half-life and dividing by 2. The sheet should contain three columns (from left to right) entitled, "SystematicName", "StandardName", and "DegradationRate". The SytematicName refers to the gene ID from the <a href='http://www.yeastgenome.org/'>Saccharomyces Genome Database (SGD)</a>, for example, YLR131C. The StandardName refers to the corresponding Standard Name for that gene from SGD, for example, ACE2. The "DegradationRate" column should then contain the degradation rate as described above.
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section3'>
+                                <a href='#section3Content' data-toggle='collapse'>
+                                    Expression Data Sheets for Individual Yeast Strains
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section3Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                <p>Expression data can be provided for multiple strains of yeast (for example, the wild type strain and a transcription factor deletion strain). Each strain will have its own sheet in the workbook. Each sheet should be given a unique name corresponding to the name of the strain and have the following columns in order:
+                                </p>
+                                <ol>
+                                    <li>
+                                        "SystematicName": list of all Systematic Names of the genes in the network. The Sytematic Name refers to the gene ID from the <a href='http://www.yeastgenome.org/'>Saccharomyces Genome Database (SGD)</a>, for example, YLR131C.
+                                    </li>
+                                    <li>
+                                        "StandardName": The Standard Names of all genes the genes in the network, corresponding to the Systematic Names above, for example, ACE2.
+                                    </li>
+                                    <li>
+                                        The next series of columns should contain the log2 expression data for each gene at a given timepoint. the column header should be the time at which the data were collected, without any units. For example, the 15 minute timepoint would have a column header "15" and the 30 minute timepoint would have the column header "30". GRNmap supports replicate data for each of the timepoints. Replicate data for the same timepoint should be in columns immediately next to each other and have the same column headers. For example, three replicates of the 15 minute timepoint would have "15", "15", "15" as the column headers.
+                                    </li>
+                                </ol>
+                                    The Dahlquist Lab data input workbook has the following strain sheets:
+                                <ul>
+                                    <li>
+                                        <h4>wt sheet</h4>
+                                        Log2 expression data from the BY4741 wild type strain at 15, 30, and 60 minutes of cold shock.
+                                    </li>
+                                    <li>
+                                        <h4>dcin5 sheet</h4>
+                                        Log2 expression data from the BY4741 CIN5 deletion strain at 15, 30, and 60 minutes of cold shock.
+                                    </li>
+                                    <li>
+                                        <h4>dgln3 sheet</h4>
+                                        Log2 expression data from the BY4741 GLN3 deletion strain at 15, 30, and 60 minutes of cold shock.
+                                    </li>
+                                    <li>
+                                        <h4>dhmo1 sheet</h4>
+                                        Log2 expression data from the BY4741 HMO1 deletion strain at 15, 30, and 60 minutes of cold shock.
+                                    </li>
+                                    <li>
+                                        <h4>dzap1 sheet</h4>
+                                        Log2 expression data from the BY4741 ZAP1 deletion strain at 15, 30, and 60 minutes of cold shock.
+                                    </li>
+                                </ul>
+                                <!--<div id='sheet1Content'>
+                                    <div class='panel-body'>
+                                        Log2 expression data from the BY4741 wild type strain at 15, 30, and 60 minutes of cold shock
+                                    </div>
+                                </div>-->
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section4'>
+                                <a href='#section4Content' data-toggle='collapse'>
+                                    concentration_sigmas sheet
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section4Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                    Standard deviations of the replicate expression data. This sheet is a holdover from previous versions of the model. We no longer need this sheet in the input workbook because it is computed from the replicate (flask) data. However, the computed standard deviations should then appear as output sheets, one for each strain.
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section5'>
+                                <a href='#section5Content' data-toggle='collapse'>
+                                    network sheet
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section5Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                    Adjacency matrix representation of the gene regulatory network. The columns correspond to the transcription factors and the rows correspond to the target genes controlled by those transcription factors. A “1” means there is an edge connecting them and a “0” means that there is no edge connecting them.
+                                <ul>
+                                    <li>
+                                        The upper-left cell (A1) should contain the text “rows genes affected/cols genes controlling”. This text is there as a reminder of the direction of the regulatory relationships specified by the adjacency matrix.
+                                    </li>
+                                    <li>
+                                        The rest of the first row should contain the names of the transcription factors that are controlling the other genes in the network, one transcription factor name per column.
+                                    </li>
+                                    <li>
+                                        The rest of the first column should contain the names of the target genes that are being controlled by the transcription factors heading each of the columns in the matrix, one target gene name per row.
+                                    </li>
+                                    <li>
+                                        The transcription factor names should correspond to the "StandardNames" in the other sheets in the workbook. They should be capitalized the same way and occur in the same order along the top and side of the matrix. The matrix needs to be symmetric, i.e., the same transcription factors should appear along the top and side of the matrix.
+                                    </li>
+                                    <li>
+                                        Each cell in the matrix should then contain a zero (0) if there is no regulatory relationship between those two transcription factors, or a one (1) if there is a regulatory relationship between them. Again, the columns correspond to the transcription factors and the rows correspond to the target genes controlled by those transcription factors.
+                                    </li>
+                                </ul>
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section6'>
+                                <a href='#section6Content' data-toggle='collapse'>
+                                    network_weights sheet
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section6Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                    The same format as the “network” sheet above. These are the initial guesses for the estimation of the weight parameters, w. Since these weights are initial guesses which will optimized by GRNmap, the content of this sheet can be identical to the network sheet.
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section7'>
+                                <a href='#section7Content' data-toggle='collapse'>
+                                    optimization_parameters sheet
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section7Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                The optimization_parameters sheet should have the following:
+                                <ul>
+                                    <li>
+                                        alpha: Penalty term weighting (from the L-curve analysis)
+                                    </li>
+                                    <li>
+                                        kk_max: Number of times to re-run the optimization loop: in some cases re-starting the optimization loop can improve performance of the estimation. (Residual from when Stephanie was working on the code).
+                                    </li>
+                                    <li>
+                                        MaxIter: Number of times MATLAB iterates through the optimization scheme. If this is set too low, MATLAB will stop before the parameters are optimized.
+                                    </li>
+                                        TolFun: How different two least squares evaluations should be before it says it's not making any improvement
+                                    <li>
+                                        MaxFunEval: maximum number of times it will evaluate the least squares cost
+                                    </li>
+                                        TolX: How close successive least squares cost evaluations should be before MATLAB determines that it is not making any improvement.
+                                    <li>
+                                        Sigmoid: =1 if sigmoidal model, =0 if Michaelis-Menten model
+                                    </li>
+                                        estimateParams =1 if want to estimate parameters and =0 if the user wants to do just one forward run
+                                    <li>
+                                        makeGraphs =1 to output graphs; =0 to not output graphs
+                                    </li>
+                                        fix_P =1 if the user does not want to estimate the production rate, P, parameter, use initial guess and never change; =0 to estimate
+                                    <li>
+                                        fix_b =1 if the user does not want to estimate the b parameter, use initial guess and never change; =0 to estimate
+                                    </li>
+                                        simtime: A row containing a list of the time points when the data was collected experimentally. Should correspond to the timepoint column headers in the expression sheets.
+                                    <li>
+                                        Strain: A row containing a list of all of the strains for which there is expression data in the workbook. Should correspond to the names of the sheets for each strain.
+                                    </li>
+                                        Sheet: A row where each entry is the order number of the sheet (left to right) that corresponds to the list of strains above.
+                                    <li>
+                                        Deletion: Gives the index of the gene in the network sheet that has been deleted in each strain listed above. For example, if data has been provided for the CIN5 deletion strain, then give the index number from the network sheet corresponding to CIN5.
+                                    </li>
+
+                                </ul>
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section8'>
+                                <a href='#section8Content' data-toggle='collapse'>
+                                    simulation_times sheet
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section8Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                Note: This sheet has been removed from recent releases as this information was folded into the optimization parameters sheet.
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <h5 class='panel-title' id='section9'>
+                                <a href='#section9Content' data-toggle='collapse'>
+                                    network_b sheet
+                                </a>
+                            </h5>
+                        </div> <!--panel-heading-->
+                        <div id='section9Content' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                This sheet has the same format as the “production_rates” sheet above. These are the initial guesses for the estimation of the b parameters. (note: double-check this claim about formatting).
+                            </div> <!--pane-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
+                    
+                </div> <!--panel-group-->
             </div>
             <div id='footer'>
                 <hr id='separate'>
