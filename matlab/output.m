@@ -6,7 +6,6 @@ if GRNstruct.controlParams.makeGraphs
     GRNstruct = graphs(GRNstruct);
 end
 
-fileName   = GRNstruct.fileName;
 directory  = GRNstruct.directory; 
 positions  = GRNstruct.GRNParams.positions;
 num_edges  = GRNstruct.GRNParams.num_edges;
@@ -15,9 +14,9 @@ simtime    = GRNstruct.controlParams.simtime;
 initial_guesses = GRNstruct.locals.initial_guesses;
 estimated_guesses = GRNstruct.locals.estimated_guesses;
 
-[~,~,ext] = fileparts(GRNstruct.inputFile);
-output_file = [directory fileName '_output' ext];
-output_mat  = [directory fileName '_output.mat'];
+[~,name,ext] = fileparts(GRNstruct.inputFile);
+output_file = [directory name '_output' ext];
+output_mat  = [directory name '_output.mat'];
 copyfile(GRNstruct.inputFile, output_file);
 
 for qq = 1:length(Strain)
