@@ -3,7 +3,6 @@ function L = general_least_squares_error(theta)
 % This program is used with fminsearch to find the optimum weights vector.
 global adjacency_mat alpha b counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid time wts      
 
-% no_inputs and is_forced were previously global. Revert if test fails.
 counter = counter + 1;
 
 num_edges = sum(adjacency_mat(:));
@@ -11,19 +10,21 @@ Ar = sum(adjacency_mat,2);
 Ai = Ar>0;
 num_forced  = sum(Ai);
 
-num_active_genes = length(adjacency_mat(1,:));
+num_genes = length(adjacency_mat(1,:));
 
 wts = theta(1:num_edges);
 
+% We read the values for b and P from the initial_guesses vector
+P_offset = num_forced*(1-fix_b)+num_edges;
 if ~fix_b
-    b = theta(num_edges+1:num_forced*(1-fix_b)+num_edges);
+    b = theta(num_edges + 1:num_forced + num_edges);
 end
 if ~fix_P
-    prorate = theta((num_forced*(1-fix_b))+num_edges+1:num_edges+(num_forced*(1-fix_b))+num_active_genes);
+    prorate = theta(P_offset + 1:P_offset + num_genes);
 end
 
 % Initial concentrations
-x0 = ones(num_active_genes,1);
+x0 = ones(num_genes,1);
 
 if time(1) > 1e-6
     tspan1 = [0;time(:)];
@@ -44,9 +45,10 @@ for qq = 1:length(log2FC)
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
     if Sigmoid == 1
-        [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
+        % The ~ was previously a t, which was previously unused
+        [~,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
     else
-        [t,x] = ode45('general_network_dynamics_mm',tspan1,x0);
+        [~,x] = ode45('general_network_dynamics_mm',tspan1,x0);
     end
     
     if addzero == 1;

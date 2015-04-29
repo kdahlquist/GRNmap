@@ -12,8 +12,8 @@ positions  = GRNstruct.GRNParams.positions;
 num_edges  = GRNstruct.GRNParams.num_edges;
 num_forced = GRNstruct.GRNParams.num_forced;
 simtime    = GRNstruct.controlParams.simtime;
-w0         = GRNstruct.locals.w0;
-w1         = GRNstruct.locals.w1;
+initial_guesses = GRNstruct.locals.initial_guesses;
+estimated_guesses = GRNstruct.locals.estimated_guesses;
 
 [~,~,ext] = fileparts(GRNstruct.inputFile);
 output_file = [directory fileName '_output' ext];
@@ -73,7 +73,7 @@ xlswrite(output_file,outputtimes,'out_measurement_times');
 xlswrite(output_file,outputnet,'out_network');
 
 for ii = 1:num_edges
-    outputnet{positions(ii,1)+1,positions(ii,2)+1} = w0(ii);
+    outputnet{positions(ii,1)+1,positions(ii,2)+1} = initial_guesses(ii);
 end
 
 xlswrite(output_file,outputnet,'out_network_weights');
@@ -82,7 +82,7 @@ if Sigmoid
     outputpro{1,3} = 'b';
     if fix_b == 0
         for ii = 1:num_forced
-            outputpro{is_forced(ii)+1,3} = w1(ii+num_edges);
+            outputpro{is_forced(ii)+1,3} = estimated_guesses(ii+num_edges);
         end
         for ii = 1:length(no_inputs)
             outputpro{no_inputs(ii)+1,3} = 0;
@@ -99,7 +99,7 @@ if Sigmoid
 end
 
 for ii = 1:num_edges
-    outputnet{positions(ii,1)+1,positions(ii,2)+1} = w1(ii);
+    outputnet{positions(ii,1)+1,positions(ii,2)+1} = estimated_guesses(ii);
 end
 
 xlswrite(output_file,outputnet,'out_network_optimized_weights');

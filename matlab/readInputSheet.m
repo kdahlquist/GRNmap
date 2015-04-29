@@ -6,9 +6,6 @@ alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
 % before each run.
 Strain = [];
-adjacency_mat = [];
-num_genes = [];
-
 
 input_file = GRNstruct.inputFile;
 
@@ -45,6 +42,7 @@ for currentRow = 2:numRows
         end
     end
 end
+
 
 
 % This reads the microarray data for each strain.

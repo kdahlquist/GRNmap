@@ -1,6 +1,6 @@
 function GRNstruct = lse (GRNstruct)
 
-global counter deletion fix_b fix_P is_forced log2FC lse_out penalty_out prorate Sigmoid Strain wtmat      
+global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain wtmat      
 
 % We store relevant values and matrices from
 % the struct into local variables
@@ -17,68 +17,69 @@ MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
 TolFun         = GRNstruct.controlParams.TolFun;
 TolX           = GRNstruct.controlParams.TolX;
 
+% initial_guesses contains all weights, and optionally the threshholds for
+% controlled genes and optionally the production rates
+initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P));
+
 % We read across the weight matrix row by row and add all nonzero entries
-% to the w0 vector.
-
-% w0 has num_edges + is_forced(end)*(1-fix_b)
+% to the initial_guesses vector.
 for ii = 1:num_edges
-    w0(ii,1) = wtmat(positions(ii,1),positions(ii,2));
-end
-
-% If the thresholds aren't fixed we add zeros to the matrix.
-% The number of zeros that we add is the same as the highest index
-% of the controlled genes.
-if ~fix_b
-    w0(is_forced(end)+num_edges,1) = 0;
+    initial_guesses(ii,1) = wtmat(positions(ii,1),positions(ii,2));
 end
 
 % If the production rates aren't fixed
-% We add the production rates to the w0 vector.
-offset = num_forced*(1-fix_b);
+% We add the production rates to the initial_guesses vector.
+offset = num_forced*(1-fix_b) + num_edges;
 if ~fix_P
     for ii = 1:num_genes
-        w0(ii+offset+num_edges,1) = prorate(ii);
+        initial_guesses(ii+offset,1) = prorate(ii);
     end
 end
 
-lb           = zeros(size(w0));
-ub           = 10*ones(size(w0));
-lb(1:num_edges) = -10*ones(num_edges,1);
+% We set upper and lower bounds 
+lb              = zeros(size(initial_guesses));
+lb(1:num_edges) = -10 * ones(num_edges,1);
+ub              = 10 * ones(size(initial_guesses));
+
 
 if ~fix_b
-    lb(num_edges+1:num_forced+num_edges) = -10*ones(num_forced,1);
+    lb(num_edges+1:num_forced+num_edges) = -10 * ones(num_forced,1);
 end
 
 % Call the least squares error program, store the sum of the squares of the
 % errors in lse_0
 counter = 0;
-GRNstruct.GRNOutput.lse_0   = general_least_squares_error(w0);
+GRNstruct.GRNOutput.lse_0   = general_least_squares_error(initial_guesses);
 GRNstruct.GRNOutput.lse_out = lse_out;
-w1      = w0;
+estimated_guesses = initial_guesses;
 
 if estimateParams
     % This performs the optimization
     for kk = 1:kk_max
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
-        w1      = fmincon(@general_least_squares_error,w1,[],[],[],[],lb,ub,[],options);
-        GRNstruct.GRNOutput.lse_final = general_least_squares_error(w1);
+        estimated_guesses = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
+        GRNstruct.GRNOutput.lse_final = general_least_squares_error(estimated_guesses);
         GRNstruct.GRNOutput.lse_out = lse_out;
-        %lse_1   = L;
-        %pen     = penalty_out;
+        % lse_1   = L;
+        % pen     = penalty_out;
     end
     GRNstruct.GRNOutput.reg_out = penalty_out;
 end
 
 for qq = 1:length(Strain)
-    
     deletion = GRNstruct.microData(qq).deletion;
+    % t is the time points for which we did the forward simulation. It's
+    % always the same as simtime.
+    % model is the expression of each gene in the network at each of those
+    % time points in t.
     if Sigmoid
         [t,model] = ode45(@general_network_dynamics_sigmoid,simtime,x0);
     else
         [t,model] = ode45(@general_network_dynamics_mm,simtime,x0);
     end
-    GRNstruct.GRNOutput.t          = t;
-    GRNstruct.GRNOutput.model      = model;
+    % Is this information redundant?!?
+    % GRNstruct.GRNOutput.t          = t;
+    % GRNstruct.GRNOutput.model      = model;
     log2FC(qq).model               = (log2(model))';
     log2FC(qq).simtime             = simtime';
     GRNstruct.GRNModel(qq).model   = log2FC(qq).model;
@@ -86,6 +87,6 @@ for qq = 1:length(Strain)
 end
 
 
-% We need w0 and w1 later on, so we'll append them to the structure.
-GRNstruct.locals.w0 = w0;
-GRNstruct.locals.w1 = w1;
+% We need initial_guesses and w1 later on, so we'll append them to the structure.
+GRNstruct.locals.initial_guesses = initial_guesses;
+GRNstruct.locals.estimated_guesses = estimated_guesses;
