@@ -73,13 +73,10 @@ for qq = 1:length(Strain)
     % model is the expression of each gene in the network at each of those
     % time points in t.
     if Sigmoid
-        [t,model] = ode45(@general_network_dynamics_sigmoid,simtime,x0);
+        [~,model] = ode45(@general_network_dynamics_sigmoid,simtime,x0);
     else
-        [t,model] = ode45(@general_network_dynamics_mm,simtime,x0);
+        [~,model] = ode45(@general_network_dynamics_mm,simtime,x0);
     end
-    % Is this information redundant?!?
-    % GRNstruct.GRNOutput.t          = t;
-    % GRNstruct.GRNOutput.model      = model;
     log2FC(qq).model               = (log2(model))';
     log2FC(qq).simtime             = simtime';
     GRNstruct.GRNModel(qq).model   = log2FC(qq).model;
