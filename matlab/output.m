@@ -63,7 +63,9 @@ for qq = 1:length(Strain)
     GRNstruct.GRNOutput.d = log2FC(qq).data(2:end,:);
     xlswrite(output_file,outputcells,[Strain{qq} '_log2_optimized_expression']);
 end
-    
+
+% Change to if not fix_p. Basically if we don't fix the production
+% rates we want to output the optimized production rates.
 if GRNstruct.controlParams.fix_P
     xlswrite(output_file,outputpro,'out_production_rates');
 end
@@ -116,5 +118,4 @@ GRNstruct.GRNOutput.active        = GRNstruct.GRNParams.active;
 GRNstruct.GRNOutput.tspan         = time;
 GRNstruct.GRNOutput.alpha         = alpha;
 
-my_string = ['save(''' output_mat ''')'];
-eval(my_string);
+eval(['save(''' output_mat ''')']);
