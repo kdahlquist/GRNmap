@@ -6,9 +6,8 @@ global adjacency_mat alpha b counter deletion fix_b fix_P log2FC lse_out penalty
 counter = counter + 1;
 
 num_edges = sum(adjacency_mat(:));
-Ar = sum(adjacency_mat,2);
-Ai = Ar>0;
-num_forced  = sum(Ai);
+
+num_forced  = sum(sum(adjacency_mat,2)>0);
 
 num_genes = length(adjacency_mat(1,:));
 
