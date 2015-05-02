@@ -23,7 +23,10 @@ end
 
 for qq = 1:length(Strain)
     td  = log2FC(qq).data(1,:);
+    % Remove the if line and its corresponding end
     if GRNstruct.controlParams.makeGraphs
+        % Delete these two statements, maybe. They are not
+        % being used.
         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
         error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
         for ii=1:GRNstruct.GRNParams.num_genes
