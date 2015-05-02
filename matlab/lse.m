@@ -66,6 +66,9 @@ if estimateParams
     GRNstruct.GRNOutput.reg_out = penalty_out;
 end
 
+% This is the forward simulation, which is performed for every single strain
+% The simulation gives the gene expression at each of the time 
+% points specified by simtime
 for qq = 1:length(Strain)
     deletion = GRNstruct.microData(qq).deletion;
     % t is the time points for which we did the forward simulation. It's
