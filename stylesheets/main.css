@@ -206,6 +206,12 @@ div.abstract > iframe {
 	padding: 10px 0 30px 30px;
 }
 
+.extraInfo {
+    font-size:14px;	
+	margin:0 0 0 0;
+	padding: 10px 0 0 30px;
+}
+
 .linkHeader {
 	font-weight:bold;
 	font-size:18px;	
