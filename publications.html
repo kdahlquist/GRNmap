@@ -53,7 +53,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                 <p id='modText' class='modNav'>
-                    Last modified: 1/29/2015
+                    Last modified: 5/26/2015
                 </p>
             </div>
         </div>
@@ -61,7 +61,17 @@
         <div id='mainContent'>
             <p id='pageTitle'>Publications</p>
             <div id='pageContent'>
-                <h3>Abstracts</h3>
+                <h3>Posters</h3>
+                <p class='abstract'>
+                    <span style='font-weight:bold'>Loyola Marymount Undergraduate Research Symposium</span><br><br>
+                    March 21, 2015 <br>
+                    Software Refactoring and Usability Enhancement for GRNmap, a Gene Regulatory Network Modeling Application<br>
+                    Juan Carrillo, Trixie Anne Roque <br>
+                    Dr. Kam D. Dahlquist, Dr. Ben G. Fitzpatrick <br><br>
+                    A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. The dynamics of a GRN is how gene expression in the network changes over time. Over a period of several years, our group has developed a complex MATLAB software package, called GRNmap, that uses ordinary differential equations to model the dynamics of medium-scale GRNs from budding yeast, Saccharomyces cerevisiae. The program estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data, and then performs a forward simulation of the dynamics of the network. The large number of developers and time span of development led to a code base that was difficult to revise and adjust. We therefore refactored the script-based software with global variables into a function-based package that uses an object to carry relevant information from function to function. This modular approach allows for cleaner, less ambiguous code and increased maintainability. We then used the MATLAB compiler to create an executable file that can be run on any Windows machine without the need of a MATLAB license, increasing the accessibility of our program. The GRNmap code and executable is available from <a href="http://kdahlquist.github.io/GRNmap/">http://kdahlquist.github.io/GRNmap/</a> under an open source license. We have now adopted a test-driven development framework that will speed debugging and ensure that future modifications to the code preserve correct functionality.<br><br>
+                    To download this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/Carrillo_Roque_LMU_Symposium_2015.pptx?raw=true'>here</a>.
+                </p>
+
                 <p class='abstract'>
                     <span style='font-weight:bold'>SACNAS  (Society for the Advancement of Chicanos and Native Americans in Science) National Conference</span> <br><br>
                     October 16-18, 2014<br>
@@ -69,6 +79,7 @@
                     Juan Carrillo, Katrina Sherbina <br>
                     Dr. Kam D. Dahlquist, Dr. Ben G. Fitzpatrick <br><br>
                     A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. The dynamics of a GRN is how gene expression in the network changes over time. Over a period of several years, our group has developed a complex MATLAB software package, called GRNmap, that uses ordinary differential equations to model the dynamics of a 21-transcription factor GRN from budding yeast, Saccharomyces cerevisiae. The program estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data, and then performs a forward simulation of the dynamics of the network. The large number of developers and time span of development led to a code base that is difficult to revise and adjust. We therefore refactored the script-based software with global variables into a function-based package that uses an object to carry relevant information from function to function. This modular approach allows for cleaner, less ambiguous code and increased maintainability. Further revisions to the model will also be easier to implement. In addition, we have added a simple user interface, removing the need for users to edit MATLAB code. Finally, after the code was refactored and tested, we used the MATLAB compiler to create an executable file that can be run on any Windows machine without the need of a MATLAB license, increasing the accessibility of our program.<br><br>
+                    To view this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/test_suite/documents/Final%20SURP%202014%20poster.pdf'>here</a>.
                 </p>
 
                 <h3>Presentations</h3>
