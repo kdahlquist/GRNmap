@@ -83,7 +83,7 @@ GRNstruct.controlParams.fix_P          = fix_P;
 % Populate the global variables
 
 if GRNstruct.controlParams.Sigmoid
-    [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'network_b');
+    [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'threshold_b');
     b = GRNstruct.GRNParams.b;
 else
     GRNstruct.controlParams.fix_b = 1;

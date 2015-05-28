@@ -91,7 +91,7 @@ if Sigmoid
         for ii = 1:length(no_inputs)
             outputpro{no_inputs(ii)+1,3} = 0;
         end
-        xlswrite(output_file,outputpro,'network_optimized_b');
+        xlswrite(output_file,outputpro,'optimized_threshold_b');
     else
         for ii = 1:num_forced
             outputpro{is_forced(ii)+1,3} = b(ii);
