@@ -66,8 +66,9 @@ end
 
 % Change to if not fix_p. Basically if we don't fix the production
 % rates we want to output the optimized production rates.
-if GRNstruct.controlParams.fix_P
-    xlswrite(output_file,outputpro,'out_production_rates');
+
+if ~GRNstruct.controlParams.fix_P
+    xlswrite(output_file,outputpro,'optimized_production_rates');
 end
 
 % This data is already copied over from the original input sheet.
@@ -83,13 +84,14 @@ end
 
 if Sigmoid
     outputpro{1,3} = 'b';
-    if fix_b == 0
+    if ~fix_b
         for ii = 1:num_forced
             outputpro{is_forced(ii)+1,3} = estimated_guesses(ii+num_edges);
         end
         for ii = 1:length(no_inputs)
             outputpro{no_inputs(ii)+1,3} = 0;
         end
+        xlswrite(output_file,outputpro,'network_optimized_b');
     else
         for ii = 1:num_forced
             outputpro{is_forced(ii)+1,3} = b(ii);
@@ -97,7 +99,6 @@ if Sigmoid
         for ii = 1:length(no_inputs)
             outputpro{no_inputs(ii)+1,3} = 0;
         end
-        xlswrite(output_file,outputpro,'out_network_b');
     end
 end
 
@@ -105,7 +106,7 @@ for ii = 1:num_edges
     outputnet{positions(ii,1)+1,positions(ii,2)+1} = estimated_guesses(ii);
 end
 
-xlswrite(output_file,outputnet,'out_network_optimized_weights');
+xlswrite(output_file,outputnet,'network_optimized_weights');
 
 
 GRNstruct.GRNOutput.name          = GRNstruct.inputFile;

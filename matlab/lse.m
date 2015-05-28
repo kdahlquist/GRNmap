@@ -23,6 +23,7 @@ initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- f
 
 % We read across the weight matrix row by row and add all nonzero entries
 % to the initial_guesses vector.
+
 for ii = 1:num_edges
     initial_guesses(ii) = wtmat(positions(ii,1),positions(ii,2));
 end
