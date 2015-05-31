@@ -33,6 +33,8 @@ for qq = 1:length(Strain)
         outputdeg{ik,2}   = GRNstruct.labels.TX0{ik,2};
         outputpro{ik,1}   = GRNstruct.labels.TX0{ik,1};
         outputpro{ik,2}   = GRNstruct.labels.TX0{ik,2};
+        outputsigmas{ik,1}= GRNstruct.labels.TX0{ik,1};
+        outputsigmas{ik,2}= GRNstruct.labels.TX0{ik,2};
         
         if ik>=2
             for jj = 2:length(simtime)+1
@@ -46,9 +48,11 @@ for qq = 1:length(Strain)
             end
             outputpro{ik,3} = prorate(ik-1);
             outputdeg{ik,3} = degrate(ik-1);
+            outputsigmas{ik,3} = GRNstruct.microData(qq).stdev(ik-1,3);
         else
             outputdeg{ik,3} = GRNstruct.labels.TX0{ik,3};
             outputpro{ik,3} = 'prorate';
+            outputsigmas{ik,3} = 'StandardDeviation';
             
             for jj = 2:length(simtime)+1
                 outputcells{ik,jj+1} = simtime(jj-1);
@@ -62,6 +66,7 @@ for qq = 1:length(Strain)
     
     GRNstruct.GRNOutput.d = log2FC(qq).data(2:end,:);
     xlswrite(output_file,outputcells,[Strain{qq} '_log2_optimized_expression']);
+    xlswrite(output_file,outputsigmas,[Strain{qq} '_sigmas']);
 end
 
 % Change to if not fix_p. Basically if we don't fix the production
