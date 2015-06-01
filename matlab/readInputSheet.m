@@ -1,6 +1,6 @@
 function GRNstruct = readInputSheet( GRNstruct )
 
-global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
+global adjacency_mat b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -48,7 +48,7 @@ end
 % This reads the microarray data for each strain.
 for index = 1:length(Strain)
     currentStrain = Strain{index};
-    [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,currentStrain);
+    [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).Strain = currentStrain;
     log2FC(index).data = GRNstruct.microData(index).data;
 end
