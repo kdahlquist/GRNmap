@@ -2,10 +2,10 @@ clear all
 clc
 
 %Adds necessary directories to search path
-path = which('exampleFunctionTest.m');
-[p, name, ext] = fileparts(path);
-p = strrep(p, 'matlab_codes', '');
-addpath(strcat(p, 'estimation_tests'));
+path = which('callTests.m');
+[p, ~, ~] = fileparts(path);
+p = strrep(p, 'test_files\matlab_codes', '');
+addpath(genpath(p));
 
 % filename = '3-genes_3-edges_artificial-data_Sigmoid_estimation_1.xls';
 % inputFile = which(filename);
@@ -15,4 +15,4 @@ addpath(strcat(p, 'estimation_tests'));
 
 %Begin running tests
 readInputSheetTestResult = run(readInputSheetTest);
-lseTestResult = run(lseTest);
+% lseTestResult = run(lseTest);
