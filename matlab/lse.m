@@ -65,6 +65,7 @@ if estimateParams
         % pen     = penalty_out;
     end
     GRNstruct.GRNOutput.reg_out = penalty_out;
+    GRNstruct.GRNOutput.counter = counter;
 end
 
 % This is the forward simulation, which is performed for every single strain
