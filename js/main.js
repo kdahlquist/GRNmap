@@ -26,10 +26,6 @@ $(function() {
             };
         });
     };
-    
-    $(".btn btn-success").click(function() {
-       ga("send", "pageview", "/GRNmap/download");
-    });
 
     [
         [ '.showSection2', '#section2Content', '#section2' ],
