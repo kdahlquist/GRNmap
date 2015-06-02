@@ -22,11 +22,13 @@
 
         </script>
         
+<!--
         <script>
             $(".btn.btn-success").click(function() {
                 ga("send", "pageview", "/GRNmap/download");
             });
         </script>
+-->
 
     </head>
 
@@ -69,7 +71,7 @@
             <div id='pageContent'>
                 <p>
                     You can download GRNmap by clicking this button.<br><br>
-                    <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/releases/download/v1.0.6/GRNmap_v1.0.6.zip" target="_blank" style="text-decoration:none">
+                    <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/releases/download/v1.0.6/GRNmap_v1.0.6.zip" target="_blank" style="text-decoration:none" onclick="ga('send', 'pageview', '/grnmap/download')">
                         Download GRNmap_v1.0.6.zip
                     </a>
                 </p>
