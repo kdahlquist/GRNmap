@@ -1,6 +1,6 @@
 function GRNstruct = readInputSheet( GRNstruct )
 
-global adjacency_mat b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
+global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
