@@ -66,7 +66,7 @@ GRNstruct.GRNParams.alpha            = alpha;
 GRNstruct.GRNParams.time             = time;
 GRNstruct.GRNParams.num_times        = length(time);
 
-% This sets the control paramenters
+% This sets the control parameters
 GRNstruct.controlParams.simtime        = simtime;
 GRNstruct.controlParams.kk_max         = kk_max;
 GRNstruct.controlParams.MaxIter        = MaxIter;
@@ -121,14 +121,15 @@ for i = 1:length(Strain)
     % GRNstruct.microData data for all strains
     % GRNstruct.microData(i).data  = (GRNstruct.microData(i).d(2:end,:));
 
+    % Preallocate these arrays. Should probably be done somewhere else
+    GRNstruct.microData(i).avg = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    GRNstruct.microData(i).stdev = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    log2FC(i).avg = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    log2FC(i).stdev = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    
     % The average GRNstruct.microData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.num_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
-        % Preallocate these arrays. Should probably be done somewhere else
-        GRNstruct.microData(i).avg = zeros(size(data,1),1);
-        GRNstruct.microData(i).stdev = zeros(size(data,1),1);
-        log2FC(i).avg = zeros(size(data,1),1);
-        log2FC(i).stdev = zeros(size(data,1),1);
         
         GRNstruct.microData(i).avg(:,iT) = mean(data,2);
         GRNstruct.microData(i).stdev(:,iT) =  std(data,0,2);
