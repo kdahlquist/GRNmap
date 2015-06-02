@@ -42,17 +42,17 @@ for qq = 1:length(Strain)
             end
             for jj = 2:num_times+1
                 outputdata{ik,jj+1} = log2FC(qq).data(ik,jj-1);
+                outputsigmas{ik,jj+1} = GRNstruct.microData(qq).stdev(ik-1,jj-1);
             end
             for jj = 2:num_genes+1
                 outputnet{jj,ik} = adjacency_mat(jj-1,ik-1);
             end
             outputpro{ik,3} = prorate(ik-1);
             outputdeg{ik,3} = degrate(ik-1);
-            outputsigmas{ik,3} = GRNstruct.microData(qq).stdev(ik-1,3);
+         
         else
             outputdeg{ik,3} = GRNstruct.labels.TX0{ik,3};
             outputpro{ik,3} = 'prorate';
-            outputsigmas{ik,3} = 'StandardDeviation';
             
             for jj = 2:length(simtime)+1
                 outputcells{ik,jj+1} = simtime(jj-1);
@@ -60,6 +60,7 @@ for qq = 1:length(Strain)
             for jj = 2:num_times+1
                 outputdata{ik,jj+1} = time(jj-1);
                 outputtimes{1,jj}   = time(jj-1);
+                outputsigmas{ik,jj+1} = time(jj-1);
             end
         end
     end
