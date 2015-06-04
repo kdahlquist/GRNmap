@@ -4,7 +4,9 @@
     <head>
 
         <title>GRNmap - Downloads</title>
+        <link href="http://dondi.github.io/GRNsight/stylesheets/bootstrap.min.css" rel="stylesheet">
         <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
+        
         <link rel="stylesheet" type="text/css" href="stylesheets/main.css">
         <script src="https://code.jquery.com/jquery.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -21,14 +23,6 @@
             ga('send', 'pageview');
 
         </script>
-        
-<!--
-        <script>
-            $(".btn.btn-success").click(function() {
-                ga("send", "pageview", "/GRNmap/download");
-            });
-        </script>
--->
 
     </head>
 
@@ -61,7 +55,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                 <p id='modText' class='modNav'>
-                    Last modified: 6/3/2015
+                    Last modified: 6/4/2015
                 </p>
             </div>
         </div>
@@ -70,13 +64,193 @@
             <p id='pageTitle'>Downloading GRNmap</p>
             <div id='pageContent'>
                 <p>
-                    You can download GRNmap by clicking this button.<br><br>
-                    <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/releases/download/v1.0.6/GRNmap_v1.0.6.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
-                        Download GRNmap_v1.0.6.zip
-                    </a>
+                    You can download GRNmap by selecting from the options below.
                 </p>
-                <p>Clicking the button will begin the download of a file that is approximately 688 MB.</p>
+                
+                <div id="accordian" class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="panel-title aboutHeaders">
+                                <a href="#executables" data-toggle="collapse">
+                                    Download GRNmap Executables
+                                </a>
+                            </p>
+                        </div> <!--panel-heading-->
+                        
+                        <div id="executables" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="panel-group">
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0_8Executable'  data-toggle='collapse'>
+                                                    GRNmap v1.0.8
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0_8Executable' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/releases/download/v1.0.8/GRNmap_v1.0.8.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
+                                        Download GRNmap_v1.0.8.zip executable
+                                                </a>
+                                                <p>Clicking the button will begin the download of a file that is approximately 688 MB.</p>
+                                            </div><!--panel-body-->
+                                         </div> <!--panel-collapse collapse-->
+                                    </div> <!--panel panel-default-->
+                                    
+                                     <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0_6Executable'  data-toggle='collapse'>
+                                                    GRNmap v1.0.6
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0_6Executable' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/releases/download/v1.0.6/GRNmap_v1.0.6.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
+                                        Download GRNmap_v1.0.6.zip executable
+                                                </a>
+                                                <p>Clicking the button will begin the download of a file that is approximately 688 MB.</p>
+                                            </div><!--panel-body-->
+                                         </div> <!--panel-collapse collapse-->
+                                    </div> <!--panel panel-default-->
+                               
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0Executable'  data-toggle='collapse'>
+                                                    GRNmap v1.0
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0Executable' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/releases/download/v1.0/GRNmap_v1.0.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
+                                        Download GRNmap_v1.0.zip executable
+                                                </a>
+                                                <p>Clicking the button will begin the download of a file that is approximately 575 MB.</p>
+                                            </div><!--panel-body-->
+                                         </div> <!--panel-collapse collapse-->
+                                    </div> <!--panel panel-default-->
+                                    
+                                </div> <!--panel-group-->
+                            </div> <!-- panel-body-->
+                        </div><!--panel-collapse collapse-->
+                    </div> <!-- panel panel-default-->
+                </div> <!--panel-group-->
+                
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="panel-title aboutHeaders">
+                                <a href="#source" data-toggle="collapse">
+                                    Download GRNmap Source Codes
+                                </a>
+                            </p>
+                        </div> <!--panel-heading-->
+                        
+                        <div id="source" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="panel-group">
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0_8Source'  data-toggle='collapse'>
+                                                    GRNmap v1.0.8
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0_8Source' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/archive/v1.0.8.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
+                                        Download GRNmap_v1.0.8.zip source code
+                                                </a>
+                                                <p>Clicking the button will begin the download of a file that is approximately 28 MB.</p>
+                                            </div><!--panel-body-->
+                                         </div> <!--panel-collapse collapse-->
+                                    </div> <!--panel panel-default-->
+                                    
+                                     <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0_6Source'  data-toggle='collapse'>
+                                                    GRNmap v1.0.6
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0_6Source' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/archive/v1.0.6.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
+                                        Download GRNmap_v1.0.6.zip source code
+                                                </a>
+                                                <p>Clicking the button will begin the download of a file that is approximately 28 MB.</p>
+                                            </div><!--panel-body-->
+                                         </div> <!--panel-collapse collapse-->
+                                    </div> <!--panel panel-default-->
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0_4Source'  data-toggle='collapse'>
+                                                    GRNmap v1.0.4
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0_4Source' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/archive/v1.0.4.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
+                                        Download GRNmap_v1.0.4.zip source code
+                                                </a>
+                                                <p>Clicking the button will begin the download of a file that is approximately 28 MB.</p>
+                                            </div><!--panel-body-->
+                                         </div> <!--panel-collapse collapse-->
+                                    </div> <!--panel panel-default-->
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0_2Source'  data-toggle='collapse'>
+                                                    GRNmap v1.0.2
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0_2Source' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/archive/v1.0.2.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
+                                        Download GRNmap_v1.0.2.zip source code
+                                                </a>
+                                                <p>Clicking the button will begin the download of a file that is approximately 28 MB.</p>
+                                            </div><!--panel-body-->
+                                         </div> <!--panel-collapse collapse-->
+                                    </div> <!--panel panel-default-->
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0Source'  data-toggle='collapse'>
+                                                    GRNmap v1.0
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0Source' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                <a class="btn btn-success" type="button" href="https://github.com/kdahlquist/GRNmap/archive/v1.0.zip" style="text-decoration:none" onclick="ga('send', 'pageview', {page: '/GRNmap/download', sessionControl: 'start'})">
+                                        Download GRNmap_v1.0.zip source code
+                                                </a>
+                                                <p>Clicking the button will begin the download of a file that is approximately 28 MB.</p>
+                                            </div><!--panel-body-->
+                                         </div> <!--panel-collapse collapse-->
+                                    </div> <!--panel panel-default-->
+                               
+                                </div> <!--panel-group-->
+                            </div> <!-- panel-body-->
+                        </div><!--panel-collapse collapse-->
+                    </div> <!-- panel panel-default-->
+               
             </div>
+    
             <div id='footer'>
                 <hr id='separate'>
                 <ul id='footerNav'>
