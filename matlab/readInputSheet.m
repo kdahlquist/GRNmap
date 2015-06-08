@@ -1,5 +1,20 @@
 function GRNstruct = readInputSheet( GRNstruct )
-
+% USAGE: GRNstruct = readInputSheet(GRNstruct)
+% 
+% Purpose: (1) load input data from excel workbook
+%          (2) parse data into necessary containers
+%          (3) compute descriptive statistics (means, variances, etc)
+%          (4) extract basic parameters (network size, etc)
+%
+% Input and output: GRNstruct, a data structure containing all relevant
+%                   GRNmap data
+%
+% Change log
+%
+%   2015 06 04, bgf
+%               added functionality to compute the minimum possible least
+%                     squares error GRNstruct.GRNParams.minLSE
+%
 global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
 
 alpha = 0;
@@ -46,6 +61,8 @@ end
 
 
 % This reads the microarray data for each strain.
+
+
 for index = 1:length(Strain)
     currentStrain = Strain{index};
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
@@ -108,6 +125,9 @@ GRNstruct.degRates = GRNstruct.degRates';
 % We use variables wherever we would need numbers that might change if we
 % are using a different network.
 
+GRNstruct.GRNParams.nData   = 0;
+GRNstruct.GRNParams.minLSE  = 0;
+
 for i = 1:length(Strain)
     % The first row of the GRNstruct.microData data indicating all of the replicate timepoints
     reps = (GRNstruct.microData(i).data(1,:));
@@ -122,11 +142,11 @@ for i = 1:length(Strain)
     % GRNstruct.microData(i).data  = (GRNstruct.microData(i).d(2:end,:));
 
     % Preallocate these arrays. Should probably be done somewhere else
-    GRNstruct.microData(i).avg = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-    GRNstruct.microData(i).stdev = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-    log2FC(i).avg = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-    log2FC(i).stdev = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-    
+    GRNstruct.microData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    GRNstruct.microData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    log2FC(i).avg                   = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    log2FC(i).stdev                 = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+        
     % The average GRNstruct.microData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.num_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
@@ -135,12 +155,20 @@ for i = 1:length(Strain)
         GRNstruct.microData(i).stdev(:,iT) =  std(data,0,2);
         log2FC(i).avg(:,iT) = mean(data,2);
         log2FC(i).stdev(:,iT) = std(data,0,2);
+        
+        delDataAvg = data - log2FC(i).avg(:,iT)*ones(1,length(data(1,:)));
+        
+        GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(data(:));
+        GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum( delDataAvg(:).^2);
+
     end
 
     log2FC(i).deletion  = Deletion(i);
     log2FC(i).strain    = Strain(i);
     GRNstruct.microData(i).deletion = Deletion(i);
 end
+
+GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE/GRNstruct.GRNParams.nData;
 
 % # of interactions between controlling and affected TF's
 % sum each row of matrix adjacency_mat (network)

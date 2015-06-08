@@ -1,7 +1,21 @@
-function GRNstruct = lse (GRNstruct)
-
-global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain wtmat      
-
+function GRNstruct = lse(GRNstruct)
+% USAGE: GRNstruct = lse(GRNstruct)
+% 
+% Purpose: perform parameter estimation to fit model to data
+%
+% Input and output: GRNstruct, a data structure containing all relevant
+%                   GRNmap data
+%
+% Change log
+%
+%   2015 06 04, bgf
+%               added functionality to generate total sum of sq of error
+%               (SSE) for output diagnostics
+%               required new global variable to communicate with 
+%               general_least_squares_error
+%               final line of code added
+%
+global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid SSE Strain wtmat
 % We store relevant values and matrices from
 % the struct into local variables
 positions      = GRNstruct.GRNParams.positions;
@@ -92,3 +106,5 @@ end
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
 GRNstruct.locals.estimated_guesses = estimated_guesses;
+
+GRNstruct.GRNOutput.SSE = SSE;

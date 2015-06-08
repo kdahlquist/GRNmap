@@ -1,5 +1,20 @@
 function GRNstruct = output(GRNstruct)
-
+% USAGE: GRNstruct = output(GRNstruct)
+% 
+% Purpose: (1) call graphs if desired to produce output graph files
+%          (2) parse data into necessary containers for output
+%          (3) save excel workbook with output data
+%          (4) save matlab .mat file with output data
+%
+% Input and output: GRNstruct, a data structure containing all relevant
+%                   GRNmap data
+%
+% Change log
+%
+%   2015 06 04, bgf
+%               modified output sheet order to place sigma sheets together
+%               created output sheet optimization_diagnostics
+%
 global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate Sigmoid Strain time wts
 
 if GRNstruct.controlParams.makeGraphs
@@ -65,9 +80,12 @@ for qq = 1:length(Strain)
         end
     end
     
+    outputSigmaCells{qq} = outputsigmas;
     GRNstruct.GRNOutput.d = log2FC(qq).data(2:end,:);
     xlswrite(output_file,outputcells,[Strain{qq} '_log2_optimized_expression']);
-    xlswrite(output_file,outputsigmas,[Strain{qq} '_sigmas']);
+end
+for qq = 1:length(Strain)
+    xlswrite(output_file,outputSigmaCells{qq},[Strain{qq} '_sigmas']);
 end
 
 % Change to if not fix_p. Basically if we don't fix the production
@@ -114,6 +132,35 @@ end
 
 xlswrite(output_file,outputnet,'network_optimized_weights');
 
+outputDiag{1,1} = 'Parameter';
+outputDiag{1,2} = 'Value';
+outputDiag{2,1} = 'LSE';
+outputDiag{2,2} = GRNstruct.GRNOutput.lse_out;
+outputDiag{3,1} = 'Penalty';
+outputDiag{3,2} = GRNstruct.GRNOutput.reg_out;
+outputDiag{4,1} = 'min LSE';
+outputDiag{4,2} = GRNstruct.GRNParams.minLSE;
+outputDiag{5,1} = 'iteration count';
+outputDiag{5,2} = GRNstruct.GRNOutput.counter;
+
+outputDiag{6,1} = ' ';
+outputDiag{7,1} = 'Gene';
+
+for qq = 1:length(Strain);
+    
+    strainString = [Strain{qq} ' SSE'];
+    outputDiag{7,1+qq} = strainString;
+end
+
+for ii = 1:num_genes
+    
+    outputDiag{7+ii,1} = GRNstruct.labels.TX0{1+ii,2};
+    for jj = 1:length(Strain)
+        outputDiag{7+ii,1+jj} = GRNstruct.GRNOutput.SSE(ii,jj);
+    end
+end
+
+xlswrite(output_file,outputDiag,'optimization_diagnostics');
 
 GRNstruct.GRNOutput.name          = GRNstruct.inputFile;
 GRNstruct.GRNOutput.prorate       = prorate;

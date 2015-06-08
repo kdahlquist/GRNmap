@@ -33,9 +33,14 @@ if deletion ~= 0
     D(deletion) = 0;
 end
 
-WXB = -W*zz + B;
+WX  = W*zz;
+QX  = zeros(size(WX));
+IX  = WX>QX;
 
-pro = prorate(:)./(1+exp(WXB));
+% WXB = (W*zz - B).*(IX) + -10*(1-IX);
+WXB = WX - B;
+
+pro = prorate(:)./(1+exp(-WXB));
 deg = D.*zz;
 
 dz = pro - deg;

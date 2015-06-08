@@ -1,5 +1,18 @@
 function GRNstruct = graphs(GRNstruct)
-
+% USAGE: GRNstruct = graphs(GRNstruct)
+% 
+% Purpose: generate and print expression profiles
+%
+% Input and output: GRNstruct, a data structure containing all relevant
+%                   GRNmap data
+%
+% Change log
+%
+%   2015 06 05, bgf
+%               modified graph file names to gene standard names
+%               added print command to save the final running opt diag
+%               graph
+%
 global log2FC Strain time
 
 directory = GRNstruct.directory;
@@ -43,5 +56,9 @@ end
 
 for kk = 1:GRNstruct.GRNParams.num_genes
     eval(['figure(' num2str(kk + offset) ')'])
-    eval(['print -djpeg ' directory 'figure_' num2str(kk)]);
+%     eval(['print -djpeg ' directory 'figure_' num2str(kk)]);
+    eval(['print -djpeg ' directory  GRNstruct.labels.TX0{1+kk,2}]);
 end
+figure(1)
+eval(['print -djpeg ' directory  'optimizationDiagnostic']);
+
