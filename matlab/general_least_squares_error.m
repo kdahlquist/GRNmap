@@ -88,7 +88,7 @@ for qq = 1:length(Strain)
     SSE(:,qq) = errormat;
     
     % Output graph every 100 iterations.
-    if ~rem(counter,100)
+    if rem(counter,100) == 0
         figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter)])
         subplot(212),plot(log2FC(qq).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
     end
