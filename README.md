@@ -3,6 +3,14 @@ GRNmap
 
 Gene Regulatory Network modeling and parameter estimation
 ---
+GRNmap uses ordinary differential equations to model the dynamics of "medium-scale" gene regulatory networks.  The program estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data, and then performs a forward simulation of the dynamics of the network.
+
+There are several options for running the model:
+* Sigmoidal or Michaelis-Menten production function
+* Estimate parameters or perform a forward simulation only
+  * Estimate production rates or fix them to a particular value
+  * Estimate expression threholds or fix them to a particular value
+* Automatically generate expression plots or not
 
 System Requirements and Compatibility:
 * The GRNmap code was developed and tested with MATLAB R2014b; it may not function properly with other versions of MATLAB.
