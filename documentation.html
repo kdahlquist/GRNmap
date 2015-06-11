@@ -53,7 +53,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                  <p id='modText' class='modNav'>
-                    Last modified: 5/26/2015
+                    Last modified: 6/10/2015
                 </p>
             </div>
         </div>
@@ -61,7 +61,39 @@
         <div id='mainContent'>
             <p id='pageTitle'>Documentation</p>
             <div id='pageContent'>
-                This page is under construction. For current documentation, please see the GRNmap <a href='https://github.com/kdahlquist/GRNmap/wiki/How-to-format-the-input-file-for-GRNmap'>wiki</a>.
+
+                <div id="accordian" class="panel-group">
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <p class='panel-title aboutHeaders'>
+                                <a href='#SystemRequirementsContent'  data-toggle='collapse'>
+                                    System Requirements and Compatibility
+                                </a>
+                            </p>
+                        </div> <!--panel-heading-->
+                        <div id='SystemRequirementsContent' class='panel-collapse collapse in'>
+                            <div class='panel-body'>
+                                <p>
+                                    <ul>
+                                        <li>
+                                            The GRNmap code was developed and tested with MATLAB R2014b; it may not function properly with other versions of MATLAB.
+                                        </li>
+                                        <li>GRNmap is only compatible with the Windows operating system because of the function it uses to read and write Microsoft Excel spreadsheets. It has only been tested on Windows 7.
+                                        </li>
+                                        <li>We recommend running GRNmap with a minimum of 8.00 GB of RAM and a 2.40 GHz processor. GRNmap may be compatible with slower systems; the amount of RAM and processor speed will affect the speed with which GRNmap completes the estimation.
+                                        </li>
+                                    </ul>
+                                </p>
+
+                            </div><!--panel-body-->
+                         </div> <!--panel-collapse collapse-->
+                    </div> <!--panel panel-default-->
+                </div>
+            
+                <p>
+                     This page is still under construction. For current documentation, please see the GRNmap <a href='https://github.com/kdahlquist/GRNmap/wiki/How-to-format-the-input-file-for-GRNmap'>wiki</a>.
+                </p>              
+                
 <!--                <h3>How to format the input file for GRNmap</h3>
                 <div id='accordian' class='panel-group'>
                     
