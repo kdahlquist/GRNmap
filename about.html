@@ -53,7 +53,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                 <p id='modText' class='modNav'>
-                    Last modified: 5/26/2015
+                    Last modified: 6/10/2015
                 </p>
             </div>
         </div>
@@ -83,6 +83,51 @@
                             </div> <!--panel-body-->
                         </div> <!--panel-collapse collapse in-->
                     </div> <!--panel panel-default-->
+                    
+                     <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            <p class='panel-title aboutHeaders'>
+                                <a href='#compatibilityContent' data-toggle='collapse'>
+                                    Compatibility
+                                </a>
+                            </p>
+                        </div> <!--panel-heading-->
+                        <div id='compatibilityContent' class='panel-collapse collapse'>
+                            <div class='panel-body'>
+                                <ul>
+                                    <li>
+                                        Running GRNmap from Code:
+                                        <ul>
+                                            <li>
+                                                The GRNmap code was developed and tested with MATLAB R2014b; it may not function properly with other versions of MATLAB.
+                                            </li>
+                                            <li>
+                                                GRNmap is only compatible with the Windows operating system because of the function it uses to read and write Microsoft Excel spreadsheets. It has only been tested on Windows 7.
+                                            </li>
+                                            <li>
+                                                We recommend running GRNmap with a minimum of 8.00 GB of RAM and a 2.40 GHz processor. GRNmap may be compatible with slower systems; the amount of RAM and processor speed will affect the speed with which GRNmap completes the estimation.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <br>
+                                    <li>
+                                        Installing and Running the GRNmap stand-alone executable:
+                                        <ul>
+                                            <li>
+                                                You must have administrator rights or have the MATLAB Runtime Compiler already installed in your machine to use the stand-alone executable.
+                                            </li>
+                                            <li>
+                                                GRNmap is only compatible with the Windows operating system because of the function it uses to read and write Microsoft Excel spreadsheets. It has only been tested on Windows 7.
+                                            </li>
+                                            <li>
+                                                We recommend running GRNmap with a minimum of 8.00 GB of RAM and a 2.40 GHz processor. GRNmap may be compatible with slower systems; the amount of RAM and processor speed will affect the speed with which GRNmap completes the estimation.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div> <!--panel-body-->
+                        </div> <!--panel-collapse collapse in-->
+                    </div> <!--panel panel-default-->
                    
                     <div class='panel panel-default'>
                         <div class='panel-heading'>
@@ -94,9 +139,45 @@
                         </div> <!--panel-heading-->
                         <div id='releaseContent' class='panel-collapse collapse'>
                             <div class='panel-body'>
-
                                 <div class='panel-group'>
-
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_0_10Content'  data-toggle='collapse'>
+                                                    GRNmap v1.0.10
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_0_10Content' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                GRNmap v1.0.10 includes the following new features and bug fixes:
+                                                <ul>
+                                                    <li>
+                                                        An optimization_diagnostics sheet with the LSE, Penalty term, min, and iteration count has been created.
+                                                        <ul>
+                                                            <li>
+                                                                Computation of the min LSE and SSE for individual genes have also been added to this sheet.
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        Sigmas sheets have been grouped together instead of interlaced with log2_optimized_expression sheets. 
+                                                    </li>
+                                                    <li>
+                                                        Graph names have been changed to reflect the deleted strains.
+                                                    </li>
+                                                    <li>
+                                                        The diagnostics figure is now saved along with the other graphs.
+                                                    </li>
+                                                    <li>
+                                                        A bug in the penalty computation of production rates has been fixed.
+                                                    </li>
+                                                </ul>
+                                            </div> <!--panel-body-->
+                                        </div> <!--panel-collapse collapse in-->
+                                    </div> <!--panel panel-default-->
+                                    
                                     <div class='panel panel-default'>
                                         <div class='panel-heading'>
                                             <p class='panel-title aboutHeaders'>
@@ -160,10 +241,10 @@
                                                         Ensured that all temporary information is cleared between consecutive estimation or simulation runs.
                                                     </li>
                                                     <li>
-                                                        GRNmap now outputs log2expression sheets for each strain.
+                                                        GRNmap now outputs the log2 expression values generated from the forward simulation of the model as individual worksheets for each strain. The worksheets are named with the convention "_log2_optimized_expression".
                                                     </li>
                                                     <li>
-                                                        The test file structure and naming convention has been implemented as documented in the <a href='https://github.com/kdahlquist/GRNmap/wiki/Naming-Convention-and-Test-Files-Organization'>wiki</a>
+                                                        The test file structure and naming convention has been implemented as documented in the <a href='https://github.com/kdahlquist/GRNmap/wiki/Naming-Convention-and-Test-Files-Organization' target='_blank'>wiki</a>.
                                                     </li>
                                                 </ul>
                                             </div> <!--panel-body-->
@@ -183,7 +264,7 @@
                                                 GRNmap v1.0.4 includes the following new features and bug fixes:
                                                 <ul>
                                                     <li>
-                                                        The requirements for the input spreadsheet have been modified as follows:
+                                                        The requirements for the "optimization_parameters" worksheet in the input Microsoft Excel workbook have been modified as follows:
                                                         <ul> 
                                                             <li>
                                                                 The name of the parameter iestimate has been replaced with estimateParams.
@@ -196,10 +277,10 @@
                                                             </li>
                                                         </ul>
                                                         <li>
-                                                            The output spreadsheet now contains all the worksheets from the spreadsheet.
+                                                            The output workbook now contains all of the worksheets from the input workbook.
                                                         </li>
                                                         <li>
-                                                            The output spreadsheet now includes worksheets for all the parameters that were estimated by GRNmap. These output sheets have names that begin with "out_".
+                                                            The output workbook now includes worksheets for all of the parameters that were estimated by GRNmap. These output sheets have names that begin with "out_".
                                                         </li>
                                                     </li>
                                                 </ul>
@@ -223,10 +304,10 @@
                                                         Some known bugs in v1.0 have been fixed.
                                                     </li>
                                                     <li>
-                                                        The code has been updated to be compatible with MATLAB 2014b. Version 1.0 would fail when generating graphs because of the way that MATLAB treated figure handles had changed.
+                                                        The code has been updated to be compatible with MATLAB 2014b. Version 1.0 would fail when generating graphs because the way that MATLAB treats figure handles had changed.
                                                     </li>
                                                     <li>
-                                                        GRNmap now outputs an individual worksheet containing the optimized expression values for each strain.
+                                                        GRNmap now outputs individual worksheets containing the optimized expression values for each strain.
                                                     </li>
                                                 </ul>
                                                 
