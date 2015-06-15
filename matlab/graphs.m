@@ -60,5 +60,5 @@ for kk = 1:GRNstruct.GRNParams.num_genes
     eval(['print -djpeg ' directory  GRNstruct.labels.TX0{1+kk,2}]);
 end
 figure(1)
-eval(['print -djpeg ' directory  'optimizationDiagnostic']);
+eval(['print -djpeg ' directory  'optimization_diagnostic']);
 
