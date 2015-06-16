@@ -10,6 +10,17 @@ classdef outputTest < matlab.unittest.TestCase
             testOutputFile = '3-genes_3-edges_artificial-data_Sigmoid_estimation_1_output.xls';
             [~, output_sheets] = xlsfinfo(testOutputFile);
             
+            j = 1;
+            for index = 1:length(output_sheets)
+                
+                if strcmp(output_sheets(index), GRNstruct.sheets(j))
+                    [input_num, input_txt] = xlsread(GRNstruct.filename, j);
+                    [output_num, output_txt] = xlsread(testOutputFile, j);
+                    testCase.assertEqual(input_num, output_num);
+                    testCase.assertEqual(input_txt, output_txt);
+                end
+            end
+            
         end
         
     end

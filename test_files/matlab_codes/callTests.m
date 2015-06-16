@@ -1,19 +1,20 @@
 clear all
 clc
 
+global input_file
+
 %Adds necessary directories to search path
 path = which('callTests.m');
 [p, ~, ~] = fileparts(path);
 p = strrep(p, 'test_files\matlab_codes', '');
 addpath(genpath(p));
 
-% filename = '3-genes_3-edges_artificial-data_Sigmoid_estimation_1.xls';
-% inputFile = which(filename);
-% [A, B] = xlsfinfo(inputFile);
+d = dir([p, 'test_files\', 'sixteen_tests\', '*.xlsx']);
+num_files = length(d(not([d.isdir])));
 
-%[path, name, ext] = fileparts(filename)
+for file_index = 1:2:num_files
+    input_file = d(file_index).name;
+end
 
 %Begin running tests
-% readInputSheetTestResult = run(readInputSheetTest);
-% lseTestResult = run(lseTest);
-runtests({'readInputSheetTest', 'lseTest'});
+results = runtests({'readInputSheetTest', 'lseTest', 'outputTest.m'});
