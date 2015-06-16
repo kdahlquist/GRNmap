@@ -3,11 +3,13 @@ classdef outputTest < matlab.unittest.TestCase
     methods (Test)
         
         function test01SteadyState (testCase)
-            %Need to ask questions about this: should I just make one whole
-            %test file that checks each sample instead of for each matlab
-            %file
-            GRNstruct.inputFile = '../data-samples/Test01SteadyState.xls';
-            GRNstruct = output(lse(readInputSheet(GRNstruct)));
+            GRNstruct.filename = '3-genes_3-edges_artificial-data_Sigmoid_estimation_1.xls';
+            GRNstruct.inputFile = which(GRNstruct.filename);
+            [~, GRNstruct.sheets] = xlsfinfo(GRNstruct.inputFile);
+            
+            testOutputFile = '3-genes_3-edges_artificial-data_Sigmoid_estimation_1_output.xls';
+            [~, output_sheets] = xlsfinfo(testOutputFile);
+            
         end
         
     end

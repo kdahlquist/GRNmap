@@ -3,9 +3,14 @@ classdef lseTest < matlab.unittest.TestCase
     methods (Test)
         
         function test01SteadyState (testCase)
-            GRNstruct.inputFile = '../data-samples/Test01SteadyState.xls';
             
-            %For some reason, a .jpg file for Figure 1 counter = 100 pops up when lse is run
+            GRNstruct.filename = '3-genes_3-edges_artificial-data_Sigmoid_estimation_1.xls';
+            GRNstruct.inputFile = which(GRNstruct.filename);
+            [~, GRNstruct.sheets] = xlsfinfo(GRNstruct.inputFile);
+            
+            testOutputFile = '3-genes_3-edges_artificial-data_Sigmoid_estimation_1_output.xls';
+            [~, output_sheets] = xlsfinfo(testOutputFile);
+            
             GRNstruct = lse(readInputSheet(GRNstruct));
             
             testCase.assertEqual(GRNstruct.GRNParams.positions, [1, 1; 2, 2; 3, 3]);

@@ -14,5 +14,6 @@ addpath(genpath(p));
 %[path, name, ext] = fileparts(filename)
 
 %Begin running tests
-readInputSheetTestResult = run(readInputSheetTest);
+% readInputSheetTestResult = run(readInputSheetTest);
 % lseTestResult = run(lseTest);
+runtests({'readInputSheetTest', 'lseTest'});
