@@ -1,27 +1,27 @@
 $(function () {
     var pathTail = location.pathname.split("/").pop();
+
+    var retrieveVersionCount = function ($container, subselector) {
+            $.getJSON(
+                "http://grnsight.cs.lmu.edu/beta/server/grnmap?path=download/" + $container.attr('id'),
+                function (count) {
+                    $container.find(subselector).text(count);
+                }
+            );
+        };
+
     $.getJSON("http://grnsight.cs.lmu.edu/beta/server/grnmap?path=" + pathTail, function (result) {
         
         if (pathTail === "downloads.html") {
-            var exec = $('div[id$="_executable"]');
-            var source = $('div[id$="_source"]');
-
-            exec.each(function (index, element) {
-                var $exec = $(element);
-                $.getJSON("http://grnsight.cs.lmu.edu/beta/server/grnmap?path=download/" + $exec.attr('id'), function (execDownloadCount) {
-                    $exec.find(".ga-execDownload").text(execDownloadCount);
-                });
+            $('div[id$="_executable"]').each(function (index, element) {
+                retrieveVersionCount($(element), ".ga-execDownload");
             });
 
-            source.each(function (index, element) {
-                var $source = $(element);
-                $.getJSON("http://grnsight.cs.lmu.edu/beta/server/grnmap?path=download/" + $source.attr('id'), function (sourceDownloadCount) {
-                    $source.find(".ga-sourceDownload").text(sourceDownloadCount);
-                });
+            $('div[id$="_source"]').each(function (index, element) {
+                retrieveVersionCount($(element), ".ga-sourceDownload");
             });            
         }
 
         $(".ga-report").text(result);
-
     });
 });
