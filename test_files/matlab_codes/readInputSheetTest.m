@@ -1,5 +1,34 @@
 classdef readInputSheetTest < matlab.unittest.TestCase
     
+%     properties
+%         OriginalPath
+%     end
+%     
+%     methods (TestMethodSetup)
+%         function addToPath (testCase)
+%            testCase.OriginalPath = path;
+%            p = fileparts(pwd);
+%            addpath(fullfile(p, 'sixteen_tests'));
+%            path_file_to_test = fileparts(p);
+%            addpath(fullfile(path_file_to_test, 'matlab'));
+%         end
+%     end
+%     
+%     methods (TestMethodTeardown)
+%         
+%         function restorePath (testCase)
+%            path(testCase.OriginalPath); 
+%         end
+%     end
+    
+%     methods (Test)
+%        
+%         function testReadInputs(testCase)
+%             disp(GRNstruct)
+%         end
+%         
+%     end
+    
     methods (Test)
         
 %       Test to see if input worksheets have correct names
@@ -8,7 +37,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
             global GRNstruct
 
             GRNstruct.test_file = which(GRNstruct.inputFile);
-            [directory, name, ext] = fileparts (GRNstruct.test_file);
+            [~, name, ext] = fileparts (GRNstruct.test_file);
             [~, GRNstruct.sheets] = xlsfinfo(GRNstruct.test_file);
             
             GRNstruct = readInputSheet(GRNstruct);

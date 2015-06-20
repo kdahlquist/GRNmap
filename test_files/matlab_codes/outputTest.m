@@ -1,5 +1,23 @@
 classdef outputTest < matlab.unittest.TestCase
     
+%     properties
+%         OriginalPath
+%     end
+%     
+%     methods (TestMethodSetup)
+%         function addToPath (testCase)
+%            testCase.OriginalPath = path;
+%            p = fileparts(pwd);
+%            addpath(fullfile(p, 'sixteen_tests'));
+%         end
+%     end
+%     
+%     methods (TestMethodTeardown)
+%         function restorePath (testCase)
+%            path(testCase.OriginalPath); 
+%         end
+%     end
+    
     methods (Test)
         
 %       Test for finding out if worksheets exist
@@ -67,6 +85,18 @@ classdef outputTest < matlab.unittest.TestCase
                 
             end
             
+        end
+        
+        function testLSE (testCase)
+           global GRNstruct
+         
+           GRNstruct = lse(GRNstruct);
+        end
+        
+        function testGraphs (testCase)
+            global GRNstruct
+            
+%             GRNstruct.testGRNstruct = output(GRNstruct);
         end
         
     end
