@@ -5,9 +5,7 @@ classdef lseTest < matlab.unittest.TestCase
         function testLSE (testCase)
             global GRNstruct
             
-            
-            
-            
+           
             
         end
             

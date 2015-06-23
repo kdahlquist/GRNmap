@@ -37,7 +37,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
             global GRNstruct
 
             GRNstruct.test_file = which(GRNstruct.inputFile);
-            [~, name, ext] = fileparts (GRNstruct.test_file);
+            [directory, name, ext] = fileparts (GRNstruct.test_file);
             [~, GRNstruct.sheets] = xlsfinfo(GRNstruct.test_file);
             
             GRNstruct = readInputSheet(GRNstruct);
@@ -75,6 +75,12 @@ classdef readInputSheetTest < matlab.unittest.TestCase
                    testCase.assertEqual(GRNstruct.GRNParams.time(timepoint), GRNstruct.microData(strain_index).t(timepoint).t); 
                 end
            end
+        end
+        
+        function testNumGenes(testCase)
+             global GRNstruct
+             
+             testCase.assertEqual(GRNstruct.GRNParams.num_genes, 4);
         end
         
     end
