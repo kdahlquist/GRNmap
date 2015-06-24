@@ -19,7 +19,8 @@ function L = general_least_squares_error(theta)
 %               corrected an error in the way the penalty is computed
 %               for the production rates -- sum(p^2) replaced (sum of p)^2
 %
-global adjacency_mat alpha b counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid SSE Strain time wts  
+global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain time wts 
+global SSE   
 
 counter = counter + 1;
 
@@ -34,7 +35,7 @@ wts = theta(1:num_edges);
 % We read the values for b and P from the initial_guesses vector
 P_offset = num_forced*(1-fix_b)+num_edges;
 if ~fix_b
-    b = theta(num_edges + 1:num_forced + num_edges);
+    b(is_forced) = theta(num_edges + 1:num_forced + num_edges);
 end
 if ~fix_P
     prorate = theta(P_offset + 1:P_offset + num_genes);
@@ -66,14 +67,14 @@ for qq = 1:length(Strain)
     
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
-    if Sigmoid
+    if Sigmoid == 1
         % The ~ was previously a t, which was previously unused
         [~,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
     else
         [~,x] = ode45('general_network_dynamics_mm',tspan1,x0);
     end
     
-    if addzero
+    if addzero == 1;
         x1 = x(2:end,:);
     else
         x1 = x;
@@ -88,7 +89,7 @@ for qq = 1:length(Strain)
     SSE(:,qq) = errormat;
     
     % Output graph every 100 iterations.
-    if rem(counter,100) == 0
+    if rem(counter,100) ==  0
         figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter)])
         subplot(212),plot(log2FC(qq).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
     end
@@ -106,13 +107,13 @@ lse_out  = L;
 % Add the penalty term to get the bowl shape for better optimization
 
 bp = 0;
-if fix_b
+if fix_b == 1
     bp = b;
 end
 
 proratep = prorate;
 
-if fix_P
+if fix_P == 1
     proratep = 0*prorate;
 end
 

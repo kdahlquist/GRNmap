@@ -15,13 +15,15 @@ function GRNstruct = lse(GRNstruct)
 %               general_least_squares_error
 %               final line of code added
 %
-global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid SSE Strain wtmat
+global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain wtmat b is_forced      
+global SSE 
 % We store relevant values and matrices from
 % the struct into local variables
 positions      = GRNstruct.GRNParams.positions;
 num_edges      = GRNstruct.GRNParams.num_edges;
 num_genes      = GRNstruct.GRNParams.num_genes;
 num_forced     = GRNstruct.GRNParams.num_forced;
+is_forced      = GRNstruct.GRNParams.is_forced;
 estimateParams = GRNstruct.controlParams.estimateParams;
 kk_max         = GRNstruct.controlParams.kk_max;
 simtime        = GRNstruct.controlParams.simtime;
@@ -30,6 +32,8 @@ MaxIter        = GRNstruct.controlParams.MaxIter;
 MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
 TolFun         = GRNstruct.controlParams.TolFun;
 TolX           = GRNstruct.controlParams.TolX;
+
+b              = GRNstruct.GRNParams.b;
 
 % initial_guesses contains all weights, and optionally the threshholds for
 % controlled genes and optionally the production rates
@@ -40,6 +44,12 @@ initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- f
 
 for ii = 1:num_edges
     initial_guesses(ii) = wtmat(positions(ii,1),positions(ii,2));
+end
+offset = num_edges;
+if ~fix_b
+    for ii = 1:num_forced
+        initial_guesses(ii+offset) = b(is_forced(ii));
+    end
 end
 
 % If the production rates aren't fixed

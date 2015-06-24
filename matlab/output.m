@@ -112,13 +112,13 @@ if Sigmoid
         for ii = 1:num_forced
             outputpro{is_forced(ii)+1,3} = estimated_guesses(ii+num_edges);
         end
-        for ii = 1:length(no_inputs)
-            outputpro{no_inputs(ii)+1,3} = 0;
+        for ii = 1:length(GRNstruct.GRNParams.no_inputs)
+            outputpro{GRNstruct.GRNParams.no_inputs(ii)+1,3} = 0;
         end
         xlswrite(output_file,outputpro,'optimized_threshold_b');
     else
         for ii = 1:num_forced
-            outputpro{is_forced(ii)+1,3} = b(ii);
+            outputpro{is_forced(ii)+1,3} = b(is_forced(ii));
         end
         for ii = 1:length(no_inputs)
             outputpro{no_inputs(ii)+1,3} = 0;

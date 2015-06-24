@@ -8,7 +8,7 @@ D   = degrate(:);
 B   = zeros(num_genes,1);
 
 if ~fix_b
-    B(is_forced) = b;
+    B = b;
 end
 
 parms_used = 0;
