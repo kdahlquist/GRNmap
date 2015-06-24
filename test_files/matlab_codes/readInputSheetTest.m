@@ -37,7 +37,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
             global GRNstruct
 
             GRNstruct.test_file = which(GRNstruct.inputFile);
-            [directory, name, ext] = fileparts (GRNstruct.test_file);
+            [~, name, ext] = fileparts (GRNstruct.test_file);
             [~, GRNstruct.sheets] = xlsfinfo(GRNstruct.test_file);
             
             GRNstruct = readInputSheet(GRNstruct);
@@ -77,6 +77,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
            end
         end
         
+%       Test if number of genes is correct
         function testNumGenes(testCase)
              global GRNstruct
              

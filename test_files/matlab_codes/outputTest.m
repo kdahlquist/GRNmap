@@ -1,5 +1,8 @@
 classdef outputTest < matlab.unittest.TestCase
     
+%   Will have to implement setup and teardown for cleaner tests instead of
+%   having a global GRNstruct. Setup and teardown functions don't work just
+%   yet; work on this will continue in the fall.
     properties
         OriginalPath
     end
@@ -10,12 +13,29 @@ classdef outputTest < matlab.unittest.TestCase
            p = fileparts(pwd);
            addpath(fullfile(p, 'sixteen_tests'));
         end
+        
+        % Finds the temporary folder in the system. We need to create a
+        % temporary file to check if output sheets are saved
+        function addTempFolder (testCase)
+            testCase.temporary_folder = tempdir;
+            [~, testCase.filename, testCase.extension] = fileparts (GRNstruct.inputFile);
+            testCase.temporary_file = [tempname, testCase.extension];
+        end
+
     end
     
     methods (TestMethodTeardown)
+        
+        function deletePlots (testCase)
+           if ~isempty(dir('*.jpg'))
+              delete ('ACE2.jpg', 'AFT2.jpg', 'CIN5.jpg', 'FHL1.jpg', 'optimization_diagnostic.jpg');
+           end
+        end
+        
         function restorePath (testCase)
            path(testCase.OriginalPath); 
         end
+        
     end
     
     methods (Test)
@@ -95,9 +115,11 @@ classdef outputTest < matlab.unittest.TestCase
 %             end
 %         end
         
+%       This function will need to be separated eventually into its own file
         function testLSE (testCase)
             global GRNstruct
             GRNstruct = lse(GRNstruct); 
+            
             
         end
                 
@@ -113,6 +135,13 @@ classdef outputTest < matlab.unittest.TestCase
                 testCase.assertEqual(exist('CIN5.jpg', 'file'), 2);
                 testCase.assertEqual(exist('FHL1.jpg', 'file'), 2);
             else
+%               This test will fail since we are calling the graphs
+%               routine. Calling just the graphs routine when makeGraphs == 0 yields 
+%               graphs with blank pages. We will need to call the graphs
+%               function from the output routine but move the if statement
+%               to graphs.m and leave the saving of optimization
+%               diagnostics outside since we would want that figure
+%               every time we run the program
                 testCase.assertEqual(exist('ACE2.jpg', 'file'), 0);
                 testCase.assertEqual(exist('AFT2.jpg', 'file'), 0);
                 testCase.assertEqual(exist('CIN5.jpg', 'file'), 0);
@@ -123,6 +152,17 @@ classdef outputTest < matlab.unittest.TestCase
             testCase.assertEqual(exist('optimization_diagnostic.jpg', 'file'), 2);
         end
         
+%       Will need to make a test to see what happens when we estimate param
+%         function testEstimation (testCase)
+%             global GRNstruct
+%             
+%             if GRNstruct.controlParams.estimateParams
+%                
+%             else
+%                 
+%             end
+%             
+%         end
     end
     
 end
