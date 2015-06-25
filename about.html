@@ -53,7 +53,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                 <p id='modText' class='modNav'>
-                    Last modified: 6/17/2015
+                    Last modified: 6/24/2015
                 </p>
             </div>
         </div>
@@ -144,6 +144,37 @@
                                     <div class='panel panel-default'>
                                         <div class='panel-heading'>
                                             <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_2Content'  data-toggle='collapse'>
+                                                    GRNmap v1.2
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_2Content' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                GRNmap v1.2 includes the following new features and bug fixes:
+                                                <ul>
+                                                    <li>
+                                                        Estimation for threshold genes with no input using the sigmoidal model has been fixed.
+                                                    </li>
+                                                    <li>
+                                                        Optimization parameters in the test files have been changed to run with the updated code.
+                                                    </li>
+                                                    <li>
+                                                        Updates to the unit testing framework include the following:
+                                                        <ul>
+                                                            <li>Test if input files have been read correctly.</li>
+                                                            <li>Test if necessary output worksheets exist.</li>
+                                                            <li>Test if graphs are outputted.</li>
+                                                        </ul>
+                                                    </li>  
+                                                </ul>
+                                            </div> <!--panel-body-->
+                                        </div> <!--panel-collapse collapse in-->
+                                    </div> <!--panel panel-default-->
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
                                                 <a href='#v1_0_10Content'  data-toggle='collapse'>
                                                     GRNmap v1.0.10
                                                 </a>
@@ -173,6 +204,17 @@
                                                     <li>
                                                         A bug in the penalty computation of production rates has been fixed.
                                                     </li>
+                                                    <li>Two demo files have been added with this release:
+                                                        <ul>
+                                                            <li>
+                                                                A small network with 4 genes and 6 edges
+                                                            </li>
+                                                            <li>
+                                                                A medium-sized network with 22 genes and 47 edges
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                        
                                                 </ul>
                                             </div> <!--panel-body-->
                                         </div> <!--panel-collapse collapse in-->
