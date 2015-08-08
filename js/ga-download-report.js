@@ -5,7 +5,7 @@ $(function () {
 
     var retrieveVersionCount = function ($container, subselector, $total) {
             $.getJSON(
-                "http://grnsight.cs.lmu.edu/beta/server/grnmap?path=download/" + $container.attr('id'),
+                "http://grnsight2.cs.lmu.edu/beta/server/grnmap?path=download/" + $container.attr('id'),
                 function (count) {
                     $container.find(subselector).text(count);
                     updateTotal($total, +count);
