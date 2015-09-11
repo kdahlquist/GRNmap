@@ -32,7 +32,7 @@ estimated_guesses = GRNstruct.locals.estimated_guesses;
 [~,name,ext] = fileparts(GRNstruct.inputFile);
 output_file = [directory name '_output' ext];
 output_mat  = [directory name '_output.mat'];
-copyfile(GRNstruct.inputFile, output_file);
+copyfile(GRNstruct.inputFile, output_file, 'f');
 
 for qq = 1:length(Strain)
     
