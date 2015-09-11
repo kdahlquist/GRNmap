@@ -54,14 +54,14 @@ for qq = 1:length(Strain)
     end
 end
 
-for kk = 1:GRNstruct.GRNParams.num_genes
-    eval(['figure(' num2str(kk + offset) ')'])
-%     eval(['print -djpeg ' directory 'figure_' num2str(kk)]);
-    eval(['print -djpeg ' directory  GRNstruct.labels.TX0{1+kk,2}]);
-end
-figure(1)
-
 if GRNstruct.GRNOutput.counter > 100
-    eval(['print -djpeg ' directory  'optimization_diagnostic']);
+    figure(1)
+    filename = [directory 'optimization_diagnostic'];
+    print(filename,'-djpeg')
 end
 
+for kk = 1:GRNstruct.GRNParams.num_genes
+    figure(kk + offset)
+    filename = [directory GRNstruct.labels.TX0{1+kk,2}];
+    print(filename,'-djpeg')
+end
