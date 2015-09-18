@@ -84,18 +84,17 @@ GRNstruct.GRNParams.time             = time;
 GRNstruct.GRNParams.num_times        = length(time);
 
 % This sets the control parameters
-GRNstruct.controlParams.simtime        = simtime;
+GRNstruct.controlParams.simulation_timepoints        = simulation_timepoints;
 GRNstruct.controlParams.kk_max         = kk_max;
 GRNstruct.controlParams.MaxIter        = MaxIter;
 GRNstruct.controlParams.MaxFunEval     = MaxFunEval;
 GRNstruct.controlParams.TolFun         = TolFun;
 GRNstruct.controlParams.TolX           = TolX;
-GRNstruct.controlParams.estimateParams = estimateParams;
-GRNstruct.controlParams.makeGraphs     = makeGraphs;
+GRNstruct.controlParams.estimate_params = estimate_params;
+GRNstruct.controlParams.make_graphs     = make_graphs;
 GRNstruct.controlParams.Sigmoid        = Sigmoid;
 GRNstruct.controlParams.fix_b          = fix_b;
 GRNstruct.controlParams.fix_P          = fix_P;
-
 
 % Populate the global variables
 
@@ -159,7 +158,7 @@ for i = 1:length(Strain)
         delDataAvg = data - log2FC(i).avg(:,iT)*ones(1,length(data(1,:)));
         
         GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(data(:));
-        GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum( delDataAvg(:).^2);
+        GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum(delDataAvg(:).^2);
 
     end
 

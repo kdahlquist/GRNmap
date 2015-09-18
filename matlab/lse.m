@@ -24,9 +24,9 @@ num_edges      = GRNstruct.GRNParams.num_edges;
 num_genes      = GRNstruct.GRNParams.num_genes;
 num_forced     = GRNstruct.GRNParams.num_forced;
 is_forced      = GRNstruct.GRNParams.is_forced;
-estimateParams = GRNstruct.controlParams.estimateParams;
+estimate_params = GRNstruct.controlParams.estimate_params;
 kk_max         = GRNstruct.controlParams.kk_max;
-simtime        = GRNstruct.controlParams.simtime;
+simulation_timepoints        = GRNstruct.controlParams.simulation_timepoints;
 x0             = GRNstruct.GRNParams.x0;
 MaxIter        = GRNstruct.controlParams.MaxIter;
 MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
@@ -78,7 +78,7 @@ GRNstruct.GRNOutput.lse_0   = general_least_squares_error(initial_guesses);
 GRNstruct.GRNOutput.lse_out = lse_out;
 estimated_guesses = initial_guesses;
 
-if estimateParams
+if estimate_params
     % This performs the optimization
     for kk = 1:kk_max
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
@@ -94,22 +94,22 @@ end
 
 % This is the forward simulation, which is performed for every single strain
 % The simulation gives the gene expression at each of the time 
-% points specified by simtime
+% points specified by simulation_timepoints
 for qq = 1:length(Strain)
     deletion = GRNstruct.microData(qq).deletion;
     % t is the time points for which we did the forward simulation. It's
-    % always the same as simtime.
+    % always the same as simulation_timepoints.
     % model is the expression of each gene in the network at each of those
     % time points in t.
     if Sigmoid
-        [~,model] = ode45(@general_network_dynamics_sigmoid,simtime,x0);
+        [~,model] = ode45(@general_network_dynamics_sigmoid,simulation_timepoints,x0);
     else
-        [~,model] = ode45(@general_network_dynamics_mm,simtime,x0);
+        [~,model] = ode45(@general_network_dynamics_mm,simulation_timepoints,x0);
     end
     log2FC(qq).model               = (log2(model))';
-    log2FC(qq).simtime             = simtime';
+    log2FC(qq).simulation_timepoints             = simulation_timepoints';
     GRNstruct.GRNModel(qq).model   = log2FC(qq).model;
-    GRNstruct.GRNModel(qq).simtime = log2FC(qq).simtime;
+    GRNstruct.GRNModel(qq).simulation_timepoints = log2FC(qq).simulation_timepoints;
 end
 
 

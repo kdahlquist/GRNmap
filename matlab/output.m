@@ -17,7 +17,7 @@ function GRNstruct = output(GRNstruct)
 %
 global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate Sigmoid Strain time wts
 
-if GRNstruct.controlParams.makeGraphs
+if GRNstruct.controlParams.make_graphs
     GRNstruct = graphs(GRNstruct);
 end
 
@@ -25,7 +25,7 @@ directory  = GRNstruct.directory;
 positions  = GRNstruct.GRNParams.positions;
 num_edges  = GRNstruct.GRNParams.num_edges;
 num_forced = GRNstruct.GRNParams.num_forced;
-simtime    = GRNstruct.controlParams.simtime;
+simulation_timepoints    = GRNstruct.controlParams.simulation_timepoints;
 initial_guesses = GRNstruct.locals.initial_guesses;
 estimated_guesses = GRNstruct.locals.estimated_guesses;
 
@@ -52,7 +52,7 @@ for qq = 1:length(Strain)
         outputsigmas{ik,2}= GRNstruct.labels.TX0{ik,2};
         
         if ik>=2
-            for jj = 2:length(simtime)+1
+            for jj = 2:length(simulation_timepoints)+1
                 outputcells{ik,jj+1} = log2FC(qq).model(ik-1,jj-1);
             end
             for jj = 2:num_times+1
@@ -69,8 +69,8 @@ for qq = 1:length(Strain)
             outputdeg{ik,3} = GRNstruct.labels.TX0{ik,3};
             outputpro{ik,3} = 'prorate';
             
-            for jj = 2:length(simtime)+1
-                outputcells{ik,jj+1} = simtime(jj-1);
+            for jj = 2:length(simulation_timepoints)+1
+                outputcells{ik,jj+1} = simulation_timepoints(jj-1);
             end
             for jj = 2:num_times+1
                 outputdata{ik,jj+1} = time(jj-1);

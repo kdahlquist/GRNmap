@@ -37,7 +37,7 @@ end
 for qq = 1:length(Strain)
     td  = log2FC(qq).data(1,:);
     % Remove the if line and its corresponding end
-    if GRNstruct.controlParams.makeGraphs
+    if GRNstruct.controlParams.make_graphs
         % Delete these two statements, maybe. They are not
         % being used.
         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
@@ -45,7 +45,7 @@ for qq = 1:length(Strain)
         for ii=1:GRNstruct.GRNParams.num_genes
             figure(ii+offset),hold on
             plot(td,log2FC(qq).data(ii+1,:),[plot_colors(qq) 'o'],'LineWidth',3),axis([tmin tmax -3 3]);
-            plot(log2FC(qq).simtime,log2FC(qq).model(ii,:),[plot_colors(qq) '-']);
+            plot(log2FC(qq).simulation_timepoints,log2FC(qq).model(ii,:),[plot_colors(qq) '-']);
             legend(Targets,'Location','NorthEastOutside');
             title(GRNstruct.labels.TX1{1+(ii),2},'FontSize',16)
             xlabel('Time (minutes)','FontSize',16)
