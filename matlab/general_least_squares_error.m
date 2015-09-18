@@ -19,7 +19,7 @@ function L = general_least_squares_error(theta)
 %               corrected an error in the way the penalty is computed
 %               for the production rates -- sum(p^2) replaced (sum of p)^2
 %
-global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain time wts 
+global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain expression_timepoints wts 
 global SSE   
 
 counter = counter + 1;
@@ -44,11 +44,11 @@ end
 % Initial concentrations
 x0 = ones(num_genes,1);
 
-if time(1) > 1e-6
-    tspan1 = [0;time(:)];
+if expression_timepoints(1) > 1e-6
+    tspan1 = [0;expression_timepoints(:)];
     addzero = 1;
 else
-    tspan1 = time;
+    tspan1 = expression_timepoints;
     addzero = 0;
 end
 
@@ -80,7 +80,7 @@ for qq = 1:length(Strain)
         x1 = x;
     end
     
-    for iT = 1:length(time)
+    for iT = 1:length(expression_timepoints)
         for iF =  1:length(log2FC(qq).t(iT).indx)
             errormat = errormat+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
         end

@@ -13,12 +13,12 @@ function GRNstruct = graphs(GRNstruct)
 %               added print command to save the final running opt diag
 %               graph
 %
-global log2FC Strain time
+global log2FC Strain expression_timepoints
 
 directory = GRNstruct.directory;
 
 tmin = 0;
-tmax = max(time);
+tmax = max(expression_timepoints);
 figHandles  = findobj('Type','figure');
 offset      = size(figHandles,1);
 
@@ -47,7 +47,7 @@ for qq = 1:length(Strain)
             plot(td,log2FC(qq).data(ii+1,:),[plot_colors(qq) 'o'],'LineWidth',3),axis([tmin tmax -3 3]);
             plot(log2FC(qq).simulation_timepoints,log2FC(qq).model(ii,:),[plot_colors(qq) '-']);
             legend(Targets,'Location','NorthEastOutside');
-            title(GRNstruct.labels.TX1{1+(ii),2},'FontSize',16)
+            title(GRNstruct.labels.TX1{1+(ii),1},'FontSize',16)
             xlabel('Time (minutes)','FontSize',16)
             ylabel('Expression (log2 fold change)','FontSize',16)
         end
@@ -62,6 +62,6 @@ end
 
 for kk = 1:GRNstruct.GRNParams.num_genes
     figure(kk + offset)
-    filename = [directory GRNstruct.labels.TX0{1+kk,2}];
+    filename = [directory GRNstruct.labels.TX0{1+kk,1}];
     print(filename,'-djpeg')
 end
