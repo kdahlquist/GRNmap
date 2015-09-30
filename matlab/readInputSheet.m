@@ -68,6 +68,16 @@ for index = 1:length(Strain)
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).Strain = currentStrain;
     log2FC(index).data = GRNstruct.microData(index).data;
+    
+    if strcmp(currentStrain,'wt')
+        deletedRow = 0;
+    else
+        deletedRow = find(strcmp(Strain,currentStrain));
+    end
+    
+    log2FC(index).deletion  = deletedRow;
+    log2FC(index).strain    = Strain(index);
+    GRNstruct.microData(index).deletion = deletedRow;
 end
 
 % Populate the structure
