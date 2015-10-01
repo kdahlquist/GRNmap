@@ -90,6 +90,9 @@ if estimate_params
     end
     GRNstruct.GRNOutput.reg_out = penalty_out;
     GRNstruct.GRNOutput.counter = counter;
+else
+    GRNstruct.GRNOutput.reg_out = NaN;
+    GRNstruct.GRNOutput.counter = 0;
 end
 
 % This is the forward simulation, which is performed for every single strain
