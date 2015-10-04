@@ -28,7 +28,8 @@ for file_index = 1:2:num_files
     results = runtests({'readInputSheetTest',  'outputTest'});
 end
 
-runtests({'parameterEstimationTest'})
+delete([GRNstruct.directory '*.jpg']);
+% runtests({'parameterEstimationTest'})
 
 % Since @bengfitzpatrick has only verified the outputs for the file written below, I
 % will use this file to draft tests and then apply them to the sixteen

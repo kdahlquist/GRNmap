@@ -1,34 +1,5 @@
 classdef readInputSheetTest < matlab.unittest.TestCase
     
-%     properties
-%         OriginalPath
-%     end
-%     
-%     methods (TestMethodSetup)
-%         function addToPath (testCase)
-%            testCase.OriginalPath = path;
-%            p = fileparts(pwd);
-%            addpath(fullfile(p, 'sixteen_tests'));
-%            path_file_to_test = fileparts(p);
-%            addpath(fullfile(path_file_to_test, 'matlab'));
-%         end
-%     end
-%     
-%     methods (TestMethodTeardown)
-%         
-%         function restorePath (testCase)
-%            path(testCase.OriginalPath); 
-%         end
-%     end
-    
-%     methods (Test)
-%        
-%         function testReadInputs(testCase)
-%             disp(GRNstruct)
-%         end
-%         
-%     end
-    
     methods (Test)
         
 %       Test to see if input worksheets have correct names
@@ -70,9 +41,9 @@ classdef readInputSheetTest < matlab.unittest.TestCase
            global GRNstruct
            
            for strain_index = 1:length(GRNstruct.microData)
-                testCase.assertEqual(length(GRNstruct.GRNParams.time), length(GRNstruct.microData(strain_index).t));
-                for timepoint = 1: length(GRNstruct.GRNParams.time)
-                   testCase.assertEqual(GRNstruct.GRNParams.time(timepoint), GRNstruct.microData(strain_index).t(timepoint).t); 
+                testCase.assertEqual(length(GRNstruct.GRNParams.expression_timepoints), length(GRNstruct.microData(strain_index).t));
+                for timepoint = 1: length(GRNstruct.GRNParams.expression_timepoints)
+                   testCase.assertEqual(GRNstruct.GRNParams.expression_timepoints(timepoint), GRNstruct.microData(strain_index).t(timepoint).t); 
                 end
            end
         end
