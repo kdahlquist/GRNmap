@@ -76,8 +76,8 @@ classdef outputTest < matlab.unittest.TestCase
                 
         function testGraphsExist (testCase)
             global GRNstruct
-            
-            GRNstruct = graphs(GRNstruct);
+           
+            saveOutputToTemp;
             
 %           Test if graphs are made only when they're supposed to
             if GRNstruct.controlParams.make_graphs
