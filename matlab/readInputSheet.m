@@ -15,7 +15,7 @@ function GRNstruct = readInputSheet( GRNstruct )
 %               added functionality to compute the minimum possible least
 %                     squares error GRNstruct.GRNParams.minLSE
 %
-global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat expression_timepoints
+global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -58,13 +58,26 @@ for currentRow = 2:numRows
     end
 end
 
+
+
 % This reads the microarray data for each strain.
+
 
 for index = 1:length(Strain)
     currentStrain = Strain{index};
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).Strain = currentStrain;
     log2FC(index).data = GRNstruct.microData(index).data;
+    
+    if strcmp(currentStrain,'wt')
+        deletedRow = 0;
+    else
+        deletedRow = find(strcmp(Strain,currentStrain));
+    end
+    
+    log2FC(index).deletion  = deletedRow;
+    log2FC(index).strain    = Strain(index);
+    GRNstruct.microData(index).deletion = deletedRow;
 end
 
 % Populate the structure
@@ -73,25 +86,26 @@ end
 [GRNstruct.GRNParams.adjacency_mat,GRNstruct.labels.TX3] = xlsread(input_file,'network');
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
 
-GRNstruct.GRNParams.num_edges                        = sum(GRNstruct.GRNParams.adjacency_mat(:));
-GRNstruct.GRNParams.num_genes                        = size(GRNstruct.GRNParams.adjacency_mat,2);
-GRNstruct.GRNParams.active                           = 1:GRNstruct.GRNParams.num_genes;
-GRNstruct.GRNParams.alpha                            = alpha;
-GRNstruct.GRNParams.expression_timepoints            = expression_timepoints;
-GRNstruct.GRNParams.num_times                        = length(expression_timepoints);
+GRNstruct.GRNParams.num_edges        = sum(GRNstruct.GRNParams.adjacency_mat(:));
+GRNstruct.GRNParams.num_genes        = size(GRNstruct.GRNParams.adjacency_mat,2);
+GRNstruct.GRNParams.active           = 1:GRNstruct.GRNParams.num_genes;
+GRNstruct.GRNParams.alpha            = alpha;
+GRNstruct.GRNParams.time             = time;
+GRNstruct.GRNParams.num_times        = length(time);
 
 % This sets the control parameters
-GRNstruct.controlParams.simulation_timepoints        = simulation_timepoints;
-GRNstruct.controlParams.kk_max                       = kk_max;
-GRNstruct.controlParams.MaxIter                      = MaxIter;
-GRNstruct.controlParams.MaxFunEval                   = MaxFunEval;
-GRNstruct.controlParams.TolFun                       = TolFun;
-GRNstruct.controlParams.TolX                         = TolX;
-GRNstruct.controlParams.estimate_params              = estimate_params;
-GRNstruct.controlParams.make_graphs                  = make_graphs;
-GRNstruct.controlParams.Sigmoid                      = Sigmoid;
-GRNstruct.controlParams.fix_b                        = fix_b;
-GRNstruct.controlParams.fix_P                        = fix_P;
+GRNstruct.controlParams.simtime        = simtime;
+GRNstruct.controlParams.kk_max         = kk_max;
+GRNstruct.controlParams.MaxIter        = MaxIter;
+GRNstruct.controlParams.MaxFunEval     = MaxFunEval;
+GRNstruct.controlParams.TolFun         = TolFun;
+GRNstruct.controlParams.TolX           = TolX;
+GRNstruct.controlParams.estimateParams = estimateParams;
+GRNstruct.controlParams.makeGraphs     = makeGraphs;
+GRNstruct.controlParams.Sigmoid        = Sigmoid;
+GRNstruct.controlParams.fix_b          = fix_b;
+GRNstruct.controlParams.fix_P          = fix_P;
+
 
 % Populate the global variables
 
@@ -108,10 +122,9 @@ end
 %TX1 contains both the systemic and standard names
 %TX11 is the list of standard (common) names
 %%Revision to old way of computing TX11
-
-% for ii = 1:length(GRNstruct.microData(1).data(:,1));
-%     GRNstruct.labels.TX11{ii,1} = GRNstruct.labels.TX1{ii,2};
-% end
+for ii = 1:length(GRNstruct.microData(1).data(:,1));
+    GRNstruct.labels.TX11{ii,1} = GRNstruct.labels.TX1{ii,2};
+end
 
 % To be read by the program correctly, prorate and degrate need to be row
 % vectors instead of column vectors, so we use the transpose of the array
@@ -129,11 +142,11 @@ for i = 1:length(Strain)
     % The first row of the GRNstruct.microData data indicating all of the replicate timepoints
     reps = (GRNstruct.microData(i).data(1,:));
     % Finds the indices in reps that correspond to each timepoint in tspan.
-    for jj = 1:length(expression_timepoints)
-        log2FC(i).t(jj).indx                = find(reps == expression_timepoints(jj));
-        log2FC(i).t(jj).t                   = expression_timepoints(jj); 
-        GRNstruct.microData(i).t(jj).indx   = log2FC(i).t(jj).indx;
-        GRNstruct.microData(i).t(jj).t      =  expression_timepoints(jj);
+    for jj = 1:length(time)
+        log2FC(i).t(jj).indx = find(reps == time(jj));
+        log2FC(i).t(jj).t    = time(jj); 
+        GRNstruct.microData(i).t(jj).indx = log2FC(i).t(jj).indx;
+        GRNstruct.microData(i).t(jj).t    =  time(jj);
     end
     % GRNstruct.microData data for all strains
     % GRNstruct.microData(i).data  = (GRNstruct.microData(i).d(2:end,:));
@@ -148,20 +161,20 @@ for i = 1:length(Strain)
     for iT = 1:GRNstruct.GRNParams.num_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
         
-        GRNstruct.microData(i).avg(:,iT)    = mean(data,2);
-        GRNstruct.microData(i).stdev(:,iT)  = std(data,0,2);
-        log2FC(i).avg(:,iT)                 = mean(data,2);
-        log2FC(i).stdev(:,iT)               = std(data,0,2);
+        GRNstruct.microData(i).avg(:,iT) = mean(data,2);
+        GRNstruct.microData(i).stdev(:,iT) =  std(data,0,2);
+        log2FC(i).avg(:,iT) = mean(data,2);
+        log2FC(i).stdev(:,iT) = std(data,0,2);
         
         delDataAvg = data - log2FC(i).avg(:,iT)*ones(1,length(data(1,:)));
         
         GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(data(:));
-        GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum(delDataAvg(:).^2);
+        GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum( delDataAvg(:).^2);
 
     end
 
-    log2FC(i).deletion              = Deletion(i);
-    log2FC(i).strain                = Strain(i);
+    log2FC(i).deletion  = Deletion(i);
+    log2FC(i).strain    = Strain(i);
     GRNstruct.microData(i).deletion = Deletion(i);
 end
 
@@ -172,7 +185,7 @@ GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE/GRNstruct.GRNParams.nDa
 num_controlling_genes = sum(GRNstruct.GRNParams.adjacency_mat,2);
 
 % Whether or not genes are affected T(1)/F(0)
-is_controlled                  = num_controlling_genes > 0;
+is_controlled = num_controlling_genes > 0;
 GRNstruct.GRNParams.no_inputs  = find(is_controlled == 0);
 GRNstruct.GRNParams.is_forced  = find(is_controlled == 1);
 GRNstruct.GRNParams.num_forced = sum(is_controlled);
@@ -183,8 +196,8 @@ GRNstruct.GRNParams.num_forced = sum(is_controlled);
 % Positions gives us ordered pair of genes in the form of
 % (aff_gene, contr_gene), where the first gene is controlled
 % by the second gene.
-[rows,columns]                 = find(GRNstruct.GRNParams.adjacency_mat == 1);
-GRNstruct.GRNParams.positions  = sortrows([rows,columns],1);
+[rows,columns] = find(GRNstruct.GRNParams.adjacency_mat == 1);
+GRNstruct.GRNParams.positions = sortrows([rows,columns],1);
 
 
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
