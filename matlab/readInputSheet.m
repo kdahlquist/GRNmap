@@ -69,10 +69,13 @@ for index = 1:length(Strain)
     GRNstruct.microData(index).Strain = currentStrain;
     log2FC(index).data = GRNstruct.microData(index).data;
     
+    genes = GRNstruct.labels.TX1(2:end,2);
+    
     if strcmp(currentStrain,'wt')
         deletedRow = 0;
     else
-        deletedRow = find(strcmp(Strain,currentStrain));
+        deletedGene = currentStrain(2:end);
+        deletedRow = find(strcmpi(genes,deletedGene));
     end
     
     log2FC(index).deletion  = deletedRow;
