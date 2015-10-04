@@ -55,6 +55,10 @@ classdef readInputSheetTest < matlab.unittest.TestCase
              testCase.assertEqual(GRNstruct.GRNParams.num_genes, 4);
         end
         
+%         function testIfReadingFromDeletedStrainWorksheet (testCase)
+%             global GRNstuct
+%             
+%             testCase.assertEqual (GRNstruct.GRNParams.
     end
     
 end

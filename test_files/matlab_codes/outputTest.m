@@ -74,7 +74,7 @@ classdef outputTest < matlab.unittest.TestCase
             
         end
                 
-        function testGraphs (testCase)
+        function testGraphsExist (testCase)
             global GRNstruct
             
             GRNstruct = graphs(GRNstruct);
@@ -87,7 +87,7 @@ classdef outputTest < matlab.unittest.TestCase
                 testCase.assertEqual(exist('FHL1.jpg', 'file'), 2);
             else
 %               This test will fail since we are calling the graphs
-%               routine. Calling just the graphs routine when makeGraphs == 0 yields 
+%               routine. Calling just the graphs routine when make_graphs == 0 yields 
 %               graphs with blank pages. We will need to call the graphs
 %               function from the output routine but move the if statement
 %               to graphs.m and leave the saving of optimization
@@ -104,7 +104,12 @@ classdef outputTest < matlab.unittest.TestCase
             
 %             delete([GRNstruct.directory '*.jpg']);
         end
-        
+         
+        function testMatFileExistsWhenEstimateParamsZero (testCase)
+            global GRNstruct
+            
+            testCase.assertEqual (exist ([GRNstruct.directory GRNstruct.inputFile '_output.mat'], 'file'), 2);
+        end
     end
     
 end
