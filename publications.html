@@ -4,8 +4,9 @@
     <head>
 
         <title>GRNmap - Publications</title>
-        <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="stylesheets/main.css">
+        <link rel="stylesheet" type="text/css" href="http://dondi.github.io/GRNsight/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="http://dondi.github.io/GRNsight/assets/css/main.css">
+
         <script src="https://code.jquery.com/jquery.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <script type='text/javascript' src='js/main.js'></script>
@@ -53,7 +54,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                 <p id='modText' class='modNav'>
-                    Last modified: 6/17/2015
+                    Last modified: 10/03/2015
                 </p>
             </div>
         </div>
@@ -61,44 +62,101 @@
         <div id='mainContent'>
             <p id='pageTitle'>Publications</p>
             <div id='pageContent'>
-                <h3>Posters</h3>
-                <p class='abstract'>
-                    <span style='font-weight:bold'>Loyola Marymount Undergraduate Research Symposium</span><br><br>
-                    March 21, 2015 <br>
-                    Software Refactoring and Usability Enhancement for GRNmap, a Gene Regulatory Network Modeling Application<br>
-                    Juan Carrillo, Trixie Anne Roque <br>
-                    Dr. Kam D. Dahlquist, Dr. Ben G. Fitzpatrick <br><br>
-                    A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. The dynamics of a GRN is how gene expression in the network changes over time. Over a period of several years, our group has developed a complex MATLAB software package, called GRNmap, that uses ordinary differential equations to model the dynamics of medium-scale GRNs from budding yeast, Saccharomyces cerevisiae. The program estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data, and then performs a forward simulation of the dynamics of the network. The large number of developers and time span of development led to a code base that was difficult to revise and adjust. We therefore refactored the script-based software with global variables into a function-based package that uses an object to carry relevant information from function to function. This modular approach allows for cleaner, less ambiguous code and increased maintainability. We then used the MATLAB compiler to create an executable file that can be run on any Windows machine without the need of a MATLAB license, increasing the accessibility of our program. The GRNmap code and executable is available from <a href="http://kdahlquist.github.io/GRNmap/">http://kdahlquist.github.io/GRNmap/</a> under an open source license. We have now adopted a test-driven development framework that will speed debugging and ensure that future modifications to the code preserve correct functionality.<br><br>
-                    To download this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/Carrillo_Roque_LMU_Symposium_2015.pptx?raw=true'>here</a>.
-                </p>
+                
+                <div id="accordian" class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="panel-title aboutHeaders">
+                                <a href="#papers" data-toggle="collapse">
+                                    Papers
+                                </a>
+                            </p>
+                        </div><!-- panel-heading -->
+                        <div id="papers" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <p class="abstract">
+                                <span style='font-weight:bold'>September 29, 2015</span><br>
+                                
+                                Dahlquist, K.D., Fitzpatrick, B.G., Camacho, E.T., Entzminger, S.D., and Wanner, N.C. (2015) Parameter Estimation for Gene Regulatory Networks from Microarray Data: Cold Shock Response in Saccharomyces cerevisiae. <i>Bulletin of Mathematical Biology</i>. DOI: 10.1007/s11538-015-0092-6, Epub ahead of print. 
+                                <br>
+                                <br>
+                                <a href="http://link.springer.com/article/10.1007/s11538-015-0092-6/fulltext.html">View full text in HTML </a><br>
+                                <a href="http://link.springer.com/content/pdf/10.1007%2Fs11538-015-0092-6.pdf">Download PDF (1205 KB)</a><br> 
+                                <a href="http://link.springer.com/content/esm/art:10.1007/s11538-015-0092-6/file/MediaObjects/11538_2015_92_MOESM1_ESM.zip">Download electronic supplementary material (65 KB)</a><br><br>
 
-                <p class='abstract'>
-                    <span style='font-weight:bold'>SACNAS  (Society for the Advancement of Chicanos and Native Americans in Science) National Conference</span> <br><br>
-                    October 16-18, 2014<br>
-                    Software Refactoring and Usability Enhancement for GRNmap, a Gene Regulatory Network Modeling Application <br>
-                    Juan Carrillo, Katrina Sherbina <br>
-                    Dr. Kam D. Dahlquist, Dr. Ben G. Fitzpatrick <br><br>
-                    A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. The dynamics of a GRN is how gene expression in the network changes over time. Over a period of several years, our group has developed a complex MATLAB software package, called GRNmap, that uses ordinary differential equations to model the dynamics of a 21-transcription factor GRN from budding yeast, Saccharomyces cerevisiae. The program estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data, and then performs a forward simulation of the dynamics of the network. The large number of developers and time span of development led to a code base that is difficult to revise and adjust. We therefore refactored the script-based software with global variables into a function-based package that uses an object to carry relevant information from function to function. This modular approach allows for cleaner, less ambiguous code and increased maintainability. Further revisions to the model will also be easier to implement. In addition, we have added a simple user interface, removing the need for users to edit MATLAB code. Finally, after the code was refactored and tested, we used the MATLAB compiler to create an executable file that can be run on any Windows machine without the need of a MATLAB license, increasing the accessibility of our program.<br><br>
-                    To view this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/SACNAS%20poster.pdf'>here</a>.
-                </p>
+                               
+                                    <span style="font-weight:bold">Abstract</span><br>
+                                
+                                    We investigated the dynamics of a gene regulatory network controlling the cold shock response in budding yeast, Saccharomyces cerevisiae. The medium-scale network, derived from published genome-wide location data, consists of 21 transcription factors that regulate one another through 31 directed edges. The expression levels of the individual transcription factors were modeled using mass balance ordinary differential equations with a sigmoidal production function. Each equation includes a production rate, a degradation rate, weights that denote the magnitude and type of influence of the connected transcription factors (activation or repression), and a threshold of expression. The inverse problem of determining model parameters from observed data is our primary interest. We fit the differential equation model to published microarray data using a penalized nonlinear least squares approach. Model predictions fit the experimental data well, within the 95 % confidence interval. Tests of the model using randomized initial guesses and model-generated data also lend confidence to the fit. The results have revealed activation and repression relationships between the transcription factors. Sensitivity analysis indicates that the model is most sensitive to changes in the production rate parameters, weights, and thresholds of Yap1, Rox1, and Yap6, which form a densely connected core in the network. The modeling results newly suggest that Rap1, Fhl1, Msn4, Rph1, and Hsf1 play an important role in regulating the early response to cold shock in yeast. Our results demonstrate that estimation for a large number of parameters can be successfully performed for nonlinear dynamic gene regulatory networks using sparse, noisy microarray data.
+                                </p>
+                            </div><!-- panel-body -->
+                        </div><!-- panel-collapse collapse in-->
+                    </div><!-- panel panel-default -->
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="panel-title aboutHeaders">
+                                <a href="#presentations" data-toggle="collapse">
+                                    Presentations
+                                </a>
+                            </p>
+                        </div><!-- panel-heading -->
+                        <div id="presentations" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p class="abstract">
+                                    <span style="font-weight:bold"><a href="http://ccbs.uci.edu/scsb2015home">Southern California Systems Biology Conference</a></span><br><br>
+                                    January 31, 2015 <br>
+                                    GRNmap and GRNsight: Open Source Software for Dynamical Systems Modeling and Visualization of Medium-Scale Gene Regulatory Networks<br>
+                                    <span style="font-weight:bold">Kam D. Dahlquist</span>,  Ben G. Fitzpatrick, John David N. Dionisio, Nicole A. Anguiano, Juan S. Carrillo, Nicholas A. Rohacz, Katrina Sherbina, Britain J. Southwick, and Anindita Varshneya <br><br>
+                                Abstract: A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. Our group has developed a MATLAB software package, called GRNmap, that uses ordinary differential equations to model the dynamics of medium-scale GRNs. The program uses a penalized least squares approach to estimate production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on gene expression data, and then performs a forward simulation of the dynamics of the network. Parameters for a 21-gene network were optimized against DNA microarray data measuring the transcriptional response to cold shock in wild type and four transcription factor deletion strains of budding yeast, Saccharomyces cerevisiae. Model predictions fit experimental data well, within the 95% confidence interval. Open source code and a compiled executable that can run without a MATLAB license are available from <a href="http://kdahlquist.github.io/GRNmap/">http://kdahlquist.github.io/GRNmap/</a>. GRNsight is an open source web application for visualizing such models of gene regulatory networks. GRNsight accepts GRNmap- or user-generated spreadsheets containing an adjacency matrix representation of the GRN and automatically lays out the graph of the GRN model. The application colors the edges and adjusts their thicknesses based on the sign (activation or repression) and the strength (magnitude) of the regulatory relationship, respectively. Users can then modify the graph to define the best visual layout for the network. The GRNsight code and application are available from <a href="http://dondi.github.io/GRNsight/">http://dondi.github.io/GRNsight/index.html</a>. This work was partially supported by NSF award 0921038.
 
-                <h3>Presentations</h3>
-                <p class="abstract">
-                    <span style="font-weight:bold"><a href="http://ccbs.uci.edu/scsb2015home">Southern California Systems Biology Conference</a></span><br><br>
-                    January 31, 2015 <br>
-                    GRNmap and GRNsight: Open Source Software for Dynamical Systems Modeling and Visualization of Medium-Scale Gene Regulatory Networks<br>
-                    <span style="font-weight:bold">Kam D. Dahlquist</span>,  Ben G. Fitzpatrick, John David N. Dionisio, Nicole A. Anguiano, Juan S. Carrillo, Nicholas A. Rohacz, Katrina Sherbina, Britain J. Southwick, and Anindita Varshneya <br><br>
-                    Abstract: A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. Our group has developed a MATLAB software package, called GRNmap, that uses ordinary differential equations to model the dynamics of medium-scale GRNs. The program uses a penalized least squares approach to estimate production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on gene expression data, and then performs a forward simulation of the dynamics of the network. Parameters for a 21-gene network were optimized against DNA microarray data measuring the transcriptional response to cold shock in wild type and four transcription factor deletion strains of budding yeast, Saccharomyces cerevisiae. Model predictions fit experimental data well, within the 95% confidence interval. Open source code and a compiled executable that can run without a MATLAB license are available from <a href="http://kdahlquist.github.io/GRNmap/">http://kdahlquist.github.io/GRNmap/</a>. GRNsight is an open source web application for visualizing such models of gene regulatory networks. GRNsight accepts GRNmap- or user-generated spreadsheets containing an adjacency matrix representation of the GRN and automatically lays out the graph of the GRN model. The application colors the edges and adjusts their thicknesses based on the sign (activation or repression) and the strength (magnitude) of the regulatory relationship, respectively. Users can then modify the graph to define the best visual layout for the network. The GRNsight code and application are available from <a href="http://dondi.github.io/GRNsight/">http://dondi.github.io/GRNsight/index.html</a>. This work was partially supported by NSF award 0921038.
-
-
-                </p>
-                <div class="abstract">
-                        <iframe src="http://www.slideshare.net/slideshow/embed_code/44236648" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> 
-                        <div style="margin-bottom:5px"> 
-                            <a href="http://www.slideshare.net/GRNsight/dahlquist-so-calsysbio20140131" title="Dahlquist so calsysbio_20140131" target="_blank">Presentation Slides</a> from <a href="//www.slideshare.net/GRNsight" target="_blank">GRNsight</a>
-                        </div>
-                </div>
-
+                                </p>
+                                <div class="abstract">
+                                    <iframe src="http://www.slideshare.net/slideshow/embed_code/44236648" width="425" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> 
+                                    <div style="margin-bottom:5px"> 
+                                        <a href="http://www.slideshare.net/GRNsight/dahlquist-so-calsysbio20140131" title="Dahlquist so calsysbio_20140131" target="_blank">Presentation Slides</a> from <a href="//www.slideshare.net/GRNsight" target="_blank">GRNsight</a>
+                                    </div>
+                                </div>
+                            </div><!-- panel-body -->
+                        </div><!-- panel-collapse collapse-->
+                    </div><!-- panel panel-default -->
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="panel-title aboutHeaders">
+                                <a href="#posters" data-toggle="collapse">
+                                    Posters
+                                </a>
+                            </p>
+                        </div><!-- panel-heading -->
+                        <div id="posters" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <p class='abstract'>
+                                    <span style='font-weight:bold'>Loyola Marymount Undergraduate Research Symposium</span><br><br>
+                                    March 21, 2015 <br>
+                                    Software Refactoring and Usability Enhancement for GRNmap, a Gene Regulatory Network Modeling Application<br>
+                                    Juan Carrillo, Trixie Anne Roque <br>
+                                    Dr. Kam D. Dahlquist, Dr. Ben G. Fitzpatrick <br><br>
+                                    A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. The dynamics of a GRN is how gene expression in the network changes over time. Over a period of several years, our group has developed a complex MATLAB software package, called GRNmap, that uses ordinary differential equations to model the dynamics of medium-scale GRNs from budding yeast, Saccharomyces cerevisiae. The program estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data, and then performs a forward simulation of the dynamics of the network. The large number of developers and time span of development led to a code base that was difficult to revise and adjust. We therefore refactored the script-based software with global variables into a function-based package that uses an object to carry relevant information from function to function. This modular approach allows for cleaner, less ambiguous code and increased maintainability. We then used the MATLAB compiler to create an executable file that can be run on any Windows machine without the need of a MATLAB license, increasing the accessibility of our program. The GRNmap code and executable is available from <a href="http://kdahlquist.github.io/GRNmap/">http://kdahlquist.github.io/GRNmap/</a> under an open source license. We have now adopted a test-driven development framework that will speed debugging and ensure that future modifications to the code preserve correct functionality.<br><br>
+                                    To download this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/Carrillo_Roque_LMU_Symposium_2015.pptx?raw=true'>here</a>.
+                                </p>
+                                <br>
+                                
+                                <p class='abstract'>
+                                    <span style='font-weight:bold'>SACNAS  (Society for the Advancement of Chicanos and Native Americans in Science) National Conference</span> <br><br>
+                                    October 16-18, 2014<br>
+                                    Software Refactoring and Usability Enhancement for GRNmap, a Gene Regulatory Network Modeling Application <br>
+                                    Juan Carrillo, Katrina Sherbina <br>
+                                    Dr. Kam D. Dahlquist, Dr. Ben G. Fitzpatrick <br><br>
+                                    A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. The dynamics of a GRN is how gene expression in the network changes over time. Over a period of several years, our group has developed a complex MATLAB software package, called GRNmap, that uses ordinary differential equations to model the dynamics of a 21-transcription factor GRN from budding yeast, Saccharomyces cerevisiae. The program estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data, and then performs a forward simulation of the dynamics of the network. The large number of developers and time span of development led to a code base that is difficult to revise and adjust. We therefore refactored the script-based software with global variables into a function-based package that uses an object to carry relevant information from function to function. This modular approach allows for cleaner, less ambiguous code and increased maintainability. Further revisions to the model will also be easier to implement. In addition, we have added a simple user interface, removing the need for users to edit MATLAB code. Finally, after the code was refactored and tested, we used the MATLAB compiler to create an executable file that can be run on any Windows machine without the need of a MATLAB license, increasing the accessibility of our program.<br><br>
+                            To view this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/SACNAS%20poster.pdf'>here</a>.
+                                </p>
+                                
+                            </div><!-- panel-body -->
+                        </div><!-- panel-collapse collapse-->
+                    </div><!-- panel panel-default -->
+                    
+                </div><!-- panel-group -->
             </div>
             <div id='footer'>
                 <hr id='separate'>
