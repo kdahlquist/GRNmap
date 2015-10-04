@@ -13,12 +13,12 @@ function GRNstruct = graphs(GRNstruct)
 %               added print command to save the final running opt diag
 %               graph
 %
-global log2FC Strain time
+global log2FC Strain expression_timepoints
 
 directory = GRNstruct.directory;
 
 tmin = 0;
-tmax = max(time);
+tmax = max(expression_timepoints);
 figHandles  = findobj('Type','figure');
 offset      = size(figHandles,1);
 
@@ -37,7 +37,7 @@ end
 for qq = 1:length(Strain)
     td  = log2FC(qq).data(1,:);
     % Remove the if line and its corresponding end
-    if GRNstruct.controlParams.makeGraphs
+    if GRNstruct.controlParams.make_graphs
         % Delete these two statements, maybe. They are not
         % being used.
         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
@@ -45,9 +45,9 @@ for qq = 1:length(Strain)
         for ii=1:GRNstruct.GRNParams.num_genes
             figure(ii+offset),hold on
             plot(td,log2FC(qq).data(ii+1,:),[plot_colors(qq) 'o'],'LineWidth',3),axis([tmin tmax -3 3]);
-            plot(log2FC(qq).simtime,log2FC(qq).model(ii,:),[plot_colors(qq) '-']);
+            plot(log2FC(qq).simulation_timepoints,log2FC(qq).model(ii,:),[plot_colors(qq) '-']);
             legend(Targets,'Location','NorthEastOutside');
-            title(GRNstruct.labels.TX1{1+(ii),2},'FontSize',16)
+            title(GRNstruct.labels.TX1{1+(ii),1},'FontSize',16)
             xlabel('Time (minutes)','FontSize',16)
             ylabel('Expression (log2 fold change)','FontSize',16)
         end
@@ -62,6 +62,6 @@ end
 
 for kk = 1:GRNstruct.GRNParams.num_genes
     figure(kk + offset)
-    filename = [directory GRNstruct.labels.TX0{1+kk,2}];
+    filename = [directory GRNstruct.labels.TX0{1+kk,1}];
     print(filename,'-djpeg')
 end
