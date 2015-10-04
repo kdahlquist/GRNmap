@@ -15,7 +15,7 @@ function GRNstruct = readInputSheet( GRNstruct )
 %               added functionality to compute the minimum possible least
 %                     squares error GRNstruct.GRNParams.minLSE
 %
-global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat time
+global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat expression_timepoints
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -90,18 +90,18 @@ GRNstruct.GRNParams.num_edges        = sum(GRNstruct.GRNParams.adjacency_mat(:))
 GRNstruct.GRNParams.num_genes        = size(GRNstruct.GRNParams.adjacency_mat,2);
 GRNstruct.GRNParams.active           = 1:GRNstruct.GRNParams.num_genes;
 GRNstruct.GRNParams.alpha            = alpha;
-GRNstruct.GRNParams.time             = time;
-GRNstruct.GRNParams.num_times        = length(time);
+GRNstruct.GRNParams.expression_timepoints             = expression_timepoints;
+GRNstruct.GRNParams.num_times        = length(expression_timepoints);
 
 % This sets the control parameters
-GRNstruct.controlParams.simtime        = simtime;
+GRNstruct.controlParams.simulation_timepoints        = simulation_timepoints;
 GRNstruct.controlParams.kk_max         = kk_max;
 GRNstruct.controlParams.MaxIter        = MaxIter;
 GRNstruct.controlParams.MaxFunEval     = MaxFunEval;
 GRNstruct.controlParams.TolFun         = TolFun;
 GRNstruct.controlParams.TolX           = TolX;
-GRNstruct.controlParams.estimateParams = estimateParams;
-GRNstruct.controlParams.makeGraphs     = makeGraphs;
+GRNstruct.controlParams.estimate_params = estimate_params;
+GRNstruct.controlParams.make_graphs     = make_graphs;
 GRNstruct.controlParams.Sigmoid        = Sigmoid;
 GRNstruct.controlParams.fix_b          = fix_b;
 GRNstruct.controlParams.fix_P          = fix_P;
@@ -142,11 +142,11 @@ for i = 1:length(Strain)
     % The first row of the GRNstruct.microData data indicating all of the replicate timepoints
     reps = (GRNstruct.microData(i).data(1,:));
     % Finds the indices in reps that correspond to each timepoint in tspan.
-    for jj = 1:length(time)
-        log2FC(i).t(jj).indx = find(reps == time(jj));
-        log2FC(i).t(jj).t    = time(jj); 
+    for jj = 1:length(expression_timepoints)
+        log2FC(i).t(jj).indx = find(reps == expression_timepoints(jj));
+        log2FC(i).t(jj).t    = expression_timepoints(jj); 
         GRNstruct.microData(i).t(jj).indx = log2FC(i).t(jj).indx;
-        GRNstruct.microData(i).t(jj).t    =  time(jj);
+        GRNstruct.microData(i).t(jj).t    =  expression_timepoints(jj);
     end
     % GRNstruct.microData data for all strains
     % GRNstruct.microData(i).data  = (GRNstruct.microData(i).d(2:end,:));
