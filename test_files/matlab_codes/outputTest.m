@@ -78,13 +78,15 @@ classdef outputTest < matlab.unittest.TestCase
             global GRNstruct
            
             saveOutputToTemp;
+            previous_dir = pwd;
+            cd(tempdir);
             
 %           Test if graphs are made only when they're supposed to
             if GRNstruct.controlParams.make_graphs
-                testCase.assertEqual(exist('ACE2.jpg', 'file'), 2);
-                testCase.assertEqual(exist('AFT2.jpg', 'file'), 2);
-                testCase.assertEqual(exist('CIN5.jpg', 'file'), 2);
-                testCase.assertEqual(exist('FHL1.jpg', 'file'), 2);
+                testCase.verifyEqual(exist('ACE2.jpg', 'file'), 2);
+                testCase.verifyEqual(exist('AFT2.jpg', 'file'), 2);
+                testCase.verifyEqual(exist('CIN5.jpg', 'file'), 2);
+                testCase.verifyEqual(exist('FHL1.jpg', 'file'), 2);
             else
 %               This test will fail since we are calling the graphs
 %               routine. Calling just the graphs routine when make_graphs == 0 yields 
@@ -93,22 +95,30 @@ classdef outputTest < matlab.unittest.TestCase
 %               to graphs.m and leave the saving of optimization
 %               diagnostics outside since we would want that figure
 %               every time we run the program
-                testCase.assertEqual(exist('ACE2.jpg', 'file'), 0);
-                testCase.assertEqual(exist('AFT2.jpg', 'file'), 0);
-                testCase.assertEqual(exist('CIN5.jpg', 'file'), 0);
-                testCase.assertEqual(exist('FHL1.jpg', 'file'), 0);
+                testCase.verifyEqual(exist('ACE2.jpg', 'file'), 0);
+                testCase.verifyEqual(exist('AFT2.jpg', 'file'), 0);
+                testCase.verifyEqual(exist('CIN5.jpg', 'file'), 0);
+                testCase.verifyEqual(exist('FHL1.jpg', 'file'), 0);
+            end
+                     
+            % Test if there is an optimization diagnostics image
+            if GRNstruct.GRNOutput.counter >= 100
+                testCase.verifyEqual(exist('optimization_diagnostic.jpg', 'file'), 2);
+            else
+                testCase.verifyEqual(exist('optimization_diagnostic.jpg', 'file'), 0);
             end
             
-%           Test if there is an optimization diagnostics image
-            testCase.assertEqual(exist('optimization_diagnostic.jpg', 'file'), 2);
-            
-%             delete([GRNstruct.directory '*.jpg']);
+            delete *.jpg
+            cd(previous_dir);
         end
          
         function testMatFileExistsWhenEstimateParamsZero (testCase)
             global GRNstruct
-            
-            testCase.assertEqual (exist ([GRNstruct.directory GRNstruct.inputFile '_output.mat'], 'file'), 2);
+            previous_dir = pwd;
+            cd(tempdir);
+            [~,file_name] = fileparts(GRNstruct.inputFile);
+            testCase.verifyEqual(exist([tempdir file_name '_output.mat'], 'file'), 2);
+            cd(previous_dir);
         end
     end
     

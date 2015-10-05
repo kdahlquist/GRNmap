@@ -54,12 +54,6 @@ for qq = 1:length(Strain)
     end
 end
 
-if GRNstruct.GRNOutput.counter > 100
-    figure(1)
-    filename = [directory 'optimization_diagnostic'];
-    print(filename,'-djpeg')
-end
-
 for kk = 1:GRNstruct.GRNParams.num_genes
     figure(kk + offset)
     filename = [directory GRNstruct.labels.TX0{1+kk,1}];

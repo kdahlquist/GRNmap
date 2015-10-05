@@ -157,6 +157,13 @@ for ii = 1:num_genes
     end
 end
 
+fprintf('\n\n\n\n\n\nThe counter is %i\n\n\n\n\n\n',GRNstruct.GRNOutput.counter);
+if GRNstruct.GRNOutput.counter >= 100
+    figure(1)
+    filename = [directory 'optimization_diagnostic'];
+    print(filename,'-djpeg')
+end
+
 xlswrite(output_file,outputDiag,'optimization_diagnostics');
 
 GRNstruct.GRNOutput.name          = GRNstruct.inputFile;
