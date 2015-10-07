@@ -1,43 +1,5 @@
 classdef outputTest < matlab.unittest.TestCase
     
-%   Will have to implement setup and teardown for cleaner tests instead of
-%   having a global GRNstruct. Setup and teardown functions don't work just
-%   yet; work on this will continue in the fall.
-    properties
-        OriginalPath
-    end
-    
-    methods (TestMethodSetup)
-        function addTestFilePath (testCase)
-           testCase.OriginalPath = path;
-           p = fileparts(pwd);
-           addpath(fullfile(p, 'sixteen_tests'));
-        end
-        
-        % Finds the temporary folder in the system. We need to create a
-        % temporary file to check if output sheets are saved
-        function addTempFolder (testCase)
-            testCase.temporary_folder = tempdir;
-            [~, testCase.filename, testCase.extension] = fileparts (GRNstruct.inputFile);
-            testCase.temporary_file = [tempname, testCase.extension];
-        end
-
-    end
-    
-    methods (TestMethodTeardown)
-        
-        function deletePlots (testCase)
-           if ~isempty(dir('*.jpg'))
-              delete ('ACE2.jpg', 'AFT2.jpg', 'CIN5.jpg', 'FHL1.jpg', 'optimization_diagnostic.jpg');
-           end
-        end
-        
-        function restorePath (testCase)
-           path(testCase.OriginalPath); 
-        end
-        
-    end
-    
     methods (Test)
                 
 %       Test for finding out if worksheets exist
@@ -97,72 +59,67 @@ classdef outputTest < matlab.unittest.TestCase
         function testSimTime(testCase)
             global GRNstruct
             for strain_index = 1:length(GRNstruct.microData)
-                if GRNstruct.controlParams.simtime(1) == 0
-                    testCase.assertEqual(round(GRNstruct.controlParams.simtime, 6), round((0:0.1:2), 6));
+                if GRNstruct.controlParams.simulation_timepoints(1) == 0
+                    testCase.assertEqual(round(GRNstruct.controlParams.simulation_timepoints, 6), round((0:0.1:2), 6));
                 end
                 % What if there is no timepoint = 0?
                 
             end
         end
-         
-%       Test if deleted gene actually got deleted
-%         function testDeletion(testCase)
-%             global GRNstruct
-%             for strain_index = 1:length(GRNstruct.microData)
-%                 [expression] = xlsread(GRNstruct.output_file, [GRNstruct.microData(strain_index).Strain '_log2_optimized_expression']);
-%                 testCase.assertEqual((all(expression(:, 2:end))), true);
-%                  disp(expression);
-%             end
-%         end
         
 %       This function will need to be separated eventually into its own file
         function testLSE (testCase)
             global GRNstruct
             GRNstruct = lse(GRNstruct); 
             
-            
         end
                 
-        function testGraphs (testCase)
+        function testGraphsExist (testCase)
             global GRNstruct
-            
-            GRNstruct = graphs(GRNstruct);
+           
+            saveOutputToTemp;
+            previous_dir = pwd;
+            cd(tempdir);
             
 %           Test if graphs are made only when they're supposed to
-            if GRNstruct.controlParams.makeGraphs
-                testCase.assertEqual(exist('ACE2.jpg', 'file'), 2);
-                testCase.assertEqual(exist('AFT2.jpg', 'file'), 2);
-                testCase.assertEqual(exist('CIN5.jpg', 'file'), 2);
-                testCase.assertEqual(exist('FHL1.jpg', 'file'), 2);
+            if GRNstruct.controlParams.make_graphs
+                testCase.verifyEqual(exist('ACE2.jpg', 'file'), 2);
+                testCase.verifyEqual(exist('AFT2.jpg', 'file'), 2);
+                testCase.verifyEqual(exist('CIN5.jpg', 'file'), 2);
+                testCase.verifyEqual(exist('FHL1.jpg', 'file'), 2);
             else
 %               This test will fail since we are calling the graphs
-%               routine. Calling just the graphs routine when makeGraphs == 0 yields 
+%               routine. Calling just the graphs routine when make_graphs == 0 yields 
 %               graphs with blank pages. We will need to call the graphs
 %               function from the output routine but move the if statement
 %               to graphs.m and leave the saving of optimization
 %               diagnostics outside since we would want that figure
 %               every time we run the program
-                testCase.assertEqual(exist('ACE2.jpg', 'file'), 0);
-                testCase.assertEqual(exist('AFT2.jpg', 'file'), 0);
-                testCase.assertEqual(exist('CIN5.jpg', 'file'), 0);
-                testCase.assertEqual(exist('FHL1.jpg', 'file'), 0);
+                testCase.verifyEqual(exist('ACE2.jpg', 'file'), 0);
+                testCase.verifyEqual(exist('AFT2.jpg', 'file'), 0);
+                testCase.verifyEqual(exist('CIN5.jpg', 'file'), 0);
+                testCase.verifyEqual(exist('FHL1.jpg', 'file'), 0);
+            end
+                     
+            % Test if there is an optimization diagnostics image
+            if GRNstruct.GRNOutput.counter >= 100
+                testCase.verifyEqual(exist('optimization_diagnostic.jpg', 'file'), 2);
+            else
+                testCase.verifyEqual(exist('optimization_diagnostic.jpg', 'file'), 0);
             end
             
-%           Test if there is an optimization diagnostics image
-            testCase.assertEqual(exist('optimization_diagnostic.jpg', 'file'), 2);
+            delete *.jpg
+            cd(previous_dir);
         end
-        
-%       Will need to make a test to see what happens when we estimate param
-%         function testEstimation (testCase)
-%             global GRNstruct
-%             
-%             if GRNstruct.controlParams.estimateParams
-%                
-%             else
-%                 
-%             end
-%             
-%         end
+         
+        function testMatFileExistsWhenEstimateParamsZero (testCase)
+            global GRNstruct
+            previous_dir = pwd;
+            cd(tempdir);
+            [~,file_name] = fileparts(GRNstruct.inputFile);
+            testCase.verifyEqual(exist([tempdir file_name '_output.mat'], 'file'), 2);
+            cd(previous_dir);
+        end
     end
     
 end
