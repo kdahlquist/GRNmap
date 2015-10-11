@@ -1,4 +1,4 @@
-function L = general_least_squares_error(theta)
+function [L, strain_x1] = general_least_squares_error(theta)
 % USAGE  L = general_least_squares_error(theta)
 % 
 % Purpose: compute fit criterion for minimization purposes
@@ -58,6 +58,9 @@ SSE      = zeros(num_genes,length(Strain));
 % % Call for all deletion strains simultaneously
 
 nData = 0;
+% This needs to be outputed to create the graph.
+strain_x1 = [];
+
 for qq = 1:length(Strain)
     
     deletion = log2FC(qq).deletion;
@@ -79,6 +82,8 @@ for qq = 1:length(Strain)
     else
         x1 = x;
     end
+    
+    strain_x1 = [strain_x1;x1];
     
     for iT = 1:length(expression_timepoints)
         for iF =  1:length(log2FC(qq).t(iT).indx)

@@ -66,7 +66,7 @@ for index = 1:length(Strain)
     GRNstruct.microData(index).Strain = currentStrain;
     log2FC(index).data = GRNstruct.microData(index).data;
     
-    genes = GRNstruct.labels.TX1(2:end,2);
+    genes = GRNstruct.labels.TX1(2:end,1);
     
     if strcmp(currentStrain,'wt')
         deletedRow = 0;

@@ -147,8 +147,7 @@ function saveOutputToTemp
 
     xlswrite(output_file,outputDiag,'optimization_diagnostics');
     
-    fprintf('\n\n\n\n\n\nThe counter is %i\n\n\n\n\n\n',GRNstruct.GRNOutput.counter);
-    if GRNstruct.GRNOutput.counter >= 100
+    if GRNstruct.controlParams.estimate_params
         figure(1)
         filename = [directory 'optimization_diagnostic'];
         print(filename,'-djpeg')
