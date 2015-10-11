@@ -157,11 +157,12 @@ for ii = 1:num_genes
     end
 end
 
-if GRNstruct.GRNOutput.counter >= 100
+if GRNstruct.controlParams.estimate_params
     figure(1)
     filename = [directory 'optimization_diagnostic'];
     print(filename,'-djpeg')
 end
+
 
 xlswrite(output_file,outputDiag,'optimization_diagnostics');
 

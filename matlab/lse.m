@@ -82,7 +82,7 @@ if estimate_params
     % This performs the optimization
     for kk = 1:kk_max
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
-        estimated_guesses = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
+        [estimated_guesses, strain_x1] = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
         GRNstruct.GRNOutput.lse_final = general_least_squares_error(estimated_guesses);
         GRNstruct.GRNOutput.lse_out = lse_out;
         % lse_1   = L;
@@ -93,6 +93,16 @@ if estimate_params
 else
     GRNstruct.GRNOutput.reg_out = NaN;
     GRNstruct.GRNOutput.counter = 0;
+end
+
+% Make optimization diagnostic ih the counter is
+% less than 100.
+if counter < 100 && estimate_params
+    for i = 1:length(Strain)
+        x1 = strain_x1(i,:);
+        figure(1),subplot(211),plot(estimated_guesses,'d'), title(['counter = ' num2str(counter)])
+        subplot(212),plot(log2FC(i).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
+    end
 end
 
 % This is the forward simulation, which is performed for every single strain
