@@ -28,10 +28,10 @@ for file_index          = 1:2:num_files
 %   Begin running tests
     disp ('-------------------------------------------------------------');
     fprintf ('Running tests on %s\n\n',GRNstruct.inputFile);
-    results   = runtests({'readInputSheetTest','outputTest'})
+    results   = runtests({'readInputSheetTest','outputTest'});
+    close all
 end
 
-delete([GRNstruct.directory '*.jpg']);
 % runtests({'parameterEstimationTest'})
 
 % Since @bengfitzpatrick has only verified the outputs for the file written below, I
