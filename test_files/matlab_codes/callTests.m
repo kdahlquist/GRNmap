@@ -32,7 +32,6 @@ for file_index          = 1:2:num_files
     close all
 end
 
-delete([GRNstruct.directory '*.jpg']);
 % runtests({'parameterEstimationTest'})
 
 % Since @bengfitzpatrick has only verified the outputs for the file written below, I

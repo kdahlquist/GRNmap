@@ -120,6 +120,187 @@ classdef outputTest < matlab.unittest.TestCase
             testCase.verifyEqual(exist([tempdir file_name '_output.mat'], 'file'), 2);
             cd(previous_dir);
         end
+        
+        function testOutputThresholdCorrect (testCase)
+            global GRNstruct
+            if ~GRNstruct.controlParams.fix_b
+                [expected_output_data, ~] = xlsread (GRNstruct.output_file, 'optimized_threshold_b');
+                previous_dir = pwd;
+                cd (tempdir);
+                [actual_output_data, ~] = xlsread (GRNstruct.output_file, 'optimized_threshold_b');
+                testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6));
+                cd (previous_dir);
+            end
+        end
+        
+        function testOutputThresholdNamesCorrect (testCase)
+            global GRNstruct
+            if ~GRNstruct.controlParams.fix_b
+                [~, expected_output_names] = xlsread (GRNstruct.output_file, 'optimized_threshold_b');
+                previous_dir = pwd;
+                cd (tempdir);
+                [~, actual_output_names] = xlsread (GRNstruct.output_file, 'optimized_threshold_b');
+                testCase.verifyEqual (actual_output_names, expected_output_names);
+                cd (previous_dir);
+            end
+        end
+        
+        function testOutputWildTypeExpressionCorrect (testCase)
+            global GRNstruct
+            
+            [expected_output_data, ~] = xlsread (GRNstruct.output_file, 'wt_log2_optimized_expression');
+            previous_dir = pwd;
+            cd (tempdir);
+            [actual_output_data, ~] = xlsread (GRNstruct.output_file, 'wt_log2_optimized_expression');
+            testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6));
+            cd (previous_dir);
+        end
+        
+        function testOutputWildTypeExpressionNamesCorrect (testCase)
+            global GRNstruct
+            
+            [~, expected_output_names] = xlsread (GRNstruct.output_file, 'wt_log2_optimized_expression');
+            previous_dir = pwd;
+            cd (tempdir);
+            [~, actual_output_names] = xlsread (GRNstruct.output_file, 'wt_log2_optimized_expression');
+            testCase.verifyEqual (actual_output_names, expected_output_names);
+            cd (previous_dir);
+        end
+        
+        function testOutputCin5ExpressionCorrect (testCase)
+            global GRNstruct
+            
+            [expected_output_data, ~] = xlsread (GRNstruct.output_file, 'dcin5_log2_optimized_expression');
+            previous_dir = pwd;
+            cd (tempdir);
+            [actual_output_data, ~] = xlsread (GRNstruct.output_file, 'dcin5_log2_optimized_expression');
+            testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6));
+            cd (previous_dir);
+        end
+        
+        function testOutputCin5ExpressionNamesCorrect (testCase)
+            global GRNstruct
+            
+            [~, expected_output_names] = xlsread (GRNstruct.output_file, 'dcin5_log2_optimized_expression');
+            previous_dir = pwd;
+            cd (tempdir);
+            [~, actual_output_names] = xlsread (GRNstruct.output_file, 'dcin5_log2_optimized_expression');
+            testCase.verifyEqual (actual_output_names, expected_output_names);
+            cd (previous_dir);
+        end
+        
+        function testOutputWildTypeSigmasCorrect (testCase)
+            global GRNstruct
+            
+            [expected_output_data, ~] = xlsread (GRNstruct.output_file, 'wt_sigmas');
+            previous_dir = pwd;
+            cd (tempdir);
+            [actual_output_data, ~] = xlsread (GRNstruct.output_file, 'wt_sigmas');
+            testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6));
+            cd (previous_dir);
+        end
+        
+        function testOutputWildTypeSigmasNamesCorrect (testCase)
+            global GRNstruct
+            
+            [~, expected_output_names] = xlsread (GRNstruct.output_file, 'wt_sigmas');
+            previous_dir = pwd;
+            cd (tempdir);
+            [~, actual_output_names] = xlsread (GRNstruct.output_file, 'wt_sigmas');
+            testCase.verifyEqual (actual_output_names, expected_output_names);
+            cd (previous_dir);
+        end
+        
+        function testOutputCin5SigmasCorrect (testCase)
+            global GRNstruct
+            
+            [expected_output_data, ~] = xlsread (GRNstruct.output_file, 'dcin5_sigmas');
+            previous_dir = pwd;
+            cd (tempdir);
+            [actual_output_data, ~] = xlsread (GRNstruct.output_file, 'dcin5_sigmas');
+            testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6));
+            cd (previous_dir);
+        end
+        
+        function testOutputCin5SigmasNamesCorrect (testCase)
+            global GRNstruct
+            
+            [~, expected_output_names] = xlsread (GRNstruct.output_file, 'dcin5_sigmas');
+            previous_dir = pwd;
+            cd (tempdir);
+            [~, actual_output_names] = xlsread (GRNstruct.output_file, 'dcin5_sigmas');
+            testCase.verifyEqual (actual_output_names, expected_output_names);
+            cd (previous_dir);
+        end
+        
+        function testOutputOptimizedProductionRatesCorrect (testCase)
+            global GRNstruct
+            if ~GRNstruct.controlParams.fix_P
+                [expected_output_data, ~] = xlsread (GRNstruct.output_file, 'optimized_production_rates');
+                previous_dir = pwd;
+                cd (tempdir);
+                [actual_output_data, ~] = xlsread (GRNstruct.output_file, 'optimized_production_rates');
+                testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6));
+                cd (previous_dir);
+            end
+        end
+        
+        function testOutputOptimizedProductionRatesNamesCorrect (testCase)
+            global GRNstruct
+            if ~GRNstruct.controlParams.fix_P
+                [~, expected_output_names] = xlsread (GRNstruct.output_file, 'optimized_production_rates');
+                previous_dir = pwd;
+                cd (tempdir);
+                [~, actual_output_names] = xlsread (GRNstruct.output_file, 'optimized_production_rates');
+                testCase.verifyEqual (actual_output_names, expected_output_names);
+                cd (previous_dir);
+            end
+        end
+        
+        function testOutputNetworkOptimizedWeightsCorrect (testCase)
+           global GRNstruct
+            
+            [expected_output_data, ~] = xlsread (GRNstruct.output_file, 'network_optimized_weights');
+            previous_dir = pwd;
+            cd (tempdir);
+            [actual_output_data, ~] = xlsread (GRNstruct.output_file, 'network_optimized_weights');
+            testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6));
+            cd (previous_dir);
+        end
+        
+        function testOutputNetworkOptimizedWeightsNamesCorrect (testCase)
+           global GRNstruct
+            
+            [~, expected_output_names] = xlsread (GRNstruct.output_file, 'network_optimized_weights');
+            previous_dir = pwd;
+            cd (tempdir);
+            [~, actual_output_names] = xlsread (GRNstruct.output_file, 'network_optimized_weights');
+            testCase.verifyEqual (actual_output_names, expected_output_names);
+            cd (previous_dir);
+        end
+        
+         function testOutputOptimizationDiagnostics (testCase)
+           global GRNstruct
+            
+            [expected_output_data, ~] = xlsread (GRNstruct.output_file, 'optimization_diagnostics');
+            previous_dir = pwd;
+            cd (tempdir);
+            [actual_output_data, ~] = xlsread (GRNstruct.output_file, 'optimization_diagnostics');
+            testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6));
+            cd (previous_dir);
+         end
+         
+         function testOutputOptimizationDiagnosticsTextCorrect (testCase)
+           global GRNstruct
+            
+            [~, expected_output_names] = xlsread (GRNstruct.output_file, 'optimization_diagnostics');
+            previous_dir = pwd;
+            cd (tempdir);
+            [~, actual_output_names] = xlsread (GRNstruct.output_file, 'optimization_diagnostics');
+            testCase.verifyEqual (actual_output_names, expected_output_names);
+            cd (previous_dir);
+         end
+        
     end
     
 end
