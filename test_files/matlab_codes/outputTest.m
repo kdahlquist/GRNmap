@@ -77,9 +77,13 @@ classdef outputTest < matlab.unittest.TestCase
         function testGraphsExist (testCase)
             global GRNstruct
            
-            saveOutputToTemp;
             previous_dir = pwd;
+            previous_file = GRNstruct.inputFile;
+            GRNstruct.directory = tempdir;
+            GRNstruct.inputFile = GRNstruct.test_file;
             cd(tempdir);
+            
+            output (GRNstruct);
             
 %           Test if graphs are made only when they're supposed to
             if GRNstruct.controlParams.make_graphs
@@ -109,6 +113,8 @@ classdef outputTest < matlab.unittest.TestCase
             end
             
             delete *.jpg
+            GRNstruct.directory = previous_dir;
+            GRNstruct.inputFile = previous_file;
             cd(previous_dir);
         end
          
