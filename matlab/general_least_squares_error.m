@@ -80,17 +80,21 @@ for qq = 1:length(Strain)
         x1 = x;
     end
     
+    nSE = 0;
+    errMatStrain = 0;
     for iT = 1:length(time)
         for iF =  1:length(log2FC(qq).t(iT).indx)
-            errormat = errormat+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
+            errMatStrain = errMatStrain+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
+            nSE      = nSE + 1;
         end
     end
+    errormat = errormat + errMatStrain;
     
-    SSE(:,qq) = errormat;
+    SSE(:,qq) = errormat/nSE;
     
     % Output graph every 100 iterations.
     if rem(counter,100) ==  0
-        figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter)])
+        figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter) ', LSE = ', num2str(sum(errormat(:))/nData)])
         subplot(212),plot(log2FC(qq).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
     end
     

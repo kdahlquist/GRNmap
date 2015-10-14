@@ -95,6 +95,6 @@ for iAlpha = 1:nalist
 
 end
 
-LCurveFile = [p n 'LCurve']
+LCurveFile = [p n 'LCurve'];
 
 eval(['save ' LCurveFile 'LCurveData'])

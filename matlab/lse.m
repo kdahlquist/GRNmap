@@ -76,8 +76,9 @@ end
 counter = 0;
 GRNstruct.GRNOutput.lse_0   = general_least_squares_error(initial_guesses);
 GRNstruct.GRNOutput.lse_out = lse_out;
-estimated_guesses = initial_guesses;
-
+estimated_guesses           = initial_guesses;
+GRNstruct.GRNOutput.reg_out = penalty_out;
+GRNstruct.GRNOutput.counter = counter;
 if estimateParams
     % This performs the optimization
     for kk = 1:kk_max
