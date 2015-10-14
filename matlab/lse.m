@@ -15,7 +15,7 @@ function GRNstruct = lse(GRNstruct)
 %               general_least_squares_error
 %               final line of code added
 %
-global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain wtmat b is_forced      
+global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Model Strain wtmat b is_forced      
 global SSE 
 % We store relevant values and matrices from
 % the struct into local variables
@@ -114,7 +114,7 @@ for qq = 1:length(Strain)
     % always the same as simulation_timepoints.
     % model is the expression of each gene in the network at each of those
     % time points in t.
-    if Sigmoid
+    if strcmpi(Model, 'Sigmoid')
         [~,model] = ode45(@general_network_dynamics_sigmoid,simulation_timepoints,x0);
     else
         [~,model] = ode45(@general_network_dynamics_mm,simulation_timepoints,x0);

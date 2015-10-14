@@ -15,7 +15,7 @@ function GRNstruct = output(GRNstruct)
 %               modified output sheet order to place sigma sheets together
 %               created output sheet optimization_diagnostics
 %
-global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate Sigmoid Strain expression_timepoints wts
+global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate Model Strain expression_timepoints wts
 
 if GRNstruct.controlParams.make_graphs
     GRNstruct = graphs(GRNstruct);
@@ -104,7 +104,7 @@ end
 % This data is already copied over from the original input sheet.
 % xlswrite(output_file,outputnet,'out_network_weights');
 
-if Sigmoid
+if strcmpi(Model, 'Sigmoid')
     outputpro{1,2} = 'threshold_b';
     if ~fix_b
         for ii = 1:num_forced

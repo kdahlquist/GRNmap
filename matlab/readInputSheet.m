@@ -15,7 +15,7 @@ function GRNstruct = readInputSheet( GRNstruct )
 %               added functionality to compute the minimum possible least
 %                     squares error GRNstruct.GRNParams.minLSE
 %
-global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Sigmoid Strain wtmat expression_timepoints
+global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate Model Strain wtmat expression_timepoints
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -103,13 +103,13 @@ GRNstruct.controlParams.TolFun                       = TolFun;
 GRNstruct.controlParams.TolX                         = TolX;
 GRNstruct.controlParams.estimate_params              = estimate_params;
 GRNstruct.controlParams.make_graphs                  = make_graphs;
-GRNstruct.controlParams.Sigmoid                      = Sigmoid;
+GRNstruct.controlParams.Model                      = Model;
 GRNstruct.controlParams.fix_b                        = fix_b;
 GRNstruct.controlParams.fix_P                        = fix_P;
 
 % Populate the global variables
 
-if GRNstruct.controlParams.Sigmoid
+if strcmpi(GRNstruct.controlParams.Model, 'Sigmoid')
     [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'threshold_b');
     b = GRNstruct.GRNParams.b;
 else

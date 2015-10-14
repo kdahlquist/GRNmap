@@ -19,7 +19,7 @@ function [L, strain_x1] = general_least_squares_error(theta)
 %               corrected an error in the way the penalty is computed
 %               for the production rates -- sum(p^2) replaced (sum of p)^2
 %
-global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain expression_timepoints wts 
+global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Model Strain expression_timepoints wts 
 global SSE   
 
 counter = counter + 1;
@@ -70,7 +70,7 @@ for qq = 1:length(Strain)
     
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
-    if Sigmoid == 1
+    if strcmpi(Model, 'Sigmoid')
         % The ~ was previously a t, which was previously unused
         [~,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
     else
