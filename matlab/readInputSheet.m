@@ -103,7 +103,7 @@ GRNstruct.controlParams.TolFun                       = TolFun;
 GRNstruct.controlParams.TolX                         = TolX;
 GRNstruct.controlParams.estimate_params              = estimate_params;
 GRNstruct.controlParams.make_graphs                  = make_graphs;
-GRNstruct.controlParams.Model                      = Model;
+GRNstruct.controlParams.Model                        = Model;
 GRNstruct.controlParams.fix_b                        = fix_b;
 GRNstruct.controlParams.fix_P                        = fix_P;
 

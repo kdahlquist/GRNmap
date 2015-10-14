@@ -17,8 +17,8 @@ classdef readInputSheetTest < matlab.unittest.TestCase
             
 %           Check to see if input worksheets exist.  
             sheetNames = {'production_rates', 'degradation_rates', 'wt_log2_expression', 'dcin5_log2_expression', 'network','network_weights', 'optimization_parameters', 'threshold_b', 'wt_log2_optimized_expression', 'optimized_production_rates', 'optimized_threshold_b', 'network_optimized_weights'};
-            testCase.assertEqual(any(ismember(GRNstruct.sheets, sheetNames)), true); 
-            testCase.assertEqual(any(ismember(GRNstruct.output_sheets, sheetNames)), true); 
+            testCase.assertTrue(any(ismember(GRNstruct.sheets, sheetNames))); 
+            testCase.assertTrue(any(ismember(GRNstruct.output_sheets, sheetNames))); 
            
 %           Test for comparing input with corresponding output sheets.
             sheet_counter = 1;
@@ -51,15 +51,47 @@ classdef readInputSheetTest < matlab.unittest.TestCase
 %       Test if number of genes is correct
         function testNumGenes(testCase)
              global GRNstruct
-             
              testCase.assertEqual(GRNstruct.GRNParams.num_genes, 4);
         end
         
         function testModelSigmoidOrMichaelisMenten (testCase)
            global GRNstruct
-           
-%            testCase.assertEqual (~isa(GRNstruct.controlParams.Model, 'numeric'), 1);
-        testCase.assertTrue(strcmpi(GRNstruct.controlParams.Model, 'MM') | strcmpi(GRNstruct.controlParams.Model, 'Sigmoid'));
+            testCase.assertTrue(strcmpi(GRNstruct.controlParams.Model, 'MM') | strcmpi(GRNstruct.controlParams.Model, 'Sigmoid'));
+        end
+        
+        function testModelNotNumeric (testCase)
+           global GRNstruct
+           testCase.assertTrue (~isa(GRNstruct.controlParams.Model, 'numeric'));
+        end
+        
+        function testModelIsInOptimizationParameters (testCase)
+            global GRNstruct
+            [~, expected_parameters] = xlsread (GRNstruct.inputFile, 'optimization_parameters');
+            testCase.assertTrue(any(ismember('Model', expected_parameters)));
+        end
+        
+        function testSimulationTimepointIsInOptimizationParameters (testCase)
+            global GRNstruct
+            [~, expected_parameters] = xlsread (GRNstruct.inputFile, 'optimization_parameters');
+            testCase.assertTrue(any(ismember('simulation_timepoints', expected_parameters)));
+        end
+        
+        function testExpressionTimepointIsInOptimizationParameters (testCase)
+            global GRNstruct
+            [~, expected_parameters] = xlsread (GRNstruct.inputFile, 'optimization_parameters');
+            testCase.assertTrue(any(ismember('expression_timepoints', expected_parameters)));
+        end
+        
+        function testMakeGraphsIsInOptimizationParameters (testCase)
+            global GRNstruct
+            [~, expected_parameters] = xlsread (GRNstruct.inputFile, 'optimization_parameters');
+            testCase.assertTrue(any(ismember('make_graphs', expected_parameters)));
+        end
+        
+        function testEstimateParamsIsInOptimizationParameters (testCase)
+            global GRNstruct
+            [~, expected_parameters] = xlsread (GRNstruct.inputFile, 'optimization_parameters');
+            testCase.assertTrue(any(ismember('estimate_params', expected_parameters)));
         end
     end
     
