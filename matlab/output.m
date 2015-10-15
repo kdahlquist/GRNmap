@@ -176,4 +176,4 @@ GRNstruct.GRNOutput.active        = GRNstruct.GRNParams.active;
 GRNstruct.GRNOutput.tspan         = expression_timepoints;
 GRNstruct.GRNOutput.alpha         = alpha;
 
-eval(['save(''' output_mat ''')']);
+save(output_mat);
