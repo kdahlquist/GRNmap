@@ -66,5 +66,3 @@ end
 % end
 
 % runtests({'parameterEstimationTest'})
-
-deleteAllTempsCreated;
