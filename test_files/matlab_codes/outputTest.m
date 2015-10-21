@@ -18,28 +18,6 @@ classdef outputTest < matlab.unittest.TestCase
                 end
                 sheet_counter = sheet_counter + 1;
             end
-
-%           Check if necessary worksheets are outputted
-            testCase.assertEqual(any(ismember('network_optimized_weights', GRNstruct.output_sheets)), true);
-            testCase.assertEqual(any(ismember('optimization_diagnostics', GRNstruct.output_sheets)), true);
-            
-            for strain_index = 1:length(GRNstruct.microData)
-                testCase.assertEqual(any(ismember([GRNstruct.microData(strain_index).Strain '_log2_optimized_expression'], GRNstruct.output_sheets)), true);
-                testCase.assertEqual(any(ismember([GRNstruct.microData(strain_index).Strain '_sigmas'], GRNstruct.output_sheets)), true);
-            end
-            
-            if ~GRNstruct.controlParams.fix_b
-               testCase.assertEqual(any(ismember('optimized_threshold_b', GRNstruct.output_sheets)), true); 
-            else
-               testCase.assertEqual(not(ismember('optimized_threshold_b', GRNstruct.output_sheets)), true);
-            end
-            
-            if ~GRNstruct.controlParams.fix_P
-               testCase.assertEqual(any(ismember('optimized_production_rates', GRNstruct.output_sheets)), true); 
-            else
-               testCase.assertEqual(not(ismember('optimized_production_rates', GRNstruct.output_sheets)), true);
-            end
-                        
         end
         
 %       Test for finding out if the correct numbers are outputted
@@ -68,12 +46,8 @@ classdef outputTest < matlab.unittest.TestCase
         end
         
 %       This function will need to be separated eventually into its own file
-        function testLSE (testCase)
-            global GRNstruct
-            GRNstruct = lse(GRNstruct); 
-            
-        end
-                
+        
+                        
         function testGraphsExist (testCase)
             global GRNstruct
            
@@ -92,13 +66,6 @@ classdef outputTest < matlab.unittest.TestCase
                 testCase.verifyEqual(exist('CIN5.jpg', 'file'), 2);
                 testCase.verifyEqual(exist('FHL1.jpg', 'file'), 2);
             else
-%               This test will fail since we are calling the graphs
-%               routine. Calling just the graphs routine when make_graphs == 0 yields 
-%               graphs with blank pages. We will need to call the graphs
-%               function from the output routine but move the if statement
-%               to graphs.m and leave the saving of optimization
-%               diagnostics outside since we would want that figure
-%               every time we run the program
                 testCase.verifyEqual(exist('ACE2.jpg', 'file'), 0);
                 testCase.verifyEqual(exist('AFT2.jpg', 'file'), 0);
                 testCase.verifyEqual(exist('CIN5.jpg', 'file'), 0);
@@ -112,12 +79,82 @@ classdef outputTest < matlab.unittest.TestCase
                 testCase.verifyEqual(exist('optimization_diagnostic.jpg', 'file'), 0);
             end
             
-            delete *.jpg
             GRNstruct.directory = previous_dir;
             GRNstruct.inputFile = previous_file;
             cd(previous_dir);
         end
          
+        function testNetworkWeightExists (testCase)
+            global GRNstruct
+            previous_dir = pwd;
+            cd(tempdir);
+            [~, GRNstruct.output_sheets] = xlsfinfo (GRNstruct.output_file);
+            testCase.verifyTrue(any(ismember('network_optimized_weights', GRNstruct.output_sheets)));
+            cd(previous_dir);
+        end
+        
+        function testDiagnosticExists (testCase)
+            global GRNstruct
+            previous_dir = pwd;
+            cd(tempdir);
+            [~, GRNstruct.output_sheets] = xlsfinfo (GRNstruct.output_file);
+            testCase.verifyTrue(any(ismember('optimization_diagnostics', GRNstruct.output_sheets)));
+            cd(previous_dir);
+        end
+        
+        function testoptimizedExpressionExists (testCase)
+            global GRNstruct
+            previous_dir = pwd;
+            cd(tempdir);
+            [~, GRNstruct.output_sheets] = xlsfinfo (GRNstruct.output_file);
+            
+            for strain_index = 1:length(GRNstruct.microData)
+                testCase.verifyTrue(any(ismember([GRNstruct.microData(strain_index).Strain '_log2_optimized_expression'], GRNstruct.output_sheets)));
+            end
+            cd(previous_dir);
+        end
+        
+        function testSigmaExists (testCase)
+            global GRNstruct
+            previous_dir = pwd;
+            cd(tempdir);
+            [~, GRNstruct.output_sheets] = xlsfinfo (GRNstruct.output_file);
+            
+            for strain_index = 1:length(GRNstruct.microData)
+                testCase.verifyTrue(any(ismember([GRNstruct.microData(strain_index).Strain '_sigmas'], GRNstruct.output_sheets)));
+            end
+            cd(previous_dir);
+        end
+        
+        function testOptimizedThresholdExists (testCase)
+            global GRNstruct
+            previous_dir = pwd;
+            cd(tempdir);
+            [~, GRNstruct.output_sheets] = xlsfinfo (GRNstruct.output_file);
+            
+            if ~GRNstruct.controlParams.fix_b
+               testCase.verifyTrue(any(ismember('optimized_threshold_b', GRNstruct.output_sheets))); 
+            else
+               testCase.verifyTrue(not(ismember('optimized_threshold_b', GRNstruct.output_sheets)));
+            end
+            cd(previous_dir);
+        end
+            
+        function testOptimizedProductionRateExists (testCase)
+            global GRNstruct
+            previous_dir = pwd;
+            cd(tempdir);
+            [~, GRNstruct.output_sheets] = xlsfinfo (GRNstruct.output_file);
+            if ~GRNstruct.controlParams.fix_P
+               testCase.verifyTrue(any(ismember('optimized_production_rates', GRNstruct.output_sheets))); 
+            else
+               testCase.verifyTrue(not(ismember('optimized_production_rates', GRNstruct.output_sheets)));
+            end
+            
+            GRNstruct.directory = previous_dir;
+            cd(previous_dir);
+        end
+        
         function testMatFileExistsWhenEstimateParamsZero (testCase)
             global GRNstruct
             previous_dir = pwd;
@@ -304,9 +341,10 @@ classdef outputTest < matlab.unittest.TestCase
             cd (tempdir);
             [~, actual_output_names] = xlsread (GRNstruct.output_file, 'optimization_diagnostics');
             testCase.verifyEqual (actual_output_names, expected_output_names);
+            
             cd (previous_dir);
-         end
+         end  
         
     end
-    
+       
 end
