@@ -38,11 +38,11 @@ for file_index          = 1:2:num_files
     readInputResults = runtests({'readInputSheetTest'})
     runGRNstructSimulation;
     outputResults = runtests({'outputTest'})
+    deleteAllTempsCreated;
     close all
     
 end
 
-deleteAllTempsCreated;
 
 % % Iterate through estimation tests. The data in these files are outdated 
 % % (e.g. production_rates sheet does not exist when it is supposed to).
@@ -59,8 +59,12 @@ deleteAllTempsCreated;
 % %   Begin running tests
 %     disp ('-------------------------------------------------------------');
 %     fprintf ('Running tests on %s\n\n',GRNstruct.inputFile);
-%     results   = runtests({'readInputSheetTest','outputTest'})
+%     readInputResults = runtests({'readInputSheetTest'})
+%     runGRNstructSimulation;
+%     outputResults = runtests({'outputTest'})    
 %     close all
 % end
 
 % runtests({'parameterEstimationTest'})
+
+deleteAllTempsCreated;

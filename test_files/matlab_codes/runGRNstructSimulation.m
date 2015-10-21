@@ -1,4 +1,4 @@
-function testLSE (testCase)
+function runGRNstructSimulation
     global GRNstruct
     GRNstruct = lse(GRNstruct); 
             
