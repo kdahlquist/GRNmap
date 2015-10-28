@@ -15,7 +15,7 @@ function GRNstruct = lse(GRNstruct)
 %               general_least_squares_error
 %               final line of code added
 %
-global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain wtmat b is_forced      
+global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Model Strain wtmat b is_forced      
 global SSE 
 % We store relevant values and matrices from
 % the struct into local variables
@@ -24,9 +24,9 @@ num_edges      = GRNstruct.GRNParams.num_edges;
 num_genes      = GRNstruct.GRNParams.num_genes;
 num_forced     = GRNstruct.GRNParams.num_forced;
 is_forced      = GRNstruct.GRNParams.is_forced;
-estimateParams = GRNstruct.controlParams.estimateParams;
+estimate_params = GRNstruct.controlParams.estimate_params;
 kk_max         = GRNstruct.controlParams.kk_max;
-simtime        = GRNstruct.controlParams.simtime;
+simulation_timepoints        = GRNstruct.controlParams.simulation_timepoints;
 x0             = GRNstruct.GRNParams.x0;
 MaxIter        = GRNstruct.controlParams.MaxIter;
 MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
@@ -76,14 +76,20 @@ end
 counter = 0;
 GRNstruct.GRNOutput.lse_0   = general_least_squares_error(initial_guesses);
 GRNstruct.GRNOutput.lse_out = lse_out;
+<<<<<<< HEAD
 estimated_guesses           = initial_guesses;
 GRNstruct.GRNOutput.reg_out = penalty_out;
 GRNstruct.GRNOutput.counter = counter;
 if estimateParams
+=======
+estimated_guesses = initial_guesses;
+
+if estimate_params
+>>>>>>> beta
     % This performs the optimization
     for kk = 1:kk_max
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
-        estimated_guesses = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
+        [estimated_guesses, strain_x1] = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
         GRNstruct.GRNOutput.lse_final = general_least_squares_error(estimated_guesses);
         GRNstruct.GRNOutput.lse_out = lse_out;
         % lse_1   = L;
@@ -91,26 +97,39 @@ if estimateParams
     end
     GRNstruct.GRNOutput.reg_out = penalty_out;
     GRNstruct.GRNOutput.counter = counter;
+else
+    GRNstruct.GRNOutput.reg_out = NaN;
+    GRNstruct.GRNOutput.counter = 0;
+end
+
+% Make optimization diagnostic ih the counter is
+% less than 100.
+if counter < 100 && estimate_params
+    for i = 1:length(Strain)
+        x1 = strain_x1(i,:);
+        figure(1),subplot(211),plot(estimated_guesses,'d'), title(['counter = ' num2str(counter)])
+        subplot(212),plot(log2FC(i).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
+    end
 end
 
 % This is the forward simulation, which is performed for every single strain
 % The simulation gives the gene expression at each of the time 
-% points specified by simtime
+% points specified by simulation_timepoints
 for qq = 1:length(Strain)
     deletion = GRNstruct.microData(qq).deletion;
     % t is the time points for which we did the forward simulation. It's
-    % always the same as simtime.
+    % always the same as simulation_timepoints.
     % model is the expression of each gene in the network at each of those
     % time points in t.
-    if Sigmoid
-        [~,model] = ode45(@general_network_dynamics_sigmoid,simtime,x0);
+    if strcmpi(Model, 'Sigmoid')
+        [~,model] = ode45(@general_network_dynamics_sigmoid,simulation_timepoints,x0);
     else
-        [~,model] = ode45(@general_network_dynamics_mm,simtime,x0);
+        [~,model] = ode45(@general_network_dynamics_mm,simulation_timepoints,x0);
     end
     log2FC(qq).model               = (log2(model))';
-    log2FC(qq).simtime             = simtime';
+    log2FC(qq).simulation_timepoints             = simulation_timepoints';
     GRNstruct.GRNModel(qq).model   = log2FC(qq).model;
-    GRNstruct.GRNModel(qq).simtime = log2FC(qq).simtime;
+    GRNstruct.GRNModel(qq).simulation_timepoints = log2FC(qq).simulation_timepoints;
 end
 
 

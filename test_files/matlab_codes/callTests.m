@@ -4,32 +4,65 @@ clc
 global GRNstruct
 
 % Adds necessary directories to search path
-test_files_path = which('callTests.m');
-
-% Not very good looking right now. Will think of some way to clean this up.
-test_codes_path = fileparts(test_files_path);
-general_path    = fileparts(test_codes_path);
+test_files_path         = which('callTests.m');
+test_codes_path         = fileparts(test_files_path);
+general_path            = fileparts(test_codes_path);
 addpath(fullfile(fileparts(general_path), 'matlab\'));
-sixteen_tests_path   = fullfile(general_path, 'sixteen_tests\');
-GRNstruct.directory = sixteen_tests_path;
+
+sixteen_tests_path      = fullfile(general_path, 'sixteen_tests\');
+estimation_tests_path   = fullfile(general_path, 'estimation_tests\');
+GRNstruct.directory     = sixteen_tests_path;
 addpath(sixteen_tests_path);
+addpath(estimation_tests_path);
+
+GRNstruct.tempdir       = tempdir;
 
 % Count the number of files in the test_files folder
-d = dir([sixteen_tests_path, '*.xlsx']);
-num_files = length(d(not([d.isdir])));
+d                       = dir([sixteen_tests_path, '*.xlsx']);
+num_files               = length(d(not([d.isdir])));
 
-% Iterate through the test files
-for file_index = 1:2:num_files
-%     if isempty(strfind (d(file_index).name, '_output'))
-      GRNstruct.inputFile = d(file_index).name;
-%     end
+starting_dir = pwd;
+
+% Iterate through the 16 test files
+for file_index          = 1:2:num_files
+    cd(starting_dir);
+    GRNstruct.inputFile = d(file_index).name;
+    if not(isequal(strfind(GRNstruct.inputFile, '_output'), []))
+       GRNstruct.inputFile = d(file_index + 1).name;
+       file_index = file_index + 1;
+    end
 
 %   Begin running tests
-    results = runtests({'readInputSheetTest',  'outputTest'});
+    disp ('-------------------------------------------------------------');
+    fprintf ('Running tests on %s\n\n',GRNstruct.inputFile);
+    readInputResults = runtests({'readInputSheetTest'})
+    runGRNstructSimulation;
+    outputResults = runtests({'outputTest'})
+    deleteAllTempsCreated;
+    close all
+    
 end
 
-% Since @bengfitzpatrick has only verified the outputs for the file written below, I
-% will use this file to draft tests and then apply them to the sixteen
-% cases.
-% GRNstruct.inputFile = '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-0_graph.xlsx';
-% results = runtests({'readInputSheetTest', 'outputTest'});
+
+% % Iterate through estimation tests. The data in these files are outdated 
+% % (e.g. production_rates sheet does not exist when it is supposed to).
+% bgf_estimation_tests_dir = dir([estimation_tests_path, '*.xlsx']);
+% estimation_tests_num_files = length(bgf_estimation_tests_dir(not([bgf_estimation_tests_dir.isdir])));
+% for file_index          = 1:2:estimation_tests_num_files
+%     cd(starting_dir);
+%     GRNstruct.inputFile = bgf_estimation_tests_dir(file_index).name;
+%     while not(isequal(strfind(GRNstruct.inputFile, '_output'), []))
+%        GRNstruct.inputFile = bgf_estimation_tests_dir(file_index + 1).name;
+%        file_index = file_index + 1;
+%     end
+% 
+% %   Begin running tests
+%     disp ('-------------------------------------------------------------');
+%     fprintf ('Running tests on %s\n\n',GRNstruct.inputFile);
+%     readInputResults = runtests({'readInputSheetTest'})
+%     runGRNstructSimulation;
+%     outputResults = runtests({'outputTest'})    
+%     close all
+% end
+
+% runtests({'parameterEstimationTest'})
