@@ -83,15 +83,9 @@ for qq = 1:length(Strain)
         x1 = x;
     end
     
-<<<<<<< HEAD
     nSE = 0;
     errMatStrain = 0;
-    for iT = 1:length(time)
-=======
-    strain_x1 = [strain_x1;x1];
-    
-    for iT = 1:length(expression_timepoints)
->>>>>>> beta
+    for iT = 1:length(expression_timepoints)    
         for iF =  1:length(log2FC(qq).t(iT).indx)
             errMatStrain = errMatStrain+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
             nSE      = nSE + 1;
