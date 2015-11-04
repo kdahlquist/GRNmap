@@ -21,6 +21,8 @@ if GRNstruct.controlParams.make_graphs
     GRNstruct = graphs(GRNstruct);
 end
 
+warning('off','MATLAB:xlswrite:AddSheet');
+
 directory                   = GRNstruct.directory; 
 positions                   = GRNstruct.GRNParams.positions;
 num_edges                   = GRNstruct.GRNParams.num_edges;
