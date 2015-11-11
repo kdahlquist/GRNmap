@@ -83,6 +83,8 @@ for qq = 1:length(Strain)
         x1 = x;
     end
     
+    strain_x1 = [strain_x1;x1];
+    
     nSE = 0;
     errMatStrain = 0;
     for iT = 1:length(expression_timepoints)    
