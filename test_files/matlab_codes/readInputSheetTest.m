@@ -30,20 +30,6 @@ classdef readInputSheetTest < matlab.unittest.TestCase
 %           Check to see if input worksheets exist.  
             sheetNames = {'production_rates', 'degradation_rates', 'wt_log2_expression', 'dcin5_log2_expression', 'network','network_weights', 'optimization_parameters', 'threshold_b', 'wt_log2_optimized_expression', 'optimized_production_rates', 'optimized_threshold_b', 'network_optimized_weights'};
             testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, sheetNames))); 
-           
-%           Test for comparing input with corresponding output sheets.
-%             sheet_counter = 1;
-%             for index = 1:length(GRNstruct.sheets)
-%                 if strcmp(GRNstruct.output_sheets(index), GRNstruct.sheets(sheet_counter))
-%                     [input_num, input_txt] = xlsread(GRNstruct.inputFile, sheet_counter);
-%                     [output_num, output_txt] = xlsread(GRNstruct.output_file, sheet_counter);
-%                     testCase.assertEqual(input_num, output_num);
-%                     testCase.assertEqual(input_txt, output_txt);
-%                 end
-%                 sheet_counter = sheet_counter + 1;
-%             end
-            
-            
         end
         
 %       Test to see if timepoints match
@@ -61,12 +47,12 @@ classdef readInputSheetTest < matlab.unittest.TestCase
              testCase.assertEqual(testCase.GRNstruct.GRNParams.num_genes, 4);
         end
         
-        function testModelSigmoidOrMichaelisMenten (testCase)
-            testCase.assertTrue(strcmpi(testCase.GRNstruct.controlParams.Model, 'MM') | strcmpi(testCase.GRNstruct.controlParams.Model, 'Sigmoid'));
+        function testProductionFunctionIsSigmoidOrMichaelisMenten (testCase)
+            testCase.assertTrue(strcmpi(testCase.GRNstruct.controlParams.production_function, 'MM') | strcmpi(testCase.GRNstruct.controlParams.production_function, 'Sigmoid'));
         end
         
         function testProductionFunctionNotNumeric (testCase)
-           testCase.assertTrue (~isa(testCase.GRNstruct.controlParams.Model, 'numeric'));
+           testCase.assertTrue (~isa(testCase.GRNstruct.controlParams.production_function, 'numeric'));
         end
         
         function testProductionFunctionIsInOptimizationParameters (testCase)
@@ -90,7 +76,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
         end
         
         function testLCurve (testCase)
-            testCase.assertTrue(any(ismember(testCase.GRNstruct_params, 'L-curve')));
+            testCase.assertTrue(any(ismember(testCase.GRNstruct_params, 'L_curve')));
         end
         
         function testLCurveValueIsValid (testCase)
