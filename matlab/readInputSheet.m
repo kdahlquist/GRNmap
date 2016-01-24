@@ -173,10 +173,6 @@ for i = 1:length(Strain)
         GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum(delDataAvg(:).^2);
 
     end
-
-    %log2FC(i).deletion              = Deletion(i);
-    log2FC(i).strain                = Strain(i);
-    %GRNstruct.microData(i).deletion = Deletion(i);
 end
 
 GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE/GRNstruct.GRNParams.nData;

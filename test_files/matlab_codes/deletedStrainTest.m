@@ -4,6 +4,12 @@ classdef deletedStrainTest < matlab.unittest.TestCase
         test_dir = '..\deleted_strains_tests\'
     end
     
+    methods(TestClassSetup)
+        function addPath(testCase)
+            addpath([pwd '/../../matlab']);
+        end
+    end
+    
     methods (Test)
         function testIdentifyDeletedStrainLowerCaseToLowerCase(testCase)
             GRNstruct.inputFile = [testCase.test_dir 'strain_names_lower_case_in_optim_lower_case_in_expression_test_sheet'];
@@ -76,5 +82,13 @@ classdef deletedStrainTest < matlab.unittest.TestCase
             testCase.assertEqual(GRNstruct.microData(1).deletion, 0);
             testCase.assertEqual(GRNstruct.microData(2).deletion, 3);    
         end
+        
+        function testDeletionParameterRowIgnored(testCase)
+            GRNstruct.inputFile = [testCase.test_dir 'deletion_parameter_ignored_test_sheet'];
+            GRNstruct = readInputSheet(GRNstruct);            
+            testCase.assertEqual(GRNstruct.microData(1).deletion, 0);
+            testCase.assertEqual(GRNstruct.microData(2).deletion, 3);
+        end
+        
     end
 end
