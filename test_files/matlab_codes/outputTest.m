@@ -320,10 +320,20 @@ classdef outputTest < matlab.unittest.TestCase
             cd (tempdir);
             [~, actual_output_names] = xlsread (testCase.GRNstruct.output_file, 'optimization_diagnostics');
             testCase.verifyEqual (actual_output_names, expected_output_names);
-            
             cd (previous_dir);
-         end  
-        
+         end
+         
+         function testOutpuOptimizationDiagnosticsNotSSE (testCase)
+            expected_text_values = {'wt MSE', 'dcin5 MSE'};
+            wrong_text_values = {'wt SSE', 'dcin5 SSE'};
+            previous_dir = pwd;
+            cd (tempdir);
+            [~, actual_text_values] = xlsread (testCase.GRNstruct.output_file, 'optimization_diagnostics');
+            testCase.verifyTrue(any(ismember(expected_text_values, actual_text_values)));
+            testCase.verifyFalse(any(ismember(wrong_text_values, actual_text_values)));
+            cd (previous_dir);
+         end
+         
     end
        
 end
