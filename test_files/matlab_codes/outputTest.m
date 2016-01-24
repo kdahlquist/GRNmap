@@ -323,16 +323,18 @@ classdef outputTest < matlab.unittest.TestCase
             cd (previous_dir);
          end
          
-         function testOutpuOptimizationDiagnosticsNotSSE (testCase)
+         function testOutputOptimizationDiagnosticsNotSSE (testCase)
             expected_text_values = {'wt MSE', 'dcin5 MSE'};
-            wrong_text_values = {'wt SSE', 'dcin5 SSE'};
             previous_dir = pwd;
             cd (tempdir);
             [~, actual_text_values] = xlsread (testCase.GRNstruct.output_file, 'optimization_diagnostics');
             testCase.verifyTrue(any(ismember(expected_text_values, actual_text_values)));
-            testCase.verifyFalse(any(ismember(wrong_text_values, actual_text_values)));
             cd (previous_dir);
          end
+         
+%          function testLastLCurveOutput (testCase)
+%              
+%          end
          
     end
        
