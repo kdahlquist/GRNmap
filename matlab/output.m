@@ -148,7 +148,7 @@ outputDiag{7,1} = 'Gene';
 
 for qq = 1:length(Strain);
     
-    strainString = [Strain{qq} ' SSE'];
+    strainString = [Strain{qq} ' MSE'];
     outputDiag{7,1+qq} = strainString;
 end
 

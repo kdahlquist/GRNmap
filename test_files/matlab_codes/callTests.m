@@ -5,16 +5,13 @@ global GRNstruct
 
 % Adds necessary directories to search path
 test_files_path         = which('callTests.m');
-test_codes_path         = fileparts(test_files_path);
-general_path            = fileparts(test_codes_path);
-addpath(fullfile(fileparts(general_path), 'matlab\'));
+sixteen_tests_path      = [pwd '\..\sixteen_tests\'];
 
-sixteen_tests_path      = fullfile(general_path, 'sixteen_tests\');
-estimation_tests_path   = fullfile(general_path, 'estimation_tests\');
-GRNstruct.directory     = sixteen_tests_path;
+addpath([pwd '\..\..\matlab\']);
+addpath([pwd '\..\estimation_tests\']);
 addpath(sixteen_tests_path);
-addpath(estimation_tests_path);
 
+GRNstruct.directory     = sixteen_tests_path;
 GRNstruct.tempdir       = tempdir;
 
 % Count the number of files in the test_files folder
