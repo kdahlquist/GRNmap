@@ -90,5 +90,12 @@ classdef deletedStrainTest < matlab.unittest.TestCase
             testCase.assertEqual(GRNstruct.microData(2).deletion, 3);
         end
         
+        function testLeadingOrTrailingWhiteSpaceDoesNotMatter(testCase)
+            GRNstruct.inputFile = [testCase.test_dir 'white_space_test_sheet'];
+            GRNstruct = readInputSheet(GRNstruct);            
+            testCase.assertEqual(GRNstruct.microData(1).deletion, 0);
+            testCase.assertEqual(GRNstruct.microData(2).deletion, 3);
+        end
+        
     end
 end

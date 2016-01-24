@@ -20,6 +20,8 @@ num_files               = length(d(not([d.isdir])));
 
 starting_dir = pwd;
 
+% Juancho's tests first
+deletionResults = runtests('deletedStrainTest.m')
 % Iterate through the 16 test files
 for file_index          = 1:2:num_files
     cd(starting_dir);
@@ -39,6 +41,8 @@ for file_index          = 1:2:num_files
     close all
     
 end
+
+
 
 
 % % Iterate through estimation tests. The data in these files are outdated 

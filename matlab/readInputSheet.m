@@ -61,12 +61,12 @@ end
 % This reads the microarray data for each strain.
 
 for index = 1:length(Strain)
-    currentStrain = lower(Strain{index});
+    currentStrain = strtrim(lower(Strain{index}));
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).Strain = currentStrain;
     log2FC(index).data = GRNstruct.microData(index).data;
     
-    genes = lower(GRNstruct.labels.TX1(2:end,1));
+    genes = strtrim(lower(GRNstruct.labels.TX1(2:end,1)));
     
     if strcmp(currentStrain,'wt')
         deletedRow = 0;
