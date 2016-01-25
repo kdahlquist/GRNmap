@@ -17,8 +17,7 @@ GRNstruct.tempdir       = tempdir;
 % Count the number of files in the test_files folder
 d                       = dir([sixteen_tests_path, '*.xlsx']);
 num_files               = length(d(not([d.isdir])));
-
-starting_dir = pwd;
+starting_dir            = pwd;
 
 % Juancho's tests first
 deletionResults = runtests('deletedStrainTest.m')
@@ -42,8 +41,7 @@ for file_index          = 1:2:num_files
     
 end
 
-
-
+LCurveResults = runtests('LCurveTest');
 
 % % Iterate through estimation tests. The data in these files are outdated 
 % % (e.g. production_rates sheet does not exist when it is supposed to).
