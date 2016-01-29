@@ -95,7 +95,8 @@ for qq = 1:length(Strain)
     end
     errormat = errormat + errMatStrain;
     
-    SSE(:,qq) = errormat/nSE;
+%     SSE(:,qq) = errormat/nSE;
+    SSE(:,qq) = errMatStrain/nSE;
     
     % Output graph every 100 iterations.
     if rem(counter,100) ==  0
