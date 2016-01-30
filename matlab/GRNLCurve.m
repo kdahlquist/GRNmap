@@ -1,8 +1,8 @@
 function GRNstruct = GRNLCurve(GRNstruct)
 
 [p,n,ext] = fileparts(GRNstruct.inputFile);
-% alphaList = [0.8,0.5,0.2,0.1,0.08,0.05,0.02,0.01,0.008,0.005,0.002,0.001,0.0008,0.0005,0.0002,0.0001];
-alphaList = [0.1,0.01,0.001,0.0001]';
+alphaList = [0.8,0.5,0.2,0.1,0.08,0.05,0.02,0.01,0.008,0.005,0.002,0.001,0.0008,0.0005,0.0002,0.0001];
+% alphaList = [0.1,0.01,0.001,0.0001]';
 
 nalist    = length(alphaList);
 
