@@ -1,7 +1,7 @@
 classdef simulationTimepointsTest < matlab.unittest.TestCase        
 
     properties
-        test_dir = [pwd '\..\perturbation_tests\to_be_reformatted\math_post_L-curve\']
+        test_dir = [pwd '\..\perturbation_tests\to_be_reformatted\math_L-curve\']
         GRNstruct
     end
     
@@ -22,8 +22,7 @@ classdef simulationTimepointsTest < matlab.unittest.TestCase
                     timepoints = [timepoints testCase.GRNstruct.microData(sheet).t(repetitions).indx];
                 end
                 missing_cols = setdiff(expected_timepoints, timepoints);
-                
-                testCase.verifyEqual(missing_cols, []);
+                testCase.verifyEqual(missing_cols, zeros(1,0));
             end
         end
         
