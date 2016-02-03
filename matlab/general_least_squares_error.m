@@ -1,4 +1,4 @@
-function L = general_least_squares_error(theta)
+function [L, strain_x1] = general_least_squares_error(theta)
 % USAGE  L = general_least_squares_error(theta)
 % 
 % Purpose: compute fit criterion for minimization purposes
@@ -19,7 +19,7 @@ function L = general_least_squares_error(theta)
 %               corrected an error in the way the penalty is computed
 %               for the production rates -- sum(p^2) replaced (sum of p)^2
 %
-global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate Sigmoid Strain time wts 
+global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain expression_timepoints wts 
 global SSE   
 
 counter = counter + 1;
@@ -44,11 +44,11 @@ end
 % Initial concentrations
 x0 = ones(num_genes,1);
 
-if time(1) > 1e-6
-    tspan1 = [0;time(:)];
+if expression_timepoints(1) > 1e-6
+    tspan1 = [0;expression_timepoints(:)];
     addzero = 1;
 else
-    tspan1 = time;
+    tspan1 = expression_timepoints;
     addzero = 0;
 end
 
@@ -58,6 +58,9 @@ SSE      = zeros(num_genes,length(Strain));
 % % Call for all deletion strains simultaneously
 
 nData = 0;
+% This needs to be outputed to create the graph.
+strain_x1 = [];
+
 for qq = 1:length(Strain)
     
     deletion = log2FC(qq).deletion;
@@ -67,7 +70,7 @@ for qq = 1:length(Strain)
     
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
-    if Sigmoid == 1
+    if strcmpi(production_function, 'Sigmoid')
         % The ~ was previously a t, which was previously unused
         [~,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
     else
@@ -80,17 +83,24 @@ for qq = 1:length(Strain)
         x1 = x;
     end
     
-    for iT = 1:length(time)
+    strain_x1 = [strain_x1;x1];
+    
+    nSE = 0;
+    errMatStrain = 0;
+    for iT = 1:length(expression_timepoints)    
         for iF =  1:length(log2FC(qq).t(iT).indx)
-            errormat = errormat+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
+            errMatStrain = errMatStrain+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
+            nSE      = nSE + 1;
         end
     end
+    errormat = errormat + errMatStrain;
     
-    SSE(:,qq) = errormat;
+%     SSE(:,qq) = errormat/nSE;
+    SSE(:,qq) = errMatStrain/nSE;
     
     % Output graph every 100 iterations.
     if rem(counter,100) ==  0
-        figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter)])
+        figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter) ', LSE = ', num2str(sum(errormat(:))/nData)])
         subplot(212),plot(log2FC(qq).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
     end
     
