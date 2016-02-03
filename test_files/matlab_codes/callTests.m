@@ -15,9 +15,27 @@ GRNstruct.directory     = sixteen_tests_path;
 GRNstruct.tempdir       = tempdir;
 
 % Count the number of files in the test_files folder
-d                       = dir([sixteen_tests_path, '*.xlsx']);
-num_files               = length(d(not([d.isdir])));
+sixteen_tests           = dir([sixteen_tests_path, '*.xlsx']);
+num_files               = length(sixteen_tests(not([sixteen_tests.isdir])));
 starting_dir            = pwd;
+
+data_samples             = dir([[pwd '/../data_samples/'], '*.xlsx']);
+num_data_samples         = length(data_samples);
+
+math_L_curve_tests       = dir([[pwd '/../perturbation_tests/to_be_reformatted/math_L-curve/'], '*.xlsx']);
+num_math_L_curve_files   = length(math_L_curve_test);
+
+seaver_L_curve_tests     = dir([[pwd '/../perturbation_tests/to_be_reformatted/seaver_L-curve/'], '*.xlsx']);
+num_seaver_L_curve_files = length(seaver_L_curve_files);
+
+estimation_tests         = dir([[pwd '/../estimation_tests/'], '*.xlsx']);
+num_estimation_tests     = length(estimation_tests);
+
+forward_tests            = dir([[pwd '/../forward_tests/'], '*.xlsx']);
+num_forward_tests        = length(forward_tests);
+
+all_tests_struct         = [data_samples; math_L_curve_tests; seaver_L_curve_tests; estimation_tests; forward_tests];
+num_all_tests            = length(all_tests_struct);
 
 % Juancho's tests first
 deletionResults = runtests('deletedStrainTest.m')
