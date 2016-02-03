@@ -70,6 +70,7 @@ end
 cd(starting_dir)
 
 for file = 1:length(all_files)
+    GRNstruct = struct();
    GRNstruct.inputFile = all_files{file}{1};
    runtests('readInputSheetTest');
 end

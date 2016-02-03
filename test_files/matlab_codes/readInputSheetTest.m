@@ -9,7 +9,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
         
         function readInputSheet(testCase)
             global GRNstruct
-            
+
             GRNstruct.test_file = GRNstruct.inputFile;
             [~, GRNstruct.sheets] = xlsfinfo(GRNstruct.test_file);
             disp(GRNstruct.inputFile)
@@ -44,9 +44,9 @@ classdef readInputSheetTest < matlab.unittest.TestCase
         end
         
 %       Test if number of genes is correct
-        function testNumGenes(testCase)
-             testCase.assertEqual(testCase.GRNstruct.GRNParams.num_genes, 4);
-        end
+        %function testNumGenes(testCase)
+        %     testCase.assertEqual(testCase.GRNstruct.GRNParams.num_genes, 4);
+        %end
         
         function testProductionFunctionIsSigmoidOrMichaelisMenten (testCase)
             testCase.assertTrue(strcmpi(testCase.GRNstruct.controlParams.production_function, 'MM') | strcmpi(testCase.GRNstruct.controlParams.production_function, 'Sigmoid'));
