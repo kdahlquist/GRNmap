@@ -18,33 +18,70 @@ GRNstruct.tempdir       = tempdir;
 sixteen_tests           = dir([sixteen_tests_path, '*.xlsx']);
 num_files               = length(sixteen_tests(not([sixteen_tests.isdir])));
 starting_dir            = pwd;
+all_files = [];
 
 data_samples             = dir([[pwd '/../data_samples/'], '*.xlsx']);
-num_data_samples         = length(data_samples);
+cd([pwd '/../data_samples/'])
+for k = find(not([data_samples.isdir]))
+    all_files{end + 1} = {which(data_samples(k).name)};
+end
+cd(starting_dir)
+
+deleted_strains_tests    = dir([[pwd '/../deleted_strains_tests/'], '*.xlsx']);
+cd([pwd '/../deleted_strains_tests/'])
+for k = find(not([deleted_strains_tests.isdir]))
+    all_files{end + 1} = {which(deleted_strains_tests(k).name)};
+end
+cd(starting_dir)
+
+MSE_tests    = dir([[pwd '/../MSE_tests/'], '*.xlsx']);
+cd([pwd '/../MSE_tests/'])
+for k = find(not([MSE_tests.isdir]))
+    all_files{end + 1} = {which(MSE_tests(k).name)};
+end
+cd(starting_dir)
 
 math_L_curve_tests       = dir([[pwd '/../perturbation_tests/to_be_reformatted/math_L-curve/'], '*.xlsx']);
-num_math_L_curve_files   = length(math_L_curve_test);
+cd([pwd '/../perturbation_tests/to_be_reformatted/math_L-curve/'])
+for k = find(not([math_L_curve_tests.isdir]))
+    all_files{end + 1} = {which(math_L_curve_tests(k).name)};
+end
+cd(starting_dir)
 
 seaver_L_curve_tests     = dir([[pwd '/../perturbation_tests/to_be_reformatted/seaver_L-curve/'], '*.xlsx']);
-num_seaver_L_curve_files = length(seaver_L_curve_files);
+cd([pwd '/../perturbation_tests/to_be_reformatted/seaver_L-curve/'])
+for k = find(not([seaver_L_curve_tests.isdir]))
+    all_files{end + 1} = {which(seaver_L_curve_tests(k).name)};
+end
+cd(starting_dir)
 
 estimation_tests         = dir([[pwd '/../estimation_tests/'], '*.xlsx']);
-num_estimation_tests     = length(estimation_tests);
+cd([pwd '/../estimation_tests/'])
+for k = find(not([estimation_tests.isdir]))
+    all_files{end + 1} = {which(estimation_tests(k).name)};
+end
+cd(starting_dir)
 
 forward_tests            = dir([[pwd '/../forward_tests/'], '*.xlsx']);
-num_forward_tests        = length(forward_tests);
+cd([pwd '/../forward_tests/'])
+for k = find(not([forward_tests.isdir]))
+    all_files{end + 1} = {which(forward_tests(k).name)};
+end
+cd(starting_dir)
 
-all_tests_struct         = [data_samples; math_L_curve_tests; seaver_L_curve_tests; estimation_tests; forward_tests];
-num_all_tests            = length(all_tests_struct);
+for file = 1:length(all_files)
+   GRNstruct.inputFile = all_files{file}{1};
+   runtests('readInputSheetTest');
+end
 
 % Juancho's tests first
 deletionResults = runtests('deletedStrainTest.m')
 % Iterate through the 16 test files
 for file_index          = 1:2:num_files
     cd(starting_dir);
-    GRNstruct.inputFile = d(file_index).name;
+    GRNstruct.inputFile = which(sixteen_tests(file_index).name);
     if not(isequal(strfind(GRNstruct.inputFile, '_output'), []))
-       GRNstruct.inputFile = d(file_index + 1).name;
+       GRNstruct.inputFile = sixteen_tests(file_index + 1).name;
        file_index = file_index + 1;
     end
 

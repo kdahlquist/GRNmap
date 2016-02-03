@@ -9,9 +9,10 @@ classdef readInputSheetTest < matlab.unittest.TestCase
         
         function readInputSheet(testCase)
             global GRNstruct
-            GRNstruct.test_file = which(GRNstruct.inputFile);
+            
+            GRNstruct.test_file = GRNstruct.inputFile;
             [~, GRNstruct.sheets] = xlsfinfo(GRNstruct.test_file);
-
+            disp(GRNstruct.inputFile)
             GRNstruct = readInputSheet(GRNstruct);
             testCase.GRNstruct = GRNstruct;
             testCase.GRNstruct_params = fieldnames(GRNstruct.controlParams);
