@@ -84,8 +84,8 @@ if estimate_params
     % This performs the optimization
     for kk = 1:kk_max
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
-        [estimated_guesses, strain_x1] = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
-        GRNstruct.GRNOutput.lse_final = general_least_squares_error(estimated_guesses);
+        estimated_guesses = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
+        [GRNstruct.GRNOutput.lse_final, strain_x1] = general_least_squares_error(estimated_guesses);
         GRNstruct.GRNOutput.lse_out = lse_out;
         % lse_1   = L;
         % pen     = penalty_out;
@@ -130,6 +130,7 @@ end
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
+
 GRNstruct.locals.estimated_guesses = estimated_guesses;
 
 GRNstruct.GRNOutput.SSE = SSE;

@@ -22,7 +22,7 @@ tmax = max(expression_timepoints);
 figHandles  = findobj('Type','figure');
 offset      = size(figHandles,1);
 
-plot_colors = 'kbrcm';
+plot_colors = 'gkbrcm';
 
 if length(Strain) == 1
     Targets = {[Strain{1} ' data'],[Strain{1} ' model']};

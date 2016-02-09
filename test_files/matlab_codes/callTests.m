@@ -23,7 +23,8 @@ all_files = [];
 allReadInputSheetTest;
 
 % Juancho's tests first
-deletionResults = runtests('deletedStrainTest.m')
+deletion_results = runtests('deletedStrainTest.m')
+optimization_diagnostic_results = runtests('optimizationDiagnosticTest.m')
 % Iterate through the 16 test files
 for file_index          = 1:2:num_files
     cd(starting_dir);
