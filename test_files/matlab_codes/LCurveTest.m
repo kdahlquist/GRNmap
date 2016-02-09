@@ -3,15 +3,17 @@ classdef LCurveTest < matlab.unittest.TestCase
        test_dir = [pwd '\..\perturbation_tests\math_post_L-curve_corrected\']
        previous_dir = pwd
        GRNstruct
+       alphaList
    end
    
    methods (TestClassSetup)
        function runGRNmap (testCase)
            addpath([pwd '/../../matlab']);
+           testCase.alphaList = [0.8,0.5,0.2,0.1,0.08,0.05,0.02,0.01,0.008,0.005,0.002,0.001,0.0008,0.0005,0.0002,0.0001];
            testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_no-graph_test1_LCurve.xlsx'];
            testCase.GRNstruct.directory = tempdir;
            cd(tempdir);
-           GRNLCurve(testCase.GRNstruct);
+           testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
        end 
    end
    
@@ -22,12 +24,47 @@ classdef LCurveTest < matlab.unittest.TestCase
    end
    
    methods (Test)
-       function testIfLCurveAlphaIsCorrect (testCase)
+       function testProductionRatesCopiedCorrectly (testCase)
            [~, fileName, ~] = fileparts(testCase.GRNstruct.inputFile);
-           [expected_values, expected_texts] = xlsread([fileName '_4_output.xlsx'], 'optimization_parameters');
-           [actual_values, actual_texts] = xlsread([tempdir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_no-graph_test1_LCurve_4_output.xlsx'], 'optimization_parameters');
-           testCase.verifyEqual(expected_values, actual_values);
-           testCase.verifyEqual(expected_texts, actual_texts);
+           if ~testCase.GRNstruct.controlParams.fix_P
+               for i = 1:length(testCase.alphaList) - 1
+                   [output_values, output_texts] = xlsread([tempdir fileName '_' num2str(i) '_output.xlsx'], 'optimized_production_rates');
+                   [input_values, input_texts] = xlsread([tempdir fileName '_' num2str(i+1) '.xlsx'], 'production_rates');
+                   testCase.verifyEqual(output_values, input_values);
+                   testCase.verifyEqual(output_texts, input_texts);
+               end
+           end
+       end
+       
+       function testThresholdCopiedCorrectly (testCase)
+           [~, fileName, ~] = fileparts(testCase.GRNstruct.inputFile);
+           if ~testCase.GRNstruct.controlParams.fix_b
+               for i = 1:length(testCase.alphaList) - 1
+                   [output_values, output_texts] = xlsread([tempdir fileName '_' num2str(i) '_output.xlsx'], 'optimized_threshold_b');
+                   [input_values, input_texts] = xlsread([tempdir fileName '_' num2str(i+1) '.xlsx'], 'threshold_b');
+                   testCase.verifyEqual(output_values, input_values);
+                   testCase.verifyEqual(output_texts, input_texts);
+               end
+           end
+       end
+       
+       function testNetworkWeightsCopiedCorrectly (testCase)
+           [~, fileName, ~] = fileparts(testCase.GRNstruct.inputFile);
+           for i = 1:length(testCase.alphaList) - 1
+               [output_values, output_texts] = xlsread([tempdir fileName '_' num2str(i) '_output.xlsx'], 'network_optimized_weights');
+               [input_values, input_texts] = xlsread([tempdir fileName '_' num2str(i+1) '.xlsx'], 'network_weights');
+               testCase.verifyEqual(output_values, input_values);
+               testCase.verifyEqual(output_texts, input_texts);
+           end
+       end
+       
+       function testOptimizationParametersCopiedCorrectly (testCase)
+           [~, fileName, ~] = fileparts(testCase.GRNstruct.inputFile);
+           for i = 1:length(testCase.alphaList)
+               [input_values, ~] = xlsread([tempdir fileName '_' num2str(i) '.xlsx'], 'optimization_parameters');
+               alpha = input_values(1);
+               testCase.verifyEqual(alpha, testCase.alphaList(i));
+           end
        end
    end
 end
