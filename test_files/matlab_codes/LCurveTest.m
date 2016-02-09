@@ -14,12 +14,14 @@ classdef LCurveTest < matlab.unittest.TestCase
            testCase.GRNstruct.directory = tempdir;
            cd(tempdir);
            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
+           GRNLCurve(testCase.GRNstruct);
        end 
    end
    
-   methods (TestMethodTeardown)
+   methods (TestClassTeardown)
        function revertPath (testCase)
            cd (testCase.previous_dir);
+           deleteAllTempsCreated;
        end
    end
    

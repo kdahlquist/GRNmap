@@ -46,26 +46,3 @@ for file_index          = 1:2:num_files
 end
 
 LCurveResults = runtests('LCurveTest');
-
-% % Iterate through estimation tests. The data in these files are outdated 
-% % (e.g. production_rates sheet does not exist when it is supposed to).
-% bgf_estimation_tests_dir = dir([estimation_tests_path, '*.xlsx']);
-% estimation_tests_num_files = length(bgf_estimation_tests_dir(not([bgf_estimation_tests_dir.isdir])));
-% for file_index          = 1:2:estimation_tests_num_files
-%     cd(starting_dir);
-%     GRNstruct.inputFile = bgf_estimation_tests_dir(file_index).name;
-%     while not(isequal(strfind(GRNstruct.inputFile, '_output'), []))
-%        GRNstruct.inputFile = bgf_estimation_tests_dir(file_index + 1).name;
-%        file_index = file_index + 1;
-%     end
-% 
-% %   Begin running tests
-%     disp ('-------------------------------------------------------------');
-%     fprintf ('Running tests on %s\n\n',GRNstruct.inputFile);
-%     readInputResults = runtests({'readInputSheetTest'})
-%     runGRNstructSimulation;
-%     outputResults = runtests({'outputTest'})    
-%     close all
-% end
-
-% runtests({'parameterEstimationTest'})
