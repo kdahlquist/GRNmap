@@ -99,6 +99,16 @@ end
 
 % Make optimization diagnostic ih the counter is
 % less than 100.
+
+               
+if counter < 100 && estimate_params
+    graphData = struct('strain_data',strain_x1,...
+                   'estimated_guesses',estimated_guesses,...
+                   'log2FC',log2FC,...
+                   'num_of_strains', length(Strain));
+    createDiagnosticsGraph(graphData, counter);
+end
+
 if counter < 100 && estimate_params
     for i = 1:length(Strain)
         x1 = strain_x1(i,:);
