@@ -53,7 +53,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                 <p id='modText' class='modNav'>
-                    Last modified: 9/7/2015
+                    Last modified: 2/9/2016
                 </p>
             </div>
         </div>
@@ -140,6 +140,59 @@
                         <div id='releaseContent' class='panel-collapse collapse'>
                             <div class='panel-body'>
                                 <div class='panel-group'>
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_4Content'  data-toggle='collapse'>
+                                                    GRNmap v1.4
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_4Content' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                GRNmap v1.4 includes the following new features and bug fixes:
+                                                <ul>
+                                                    <li>
+                                                        All of the test files have been converted to the .xlsx format.
+                                                    </li>
+                                                    <li>
+                                                        The input file can now be located in a directory that contains space characters in the directory name.
+                                                    </li>
+                                                    <li>
+                                                        The input file can now be located on the Desktop.
+                                                    </li>
+                                                    <li>
+                                                        The current LSE calculation on each run is now shown in the diagnostics/counter window.
+                                                    </li>
+                                                    <li>
+                                                        The optimization_diagnostic graph is now saved correctly when the number of iterations is less than 100.
+                                                    </li>
+                                                    <li>
+                                                        Fixed bug when the estimate_params = 0.
+                                                    </li>
+                                                    <li>
+                                                        An L-curve calculation for a given set of alpha values is now an added functionality.
+                                                    </li>
+                                                    <li>
+                                                        The mean square error calculation for each individual gene in each strain is now produced in the optimization diagnostics sheet instead of the sum of squares of error.
+                                                    </li>
+                                                    <li>
+                                                        The deleted strains are now determined by GRNmap so the "Deletion" parameter is no longer needed in the optimization_parameter sheet.
+                                                    </li>
+                                                    <li>
+                                                        The test suite has been updated to reflect recent changes in the package and now uses proper setUp and tearDown methods so that the tests can run faster.
+                                                    </li>
+                                                    <li>
+                                                        optimization_parameters variables previously named "time", "simtime", and "Sigmoid" have been renamed as "expression_timepoints", "simulation_timepoints", and "production_function", respectively.
+                                                    </li>
+                                                    <li>
+                                                        The test files have been updated accordingly (i.e., variable names that are obsolete have been removed) after implementing the above changes.
+                                                    </li>
+                                                </ul>
+                                            </div> <!--panel-body-->
+                                        </div> <!--panel-collapse collapse in-->
+                                    </div> <!--panel panel-default-->
                                     
                                     <div class='panel panel-default'>
                                         <div class='panel-heading'>
