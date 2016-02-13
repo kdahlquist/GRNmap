@@ -98,12 +98,17 @@ for qq = 1:length(Strain)
 %     SSE(:,qq) = errormat/nSE;
     SSE(:,qq) = errMatStrain/nSE;
     
-    % Output graph every 100 iterations.
-    if rem(counter,100) ==  0
-        figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter) ', LSE = ', num2str(sum(errormat(:))/nData)])
-        subplot(212),plot(log2FC(qq).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
-    end
-    
+end
+
+graphData = struct('strain_data',strain_x1,...
+                   'estimated_guesses',theta,...
+                   'log2FC',log2FC,...
+                   'num_of_strains', length(Strain),...
+                   'LSE',  sum(errormat(:))/nData);
+                   
+% Output graph every 100 iterations.
+if rem(counter,100) ==  0
+    createDiagnosticsGraph(graphData, counter)
 end
 
 % %%Set alpha for L curves
