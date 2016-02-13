@@ -53,7 +53,7 @@
                     <li><a href='links.html'>Links</a></li>
                 </ul>
                 <p id='modText' class='modNav'>
-                    Last modified: 2/9/2016
+                    Last modified: 2/12/2016
                 </p>
             </div>
         </div>
@@ -140,6 +140,61 @@
                         <div id='releaseContent' class='panel-collapse collapse'>
                             <div class='panel-body'>
                                 <div class='panel-group'>
+                                    
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading'>
+                                            <p class='panel-title aboutHeaders'>
+                                                <a href='#v1_4_2Content'  data-toggle='collapse'>
+                                                    GRNmap v1.4.2
+                                                </a>
+                                            </p>
+                                        </div> <!--panel-heading-->
+                                        <div id='v1_4_2Content' class='panel-collapse collapse'>
+                                            <div class='panel-body'>
+                                                GRNmap v1.4.2 includes the following new features and bug fixes:
+                                                <ul>
+                                                    <li>
+                                                        The input file can now be located in a directory that contains space characters in the directory name, or on the Desktop.
+                                                    </li>
+                                                    <li>
+                                                        We have standardized the format of the input and output Excel workbooks, making them more readable. See the wiki pages: <a href="https://github.com/kdahlquist/GRNmap/wiki/How-to-format-the-input-file-for-GRNmap-v1.4-and-above">How-to-format-the-input-file-for-GRNmap-v1.4-and-above</a> and <a href="https://github.com/kdahlquist/GRNmap/wiki/How-to-interpret-the-output-file-for-GRNmap">How-to-interpret-the-output-file-for-GRNmap</a>, respectively for details.
+                                                        <ul>
+                                                            <li>
+                                                                optimization_parameters variables previously named "time", "simtime", and "Sigmoid" have been renamed as "expression_timepoints", "simulation_timepoints", and "production_function", respectively.
+                                                            </li>
+                                                            <li>
+                                                                The deleted genes/strains are now determined by GRNmap so the "Deletion" parameter is no longer needed in the optimization_parameter sheet.
+                                                            </li>
+                                                            <li>
+                                                                The mean squared error calculation for each individual gene in each strain is now produced in the optimization_diagnostics sheet instead of the sum of squares of error.
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>
+                                                        The current LSE value for each iteration is now shown in the optimization_diagnostics window.
+                                                    </li>
+                                                    <li>
+                                                        The optimization_diagnostic graph is now saved correctly when the number of iterations of the estimation is less than 100.
+                                                    </li>
+                                                    <li>
+                                                        Fixed bug when the estimate_params = 0.
+                                                    </li>
+                                                    <li>
+                                                        GRNmap can now perform multiple successive runs for fine tuning of the optimization parameter, alpha. When L_curve is set to 1 in the optimization_parameters worksheet, GRNmap will complete 16 successive runs with the alpha values of 0.8, 0.5, 0.2, 0.1, 0.08, 0.05, 0.02, 0.01, 0.008, 0.005, 0.002, 0.001, 0.0008, 0.0005, 0.0002, and 0.0001. The user supplied initial guesses are used for the first run; all subsequent runs use the output from the previous run as the initial guesses for that run. By plotting the least squared error against the penalty term (found in the optimization_diagnostics sheet of the output file), the user can create an L-curve by which the appropriate alpha value for future estimation runs can be determined from the "elbow" of the curve.
+                                                    </li>
+                                                    <li>
+                                                        The test suite has been updated to reflect recent changes in the package and now uses proper setUp and tearDown methods so that the tests can run faster.
+                                                    </li>
+                                                    <li>
+                                                        All of the test files have been converted to the .xlsx format.
+                                                    </li>
+                                                    <li>    
+                                                        The test files have been updated accordingly (i.e., variable names that are obsolete have been removed) after implementing the above changes.
+                                                    </li>
+                                                </ul>
+                                            </div> <!--panel-body-->
+                                        </div> <!--panel-collapse collapse in-->
+                                    </div> <!--panel panel-default-->
                                     
                                     <div class='panel panel-default'>
                                         <div class='panel-heading'>
