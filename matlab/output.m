@@ -165,6 +165,8 @@ if GRNstruct.controlParams.estimate_params
     print(filename,'-djpeg')
 end
 
+close all
+
 
 xlswrite(output_file,outputDiag,'optimization_diagnostics');
 
