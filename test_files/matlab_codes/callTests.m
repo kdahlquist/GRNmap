@@ -1,5 +1,10 @@
 clear all
 clc
+import matlab.unittest.TestSuite
+import matlab.unittest.TestRunner
+runner = TestRunner.withNoPlugins;
+p = DiagnosticRecorderPlugin;
+runner.addPlugin(p)
 
 global GRNstruct
 
@@ -25,13 +30,19 @@ test_results = [];
 %test_results = [test_results allReadInputSheetTest()];
 
 % Juancho's tests first
-%test_results = [test_results runtests('deletedStrainTest.m')];
-%test_results = [test_results runtests('optimizationDiagnosticTest.m')];
+deletedStrainTest_suite = TestSuite.fromClass(?deletedStrainTest);
+optimizationDiagnosticTest_suite = TestSuite.fromClass(?optimizationDiagnosticTest);
+
+test_results = [test_results runner.run(deletedStrainTest_suite)];
+test_results = [test_results runner.run(optimizationDiagnosticTest_suite)];
 
 % % Iterate through the 16 test files
 GRNstruct = struct();
 GRNstruct.directory     = sixteen_tests_path;
 GRNstruct.tempdir       = tempdir;
+
+readInputSheetTest_suite = TestSuite.fromClass(?readInputSheetTest);
+outputTest_suite = TestSuite.fromClass(?outputTest);
 
 for file_index          = 1:2:num_files
     cd(starting_dir);
@@ -44,26 +55,19 @@ for file_index          = 1:2:num_files
 %   Begin running tests
     disp ('-------------------------------------------------------------');
     fprintf ('Running tests on %s\n\n',GRNstruct.inputFile);
-    test_results = [test_results runtests({'readInputSheetTest'})];
+    test_results = [test_results runner.run(readInputSheetTest_suite)];
     runGRNstructSimulation;
-    test_results = [test_results runtests({'outputTest'})];
+    test_results = [test_results runner.run(outputTest_suite)];
     deleteAllTempsCreated;
     close all
     
 end
 
-%test_results = [test_results runtests('LCurveTest')];
+%LCurveTest_suite = TestSuite.fromClass(?LCurveTest);
+%test_results = [test_results runner.run(LCurveTest_suite)];
 
-num_of_failed_tests = 0;
 total_num_of_tests = length(test_results);
-
-for test = 1:total_num_of_tests
-    if(test_results(test).Failed)
-        disp(table(test_results(test)))
-        num_of_failed_tests = num_of_failed_tests + 1;
-    end
-end
-
+num_of_failed_tests = sum(cat(1,test_results.Failed));
 num_of_passed_tests = total_num_of_tests - num_of_failed_tests;
 
 fprintf('We passed %i/%i tests.\n',num_of_passed_tests,total_num_of_tests)
