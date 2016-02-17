@@ -32,8 +32,8 @@ classdef LCurveTest < matlab.unittest.TestCase
                for i = 1:length(testCase.alphaList) - 1
                    [output_values, output_texts] = xlsread([tempdir fileName '_' num2str(i) '_output.xlsx'], 'optimized_production_rates');
                    [input_values, input_texts] = xlsread([tempdir fileName '_' num2str(i+1) '.xlsx'], 'production_rates');
-                   testCase.verifyEqual(output_values, input_values);
-                   testCase.verifyEqual(output_texts, input_texts);
+                   testCase.verifyEqual(output_values, input_values, testCase.GRNstruct.input_file);
+                   testCase.verifyEqual(output_texts, input_texts, testCase.GRNstruct.input_file);
                end
            end
        end
@@ -44,8 +44,8 @@ classdef LCurveTest < matlab.unittest.TestCase
                for i = 1:length(testCase.alphaList) - 1
                    [output_values, output_texts] = xlsread([tempdir fileName '_' num2str(i) '_output.xlsx'], 'optimized_threshold_b');
                    [input_values, input_texts] = xlsread([tempdir fileName '_' num2str(i+1) '.xlsx'], 'threshold_b');
-                   testCase.verifyEqual(output_values, input_values);
-                   testCase.verifyEqual(output_texts, input_texts);
+                   testCase.verifyEqual(output_values, input_values, testCase.GRNstruct.input_file);
+                   testCase.verifyEqual(output_texts, input_texts, testCase.GRNstruct.input_file);
                end
            end
        end
@@ -55,8 +55,8 @@ classdef LCurveTest < matlab.unittest.TestCase
            for i = 1:length(testCase.alphaList) - 1
                [output_values, output_texts] = xlsread([tempdir fileName '_' num2str(i) '_output.xlsx'], 'network_optimized_weights');
                [input_values, input_texts] = xlsread([tempdir fileName '_' num2str(i+1) '.xlsx'], 'network_weights');
-               testCase.verifyEqual(output_values, input_values);
-               testCase.verifyEqual(output_texts, input_texts);
+               testCase.verifyEqual(output_values, input_values, testCase.GRNstruct.input_file);
+               testCase.verifyEqual(output_texts, input_texts, testCase.GRNstruct.input_file);
            end
        end
        
@@ -65,7 +65,7 @@ classdef LCurveTest < matlab.unittest.TestCase
            for i = 1:length(testCase.alphaList)
                [input_values, ~] = xlsread([tempdir fileName '_' num2str(i) '.xlsx'], 'optimization_parameters');
                alpha = input_values(1);
-               testCase.verifyEqual(alpha, testCase.alphaList(i));
+               testCase.verifyEqual(alpha, testCase.alphaList(i), testCase.GRNstruct.input_file);
            end
        end
    end

@@ -26,7 +26,7 @@ all_files = [];
 starting_dir = pwd;
 
 test_results = [];
-
+test_diagnostics = [];
 %test_results = [test_results allReadInputSheetTest()];
 
 % Juancho's tests first
@@ -34,7 +34,14 @@ deletedStrainTest_suite = TestSuite.fromClass(?deletedStrainTest);
 optimizationDiagnosticTest_suite = TestSuite.fromClass(?optimizationDiagnosticTest);
 
 test_results = [test_results runner.run(deletedStrainTest_suite)];
+if ~isempty(p.FailedTestData)
+    test_diagnostics = [test_diagnostics; p.FailedTestData];
+end
+
 test_results = [test_results runner.run(optimizationDiagnosticTest_suite)];
+if ~isempty(p.FailedTestData)
+    test_diagnostics = [test_diagnostics; p.FailedTestData];
+end
 
 % % Iterate through the 16 test files
 GRNstruct = struct();
@@ -56,18 +63,37 @@ for file_index          = 1:2:num_files
     disp ('-------------------------------------------------------------');
     fprintf ('Running tests on %s\n\n',GRNstruct.inputFile);
     test_results = [test_results runner.run(readInputSheetTest_suite)];
+    if ~isempty(p.FailedTestData)
+        test_diagnostics = [test_diagnostics; p.FailedTestData];
+    end
+    
     runGRNstructSimulation;
     test_results = [test_results runner.run(outputTest_suite)];
+    if ~isempty(p.FailedTestData)
+        test_diagnostics = [test_diagnostics; p.FailedTestData];
+    
+    end
     deleteAllTempsCreated;
     close all
     
 end
 
-%LCurveTest_suite = TestSuite.fromClass(?LCurveTest);
-%test_results = [test_results runner.run(LCurveTest_suite)];
+LCurveTest_suite = TestSuite.fromClass(?LCurveTest);
+test_results = [test_results runner.run(LCurveTest_suite)];
+if ~isempty(p.FailedTestData)
+    test_diagnostics = [test_diagnostics; p.FailedTestData];
+end
 
 total_num_of_tests = length(test_results);
 num_of_failed_tests = sum(cat(1,test_results.Failed));
 num_of_passed_tests = total_num_of_tests - num_of_failed_tests;
+
+if ~isempty(test_diagnostics)
+    disp('Here are the failures:')
+    for failed_test_index = 1:size(test_diagnostics,1)
+        celldisp(test_diagnostics.TestDiagnostics(failed_test_index));
+        celldisp(test_diagnostics.FrameworkDiagnostics(failed_test_index));
+    end
+end
 
 fprintf('We passed %i/%i tests.\n',num_of_passed_tests,total_num_of_tests)
