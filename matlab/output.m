@@ -8,13 +8,7 @@ function GRNstruct = output(GRNstruct)
 %
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
-%
-% Change log
-%
-%   2015 06 04, bgf
-%               modified output sheet order to place sigma sheets together
-%               created output sheet optimization_diagnostics
-%
+
 global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate production_function Strain expression_timepoints wts
 
 if GRNstruct.controlParams.make_graphs
@@ -161,11 +155,18 @@ end
 
 if GRNstruct.controlParams.estimate_params
     figure(1)
-    filename = [directory 'optimization_diagnostic'];
+    if GRNstruct.controlParams.L_curve && GRNstruct.controlParams.make_graphs
+        filename = [directory 'optimization_diagnostic_' num2str(GRNstruct.copy_counter)];
+    else
+        filename = [directory 'optimization_diagnostic'];
+    end
     print(filename,'-djpeg')
 end
 
 close all
+if GRNstruct.copy_counter >= GRNstruct.alpha_list_length
+   GRNstruct.copy_counter = 0; 
+end
 
 
 xlswrite(output_file,outputDiag,'optimization_diagnostics');

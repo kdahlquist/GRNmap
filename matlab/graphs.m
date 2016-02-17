@@ -5,14 +5,7 @@ function GRNstruct = graphs(GRNstruct)
 %
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
-%
-% Change log
-%
-%   2015 06 05, bgf
-%               modified graph file names to gene standard names
-%               added print command to save the final running opt diag
-%               graph
-%
+
 global log2FC Strain expression_timepoints
 
 directory = GRNstruct.directory;
@@ -72,6 +65,10 @@ end
 
 for kk = 1:GRNstruct.GRNParams.num_genes
     figure(kk + offset)
-    filename = [directory GRNstruct.labels.TX0{1+kk,1}];
+    if GRNstruct.controlParams.L_curve && GRNstruct.controlParams.make_graphs
+        filename = [directory GRNstruct.labels.TX0{1+kk,1} '_' num2str(GRNstruct.copy_counter)];
+    else
+        filename = [directory GRNstruct.labels.TX0{1+kk,1}];
+    end
     print(filename,'-djpeg')
 end

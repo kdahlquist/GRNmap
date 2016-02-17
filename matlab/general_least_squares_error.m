@@ -8,17 +8,7 @@ function [L, strain_x1] = general_least_squares_error(theta)
 %
 % Input:  theta = vector of parameters we modify to fit data to model
 % Output: L     = penalized least squares fit criterion
-%
-% Change log
-%
-%   2015 06 04, bgf
-%               added functionality to compute total sum of sq of error
-%               (SSE) for output diagnostics
-%               required new global variable to communicate with 
-%               lse
-%               corrected an error in the way the penalty is computed
-%               for the production rates -- sum(p^2) replaced (sum of p)^2
-%
+
 global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain expression_timepoints wts 
 global SSE   
 

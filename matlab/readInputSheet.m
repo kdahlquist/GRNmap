@@ -8,13 +8,7 @@ function GRNstruct = readInputSheet( GRNstruct )
 %
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
-%
-% Change log
-%
-%   2015 06 04, bgf
-%               added functionality to compute the minimum possible least
-%                     squares error GRNstruct.GRNParams.minLSE
-%
+
 global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate production_function Strain wtmat expression_timepoints
 
 alpha = 0;

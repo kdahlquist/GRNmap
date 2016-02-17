@@ -5,16 +5,7 @@ function GRNstruct = lse(GRNstruct)
 %
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
-%
-% Change log
-%
-%   2015 06 04, bgf
-%               added functionality to generate total sum of sq of error
-%               (SSE) for output diagnostics
-%               required new global variable to communicate with 
-%               general_least_squares_error
-%               final line of code added
-%
+
 global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain wtmat b is_forced      
 global SSE 
 % We store relevant values and matrices from
