@@ -91,8 +91,8 @@ num_of_passed_tests = total_num_of_tests - num_of_failed_tests;
 if ~isempty(test_diagnostics)
     disp('Here are the failures:')
     for failed_test_index = 1:size(test_diagnostics,1)
-        celldisp(test_diagnostics.TestDiagnostics(failed_test_index));
-        celldisp(test_diagnostics.FrameworkDiagnostics(failed_test_index));
+        celldisp(test_diagnostics.TestDiagnostics(failed_test_index),'File');
+        celldisp(test_diagnostics.FrameworkDiagnostics(failed_test_index),'Diagnostic');
     end
 end
 

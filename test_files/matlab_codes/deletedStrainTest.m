@@ -15,7 +15,7 @@ classdef deletedStrainTest < matlab.unittest.TestCase
             GRNstruct.inputFile = [testCase.test_dir 'strain_names_lower_case_in_optim_lower_case_in_expression_test_sheet'];
             addpath([pwd '/../../matlab']);
             GRNstruct = readInputSheet(GRNstruct);            
-            testCase.assertEqual(GRNstruct.microData(1).deletion, 1, GRNstruct.inputFile);
+            testCase.assertEqual(GRNstruct.microData(1).deletion, 0, GRNstruct.inputFile);
             testCase.assertEqual(GRNstruct.microData(2).deletion, 3, GRNstruct.inputFile);    
         end
         
