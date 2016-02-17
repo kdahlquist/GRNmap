@@ -111,13 +111,13 @@ if counter < 100 && estimate_params
     createDiagnosticsGraph(graphData, counter);
 end
 
-if counter < 100 && estimate_params
-    for i = 1:length(Strain)
-        x1 = strain_x1(i,:);
-        figure(1),subplot(211),plot(estimated_guesses,'d'), title(['counter = ' num2str(counter)])
-        subplot(212),plot(log2FC(i).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
-    end
-end
+% if counter < 100 && estimate_params
+%     for i = 1:length(Strain)
+%         x1 = strain_x1(i,:);
+%         figure(1),subplot(211),plot(estimated_guesses,'d'), title(['counter = ' num2str(counter)])
+%         subplot(212),plot(log2FC(i).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
+%     end
+% end
 
 % This is the forward simulation, which is performed for every single strain
 % The simulation gives the gene expression at each of the time 
