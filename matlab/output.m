@@ -164,7 +164,7 @@ if GRNstruct.controlParams.estimate_params
 end
 
 close all
-if GRNstruct.copy_counter >= GRNstruct.alpha_list_length
+if isfield(GRNstruct,'copy_counter') && GRNstruct.copy_counter >= GRNstruct.alpha_list_length
    GRNstruct.copy_counter = 0; 
 end
 
