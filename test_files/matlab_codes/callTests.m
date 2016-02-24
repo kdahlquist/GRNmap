@@ -30,17 +30,17 @@ test_diagnostics = [];
 %test_results = [test_results allReadInputSheetTest()];
 
 % Juancho's tests first
-deletedStrainTest_suite = TestSuite.fromClass(?deletedStrainTest);
-optimizationDiagnosticTest_suite = TestSuite.fromClass(?optimizationDiagnosticTest);
+% deletedStrainTest_suite = TestSuite.fromClass(?deletedStrainTest);
+% optimizationDiagnosticTest_suite = TestSuite.fromClass(?optimizationDiagnosticTest);
 
-test_results = [test_results runner.run(deletedStrainTest_suite)];
+% test_results = [test_results runner.run(deletedStrainTest_suite)];
 if ~isempty(p.FailedTestData)
-    test_diagnostics = [test_diagnostics; p.FailedTestData];
+%     test_diagnostics = [test_diagnostics; p.FailedTestData];
 end
 
-test_results = [test_results runner.run(optimizationDiagnosticTest_suite)];
+% test_results = [test_results runner.run(optimizationDiagnosticTest_suite)];
 if ~isempty(p.FailedTestData)
-    test_diagnostics = [test_diagnostics; p.FailedTestData];
+%     test_diagnostics = [test_diagnostics; p.FailedTestData];
 end
 
 % % Iterate through the 16 test files

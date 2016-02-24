@@ -71,7 +71,7 @@ classdef LCurveTest < matlab.unittest.TestCase
            end
        end
        
-       function testOptimizationParametersCopiedCorrectly (testCase)
+       function testAlphaIsSavedToNextInput (testCase)
            [~, fileName, ~] = fileparts(testCase.general_LCurve_file);
            for i = 1:length(testCase.alphaList)
                [input_values, ~] = xlsread([tempdir fileName '_' num2str(i) '.xlsx'], 'optimization_parameters');
