@@ -10,6 +10,8 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
 
         function testFourByFourInputsHaveTheCorrectSolutions(testCase)
             global adjacency_mat b degrate deletion fix_b is_forced num_genes prorate wts 
+% We are using the file
+% 4-genes_6-edges_artificial-data_Sigmoidal_forward_graph
 
             GRNstruct = struct();
             GRNstruct.GRNParams.prorate = [0.5 1 2 1]';
@@ -41,9 +43,11 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
             is_forced = GRNstruct.GRNParams.is_forced;
             num_genes = 4;
             prorate = GRNstruct.GRNParams.prorate;
-            wts = GRNstruct.GRNParams.wtmat;
+            wts = ones(6,1);
+            deletion = 0;
             
             resultGRNstruct = runForwardSimulation(GRNstruct);
+            
             expected_wt_expression = [ 
                 0 -0.090301262 -0.178094353 -0.263319186 -0.345920382 -0.425846555
                 0 -0.03777407  -0.073540345 -0.107366367 -0.139321505 -0.16947611
@@ -53,16 +57,15 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
             expected_dcin5_expression = [
                 0 -0.090301262 -0.178094353	-0.263319186 -0.345920382 -0.425846555
                 0 -0.03777407  -0.073540345	-0.107366367 -0.139321505 -0.16947611
-                0  0	        0	         0	          0  	       0
+                0  0	        0	         0	          0	           0
                 0 -0.03777407  -0.073540345	-0.107366367 -0.139321505 -0.16947611
             ];
-            disp(resultGRNstruct.GRNModel(1).model)
-            disp(resultGRNstruct.GRNModel(2).model)
+        
             testCase.assertTrue(matricesWithinAbsoluteRange(expected_wt_expression, resultGRNstruct.GRNModel(1).model, 0.01));
             testCase.assertTrue(matricesWithinAbsoluteRange(expected_dcin5_expression, resultGRNstruct.GRNModel(2).model, 0.01));
             
         end
-        
+                
     end
 
 end

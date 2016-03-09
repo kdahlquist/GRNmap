@@ -3,5 +3,5 @@ function result = matricesWithinAbsoluteRange(expected, actual, threshold)
         result = false;
         return;
     end
-    result = all(abs(expected - actual) <= abs(threshold));
+    result = all(abs(expected(:) - actual(:)) <= abs(threshold));
 end
