@@ -2,8 +2,10 @@ clear all
 clc
 import matlab.unittest.TestSuite
 import matlab.unittest.TestRunner
+import matlab.unittest.plugins.CodeCoveragePlugin
 runner = TestRunner.withNoPlugins;
 p = DiagnosticRecorderPlugin;
+runner.addPlugin(CodeCoveragePlugin.forFolder([pwd '\..\..\matlab']))
 runner.addPlugin(p)
 
 global GRNstruct
