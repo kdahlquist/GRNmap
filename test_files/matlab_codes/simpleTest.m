@@ -3,7 +3,7 @@ classdef simpleTest < matlab.unittest.TestCase
    properties (MethodSetupParameter)
       num = {'this1', 'that1'}
    end
-   
+    
    properties
       newNum 
    end
