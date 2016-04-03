@@ -1,22 +1,39 @@
 classdef readInputSheetTest < matlab.unittest.TestCase
     
+    properties (ClassSetupParameter)
+        filename = {'4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph',...
+                    '4-genes_6-edges_artificial-data_MM_estimation_fixP-0_no-graph',...
+                    '4-genes_6-edges_artificial-data_MM_estimation_fixP-1_graph',...
+                    '4-genes_6-edges_artificial-data_MM_estimation_fixP-1_no-graph',...
+                    '4-genes_6-edges_artificial-data_MM_forward_graph',...
+                    '4-genes_6-edges_artificial-data_MM_forward_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-1_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-1_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-0_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-0_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_forward_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_forward_no-graph'} 
+    end
+    
     properties 
         GRNstruct
         GRNstruct_params
+        test_dir = '\..\sixteen_tests\'
     end
     
     methods(TestClassSetup)
         
-        function readInputSheet(testCase)
-            global GRNstruct
-
-            GRNstruct.test_file = GRNstruct.inputFile;
-            [~, GRNstruct.sheets] = xlsfinfo(GRNstruct.test_file);
-            disp(GRNstruct.inputFile)
-            GRNstruct = readInputSheet(GRNstruct);
-            testCase.GRNstruct = GRNstruct;
-            testCase.GRNstruct_params = fieldnames(GRNstruct.controlParams);
-            testCase.GRNstruct_params = [testCase.GRNstruct_params; fieldnames(GRNstruct.GRNParams)];
+        function setupGRNstruct(testCase, filename)
+            testCase.GRNstruct.inputFile = [pwd testCase.test_dir filename];
+            [~, testCase.GRNstruct.sheets] = xlsfinfo(testCase.GRNstruct.inputFile);
+            disp(testCase.GRNstruct.inputFile)
+            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
+            testCase.GRNstruct_params = fieldnames(testCase.GRNstruct.controlParams);
+            testCase.GRNstruct_params = [testCase.GRNstruct_params; fieldnames(testCase.GRNstruct.GRNParams)];
         end
     end
     
