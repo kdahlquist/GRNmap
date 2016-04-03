@@ -1,36 +1,62 @@
 classdef outputTest < matlab.unittest.TestCase
     
+    properties (ClassSetupParameter)
+        filename = {'4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph',...
+                    '4-genes_6-edges_artificial-data_MM_estimation_fixP-0_no-graph',...
+                    '4-genes_6-edges_artificial-data_MM_estimation_fixP-1_graph',...
+                    '4-genes_6-edges_artificial-data_MM_estimation_fixP-1_no-graph',...
+                    '4-genes_6-edges_artificial-data_MM_forward_graph',...
+                    '4-genes_6-edges_artificial-data_MM_forward_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-1_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-1_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-0_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-0_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_no-graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_forward_graph',...
+                    '4-genes_6-edges_artificial-data_Sigmoidal_forward_no-graph'} 
+    end
+    
     properties
         GRNstruct
         previous_dir
-        previous_file
+        input_file
         expected_output_values
         expected_output_texts
+        test_dir = '\..\sixteen_tests\'
     end
     
     methods (TestClassSetup)
-        function setupGRNstruct(testCase)
-            global GRNstruct
-            testCase.GRNstruct = GRNstruct;
-            [~, name, ext] = fileparts(testCase.GRNstruct.test_file);
-            testCase.GRNstruct.output_file = [name '_output' ext];
+        function setupGRNstruct(testCase, filename)
+            testCase.GRNstruct.output_file = [pwd testCase.test_dir filename '_output'];
+%             global GRNstruct
+%             testCase.GRNstruct = GRNstruct;
+%             [~, name, ext] = fileparts(testCase.GRNstruct.test_file);
+%             testCase.GRNstruct.output_file = [name '_output' ext];
             [~, testCase.GRNstruct.output_sheets] = xlsfinfo(testCase.GRNstruct.output_file);
-        
+            disp(testCase.GRNstruct.output_file)
             testCase.previous_dir = pwd;
-            testCase.previous_file = testCase.GRNstruct.inputFile;
+            disp('a')
+            testCase.input_file = [pwd testCase.test_dir filename];
+                        disp('b')
             testCase.GRNstruct.directory = tempdir;
-            testCase.GRNstruct.inputFile = testCase.GRNstruct.test_file;
+                        disp('c')
             cd(tempdir);
             
-            output (testCase.GRNstruct);
+            output(testCase.GRNstruct);
+                        disp('e')
             [~, testCase.GRNstruct.output_sheets] = xlsfinfo (testCase.GRNstruct.output_file);
+                        disp('f')
+
         end
     end
     
     methods (TestMethodTeardown)
         function resetPath (testCase)
             testCase.GRNstruct.directory = testCase.previous_dir;
-            testCase.GRNstruct.inputFile = testCase.previous_file;
+            testCase.GRNstruct.inputFile = testCase.input_file;
             cd(testCase.previous_dir);
         end
     end
