@@ -16,7 +16,6 @@ figHandles  = findobj('Type','figure');
 offset      = size(figHandles,1);
 
 
-
 plot_colors = [
          0         0         0; % black
     0.1216    0.4706    0.7059; % blue
@@ -49,8 +48,9 @@ for qq = 1:length(Strain)
     if GRNstruct.controlParams.make_graphs
         % Delete these two statements, maybe. They are not
         % being used.
-        error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
-        error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
+        
+%         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
+%         error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
         for ii=1:GRNstruct.GRNParams.num_genes
             figure(ii+offset),hold on
             plot(td,log2FC(qq).data(ii+1,:),'o','Color',plot_colors(qq,:),'LineWidth',3),axis([tmin tmax -3 3]);
@@ -62,7 +62,6 @@ for qq = 1:length(Strain)
         end
     end
 end
-
 for kk = 1:GRNstruct.GRNParams.num_genes
     figure(kk + offset)
     if GRNstruct.controlParams.L_curve && GRNstruct.controlParams.make_graphs
