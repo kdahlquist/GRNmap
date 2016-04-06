@@ -1,7 +1,8 @@
 classdef outputTest < matlab.unittest.TestCase
     
     properties (ClassSetupParameter)
-        test_files = {struct('GRNstruct','MM_estimation_fixP0_graph','file','4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph')}...
+        test_files = {struct('GRNstruct','MM_estimation_fixP0_graph','file','4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph');...
+                      struct('GRNstruct','MM_forward_nograph','file','4-genes_6-edges_artificial-data_MM_forward_no-graph')};...
 %                     '4-genes_6-edges_artificial-data_MM_estimation_fixP-0_no-graph',...
 %                     '4-genes_6-edges_artificial-data_MM_estimation_fixP-1_graph',...
 %                     '4-genes_6-edges_artificial-data_MM_estimation_fixP-1_no-graph',...
@@ -30,6 +31,7 @@ classdef outputTest < matlab.unittest.TestCase
     
     methods (TestClassSetup)
         function setupGRNstruct(testCase, test_files)
+            deleteAllTempsCreated()
             global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate production_function Strain expression_timepoints wts
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
             
@@ -75,6 +77,12 @@ classdef outputTest < matlab.unittest.TestCase
             testCase.GRNstruct.directory = testCase.previous_dir;
             testCase.GRNstruct.inputFile = testCase.input_file;
             cd(testCase.previous_dir);
+        end
+    end
+    
+    methods (TestClassTeardown)
+        function clearTempDir(testCase)
+            deleteAllTempsCreated()
         end
     end
     
@@ -137,15 +145,9 @@ classdef outputTest < matlab.unittest.TestCase
             end
                      
             % Test if there is an optimization diagnostics image
-            if testCase.GRNstruct.GRNOutput.counter >= 100
-                testCase.verifyEqual(exist([tempdir '\optimization_diagnostic.jpg'], 'file'),...
-                                     2,...
-                                     testCase.GRNstruct.inputFile);
-            else
-                testCase.verifyEqual(exist([tempdir '\optimization_diagnostic.jpg'], 'file'),...
-                                     0,...
-                                     testCase.GRNstruct.inputFile);
-            end
+            testCase.verifyEqual(exist([tempdir '\optimization_diagnostic.jpg'], 'file'),...
+                                 testCase.GRNstruct.controlParams.estimate_params * 2,...
+                                 testCase.GRNstruct.inputFile);
         end
          
         function testNetworkWeightExists (testCase)
