@@ -110,6 +110,10 @@ end
 %     end
 % end
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % This is the forward simulation, which is performed for every single strain
 % The simulation gives the gene expression at each of the time 
 % points specified by simulation_timepoints
