@@ -3,7 +3,7 @@ clc
 import matlab.unittest.TestSuite
 import matlab.unittest.TestRunner
 import matlab.unittest.plugins.CodeCoveragePlugin
-runner = TestRunner.withNoPlugins;
+runner = TestRunner.withTextOutput;
 p = DiagnosticRecorderPlugin;
 runner.addPlugin(CodeCoveragePlugin.forFolder([pwd '\..\..\matlab']))
 runner.addPlugin(p)
@@ -50,11 +50,11 @@ GRNstruct = struct();
 GRNstruct.directory     = sixteen_tests_path;
 GRNstruct.tempdir       = tempdir;
 
-readInputSheetTest_suite = TestSuite.fromClass(?readInputSheetTest);
-outputTest_suite = TestSuite.fromClass(?outputTest);
+suite = TestSuite.fromFolder('tests');
 
-runner.run(readInputSheetTest_suite)
-
+warning('off', 'all')
+results = runner.run(suite);
+warning('on', 'all')
 % for file_index          = 1:2:num_files
 %     cd(starting_dir);
 %     GRNstruct.inputFile = which(sixteen_tests(file_index).name);
