@@ -8,17 +8,7 @@ function [L, strain_x1] = general_least_squares_error(theta)
 %
 % Input:  theta = vector of parameters we modify to fit data to model
 % Output: L     = penalized least squares fit criterion
-%
-% Change log
-%
-%   2015 06 04, bgf
-%               added functionality to compute total sum of sq of error
-%               (SSE) for output diagnostics
-%               required new global variable to communicate with 
-%               lse
-%               corrected an error in the way the penalty is computed
-%               for the production rates -- sum(p^2) replaced (sum of p)^2
-%
+
 global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain expression_timepoints wts 
 global SSE   
 
@@ -98,12 +88,17 @@ for qq = 1:length(Strain)
 %     SSE(:,qq) = errormat/nSE;
     SSE(:,qq) = errMatStrain/nSE;
     
-    % Output graph every 100 iterations.
-    if rem(counter,100) ==  0
-        figure(1),subplot(211),plot(theta,'d'), title(['counter = ' num2str(counter) ', LSE = ', num2str(sum(errormat(:))/nData)])
-        subplot(212),plot(log2FC(qq).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
-    end
-    
+end
+
+graphData = struct('strain_data',strain_x1,...
+                   'estimated_guesses',theta,...
+                   'log2FC',log2FC,...
+                   'num_of_strains', length(Strain),...
+                   'LSE',  sum(errormat(:))/nData);
+                   
+% Output graph every 100 iterations.
+if rem(counter,100) ==  0
+    createDiagnosticsGraph(graphData, counter)
 end
 
 % %%Set alpha for L curves

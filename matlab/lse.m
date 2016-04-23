@@ -5,16 +5,7 @@ function GRNstruct = lse(GRNstruct)
 %
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
-%
-% Change log
-%
-%   2015 06 04, bgf
-%               added functionality to generate total sum of sq of error
-%               (SSE) for output diagnostics
-%               required new global variable to communicate with 
-%               general_least_squares_error
-%               final line of code added
-%
+
 global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain wtmat b is_forced      
 global SSE 
 % We store relevant values and matrices from
@@ -85,7 +76,7 @@ if estimate_params
     for kk = 1:kk_max
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
         estimated_guesses = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
-        [GRNstruct.GRNOutput.lse_final, strain_x1] = general_least_squares_error(estimated_guesses);
+        [GRNstruct.GRNOutput.lse_final, strain_data] = general_least_squares_error(estimated_guesses);
         GRNstruct.GRNOutput.lse_out = lse_out;
         % lse_1   = L;
         % pen     = penalty_out;
@@ -102,20 +93,17 @@ end
 
                
 if counter < 100 && estimate_params
-    graphData = struct('strain_data',strain_x1,...
+    graphData = struct('strain_data',strain_data,...
                    'estimated_guesses',estimated_guesses,...
                    'log2FC',log2FC,...
-                   'num_of_strains', length(Strain));
+                   'num_of_strains', length(Strain),...
+                   'LSE',GRNstruct.GRNOutput.lse_final);
+               
     createDiagnosticsGraph(graphData, counter);
 end
 
-if counter < 100 && estimate_params
-    for i = 1:length(Strain)
-        x1 = strain_x1(i,:);
-        figure(1),subplot(211),plot(estimated_guesses,'d'), title(['counter = ' num2str(counter)])
-        subplot(212),plot(log2FC(i).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
-    end
-end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % This is the forward simulation, which is performed for every single strain
 % The simulation gives the gene expression at each of the time 

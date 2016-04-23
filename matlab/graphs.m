@@ -5,14 +5,7 @@ function GRNstruct = graphs(GRNstruct)
 %
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
-%
-% Change log
-%
-%   2015 06 05, bgf
-%               modified graph file names to gene standard names
-%               added print command to save the final running opt diag
-%               graph
-%
+
 global log2FC Strain expression_timepoints
 
 directory = GRNstruct.directory;
@@ -23,20 +16,20 @@ figHandles  = findobj('Type','figure');
 offset      = size(figHandles,1);
 
 
-
 plot_colors = [
-    0.6510    0.8078    0.8902;
-    0.1216    0.4706    0.7059;
-    0.6980    0.8745    0.5412;
-    0.2000    0.6275    0.1725;
-    0.9843    0.6039    0.6000;
-    0.8902    0.1020    0.1098;
-    0.9922    0.7490    0.4353;
-    1.0000    0.4980         0;
-    0.7922    0.6980    0.8392;
-    0.4157    0.2392    0.6039;
-    1.0000    1.0000    0.6000;
-    0.6941    0.3490    0.1569;   
+         0         0         0; % black
+    0.1216    0.4706    0.7059; % blue
+    0.8902    0.1020    0.1098; % red
+    0.2000    0.6275    0.1725; % green
+    1.0000    0.4980         0; % orange
+    0.4157    0.2392    0.6039; % purple 
+    0.6941    0.3490    0.1569; % brown
+    0.2667    0.2667    0.2667; % grey
+    0.6510    0.8078    0.8902; % light blue
+    0.9843    0.6039    0.6000; % pink
+    0.6980    0.8745    0.5412; % light green
+    0.9922    0.7490    0.4353; % light orange
+    0.7922    0.6980    0.8392; % light purple
 ];
 
 if length(Strain) == 1
@@ -55,8 +48,9 @@ for qq = 1:length(Strain)
     if GRNstruct.controlParams.make_graphs
         % Delete these two statements, maybe. They are not
         % being used.
-        error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
-        error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
+        
+%         error_up = (log2FC(qq).avg + 1.96*log2FC(qq).stdev);
+%         error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
         for ii=1:GRNstruct.GRNParams.num_genes
             figure(ii+offset),hold on
             plot(td,log2FC(qq).data(ii+1,:),'o','Color',plot_colors(qq,:),'LineWidth',3),axis([tmin tmax -3 3]);
@@ -68,9 +62,12 @@ for qq = 1:length(Strain)
         end
     end
 end
-
 for kk = 1:GRNstruct.GRNParams.num_genes
     figure(kk + offset)
-    filename = [directory GRNstruct.labels.TX0{1+kk,1}];
+    if GRNstruct.controlParams.L_curve && GRNstruct.controlParams.make_graphs
+        filename = [directory GRNstruct.labels.TX0{1+kk,1} '_' num2str(GRNstruct.copy_counter)];
+    else
+        filename = [directory GRNstruct.labels.TX0{1+kk,1}];
+    end
     print(filename,'-djpeg')
 end

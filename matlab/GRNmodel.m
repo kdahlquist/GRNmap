@@ -1,16 +1,8 @@
 % Allows user to choose an .xls or .xlsx file. If unsupported file is chosen
 % the program is aborted. The dialog box defaults to .xlsx files.
-[name,path,~] = uigetfile({'*.xlsx'},'Select Input Worksheet for Simulation.');
+[GRNstruct.fileName, GRNstruct.directory, ~] = uigetfile({'*.xlsx'},'Select Input Worksheet for Simulation.');
 
-if ~exist('GRNSuperStruct', 'var')
-    GRNSuperStruct.counter = 1;
-else
-    GRNSuperStruct.counter = GRNSuperStruct.counter + 1;
-end
-
-GRNstruct.directory = path;
-GRNstruct.fileName  = name;
-GRNstruct.inputFile = [path name];
+GRNstruct.inputFile = [GRNstruct.directory GRNstruct.fileName];
 
 % If no valid file is chosen, abort
 if ~GRNstruct.inputFile
