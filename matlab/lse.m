@@ -76,7 +76,7 @@ if estimate_params
     for kk = 1:kk_max
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
         estimated_guesses = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
-        [GRNstruct.GRNOutput.lse_final, strain_x1] = general_least_squares_error(estimated_guesses);
+        [GRNstruct.GRNOutput.lse_final, strain_data] = general_least_squares_error(estimated_guesses);
         GRNstruct.GRNOutput.lse_out = lse_out;
         % lse_1   = L;
         % pen     = penalty_out;
@@ -93,7 +93,7 @@ end
 
                
 if counter < 100 && estimate_params
-    graphData = struct('strain_data',strain_x1,...
+    graphData = struct('strain_data',strain_data,...
                    'estimated_guesses',estimated_guesses,...
                    'log2FC',log2FC,...
                    'num_of_strains', length(Strain),...
@@ -101,15 +101,6 @@ if counter < 100 && estimate_params
                
     createDiagnosticsGraph(graphData, counter);
 end
-
-% if counter < 100 && estimate_params
-%     for i = 1:length(Strain)
-%         x1 = strain_x1(i,:);
-%         figure(1),subplot(211),plot(estimated_guesses,'d'), title(['counter = ' num2str(counter)])
-%         subplot(212),plot(log2FC(i).avg','*'),hold on,plot(log2(x1)), hold off,pause(.1)
-%     end
-% end
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

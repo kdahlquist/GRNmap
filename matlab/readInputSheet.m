@@ -81,6 +81,7 @@ end
 [GRNstruct.GRNParams.adjacency_mat,GRNstruct.labels.TX3] = xlsread(input_file,'network');
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
 
+% Describes the geometry of the gene regulatory network.
 GRNstruct.GRNParams.num_edges                        = sum(GRNstruct.GRNParams.adjacency_mat(:));
 GRNstruct.GRNParams.num_genes                        = size(GRNstruct.GRNParams.adjacency_mat,2);
 GRNstruct.GRNParams.active                           = 1:GRNstruct.GRNParams.num_genes;
@@ -88,13 +89,17 @@ GRNstruct.GRNParams.alpha                            = alpha;
 GRNstruct.GRNParams.expression_timepoints            = expression_timepoints;
 GRNstruct.GRNParams.num_times                        = length(expression_timepoints);
 
-% This sets the control parameters
+% Describes the runtime paramters given by the user in the
+% optimization_paramenters sheet
 GRNstruct.controlParams.simulation_timepoints        = simulation_timepoints;
+% The following are used as parameters for fmincon. Refer to fmincon
+% documentation for the meaning of these variables
 GRNstruct.controlParams.kk_max                       = kk_max;
 GRNstruct.controlParams.MaxIter                      = MaxIter;
 GRNstruct.controlParams.MaxFunEval                   = MaxFunEval;
 GRNstruct.controlParams.TolFun                       = TolFun;
 GRNstruct.controlParams.TolX                         = TolX;
+
 GRNstruct.controlParams.estimate_params              = estimate_params;
 GRNstruct.controlParams.make_graphs                  = make_graphs;
 GRNstruct.controlParams.production_function          = production_function;
