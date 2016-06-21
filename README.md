@@ -35,10 +35,7 @@ For all other correspondence, please contact:
 Associate Professor<br>
 Department of Biology<br>
 Loyola Marymount University<br>
-1 LMU Drive, MS 8888<br>
-Los Angeles, CA 90045-2659<br>
 Tel: 310-338-7697<br>
-Fax: 310-338-5317<br>
 kdahlquist@lmu.edu<br>
 http://myweb.lmu.edu/kdahlqui<br>
 
@@ -46,8 +43,6 @@ http://myweb.lmu.edu/kdahlqui<br>
 Professor<br>
 Department of Mathematics<br>
 Loyola Marymount University<br>
-1 LMU Drive<br>
-Los Angeles, CA 90045-2659<br>
 Tel: 310-338-7892<br>
 bfitzpatrick@lmu.edu<br>
 http://myweb.lmu.edu/bfitzpatrick<br>
