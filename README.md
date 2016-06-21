@@ -33,7 +33,7 @@ See the [GRNmap About page](http://kdahlquist.github.io/GRNmap/about.html#releas
 
 For documentation on how to format the input workbooks and how to interpret the output workbooks, please see the [GRNmap Documentation page](http://kdahlquist.github.io/GRNmap/documentation.html) or [wiki](https://github.com/kdahlquist/GRNmap/wiki).
 
-### Quick Guide to Getting Started with a Demo Workbook
+### Quick Guide to Getting Started with a Demo Input Workbook
 
 #### Running GRNmap from Code
 
@@ -49,8 +49,8 @@ For documentation on how to format the input workbooks and how to interpret the 
 
 1. Download the latest version of the GRNmap executable as a zipped archive from the [Download page](http://kdahlquist.github.io/GRNmap/downloads.html) and extract.
 2. The MATLAB Compiler Runtime (MCR) library version 8.4 is needed to run the GRNmap stand-alone executable.  If you are running GRNmap for the first time, you will need to install MCR.
- * The MCR installer is packaged in the zipped archive.  Alternately, you can download version 8.4 at http://www.mathworks.com/products/compiler/mcr/index.html.
- * Double-click on the file "MyAppInstaller_mcr.exe" and follow the instructions to install.  _Note that you will need Administrator privileges to install MCR._
+ * The MCR installer is packaged in the zipped archive.
+ * Double-click on the file "MyAppInstaller\_mcr.exe" and follow the instructions to install.  _Note that you will need Administrator privileges to install MCR._
 3. Double-click on "GRNmap.exe" to run GRNmap.
 4. When prompted by the Open dialog, select an input Excel workbook.  Demo files can be downloaded from the ["data_samples" directory](https://github.com/kdahlquist/GRNmap/tree/master/test_files/data_samples) on the GRNmap GitHub repository.  
  * The filenames specify whether the production function used is sigmoidal (Sigmoid) or Michelis-Menten (MM), whether parameter estimation followed by a forward simulation will take place (estimation) or just a forward simulation (forward), and whether the workbook is an input or output sample.  For example, the file 21-genes\_50-edges\_Dahlquist-data\_Sigmoid\_estimation.xlsx estimates parameters for a 21-gene, 50-edge network using a sigmoidal production function.
