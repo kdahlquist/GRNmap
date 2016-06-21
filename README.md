@@ -34,7 +34,16 @@ See the [GRNmap About page](http://kdahlquist.github.io/GRNmap/about.html#releas
 For documentation on how to format the input workbooks and how to interpret the output workbooks, please see the [GRNmap Documentation page](http://kdahlquist.github.io/GRNmap/documentation.html) or [wiki](https://github.com/kdahlquist/GRNmap/wiki).
 
 ### Quick Guide to Getting Started with a Demo Workbook
+
 #### Running GRNmap from Code
+
+1. Download the GRNmap code zipped archive and extract.
+2. Launch MATLAB version R2014b and open the file "GRNmap-<version>\matlab\GRNmodel.m".
+3. Run GRNmodel.m.
+4. When prompted by the Open dialog, select an input Excel workbook.  Demo files are found in the "GRNmap-<version>\test\_files\data_samples" directory.  
+ * The filenames specify whether the production function used is sigmoidal (Sigmoid) or Michelis-Menten (MM), whether parameter estimation followed by a forward simulation will take place (estimation) or just a forward simulation (forward), and whether the workbook is an input or output sample.  For example, the file 21-genes\_50-edges\_Dahlquist-data\_Sigmoid\_estimation.xlsx estimates parameters for a 21-gene, 50-edge network using a sigmoidal production function.
+ * GRNmap will display an optimization diagnostics figure when the estimation is running, updating every 100 iterations.
+5. When the estimation (or forward simulation) is complete, GRNmap will display expression plots for all genes in the network which compares the experimental data to the simulated data.  Microsoft Excel (.xlsx) and MATLAB (.mat) output files will be automatically generated and saved in the same directory as the input file.  If the option "make\_graphs=1" in the optimization\_parameters worksheet, .jpg files of each expression plot will also be automatically saved.
 
 #### Installing and Running the GRNmap Executable
 
