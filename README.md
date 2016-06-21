@@ -16,10 +16,18 @@ There are several options for running GRNmap:
 GRNmap can be run from source code in MATLAB.
 Users without a MATLAB license can use the executable to run GRNmap as a stand-alone program.
 
-## System Requirements and Compatibility:
+### Availability
+
+GRNmap code is available under the open source [BSD license](http://opensource.org/licenses/BSD-3-Clause).
+
+### System Requirements and Compatibility:
 * The GRNmap code was developed and tested with MATLAB R2014b; it may not function properly with other versions of MATLAB.
 * GRNmap is only compatible with the Windows operating system because of the function it uses to read and write Microsoft Excel spreadsheets. It has only been tested on Windows 7.
 * We recommend running GRNmap with a minimum of 8.00 GB of RAM and a 2.40 GHz processor. GRNmap may be compatible with slower systems; the amount of RAM and processor speed will affect the speed with which GRNmap completes the estimation.
+
+### Release Notes
+
+See the [GRNmap About page](http://kdahlquist.github.io/GRNmap/about.html#releaseContent) for current release notes.
 
 ## Documentation
 ### Quick Guide to Running Demo Input Workbooks
