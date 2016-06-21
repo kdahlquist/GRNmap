@@ -30,8 +30,13 @@ GRNmap code is available under the open source [BSD license](http://opensource.o
 See the [GRNmap About page](http://kdahlquist.github.io/GRNmap/about.html#releaseContent) for current release notes.
 
 ## Documentation
-### Quick Guide to Running Demo Input Workbooks
-### For more information
+
+For documentation on how to format the input workbooks and how to interpret the output workbooks, please see the [GRNmap Documentation page](http://kdahlquist.github.io/GRNmap/documentation.html) or [wiki](https://github.com/kdahlquist/GRNmap/wiki).
+
+### Quick Guide to Getting Started with a Demo Workbook
+#### Running GRNmap from Code
+
+#### Installing and Running the GRNmap Executable
 
 ## Contact
 
