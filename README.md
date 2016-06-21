@@ -12,6 +12,7 @@ There are several options for running GRNmap:
 * Estimate parameters or perform a forward simulation only
   * Estimate production rates or fix them to a particular value
   * Estimate expression threholds or fix them to a particular value
+  * Automatically perform multiple successive runs for fine tuning of the optimization parameter, alpha 
 * Automatically generate expression plots or not
 
 GRNmap can be run from source code in MATLAB.
