@@ -12,8 +12,9 @@ body {
 iframe.embedded-demo {
 	padding:0;
 	margin:0;
-    min-width: 1200px;
-    width: 100%;
+	height:770px;
+	width:1350px;
+    overflow:scroll;
     border:0;
 }
 
@@ -127,6 +128,18 @@ a:active {
 	padding: 5px 5px 5px 5px;
 }
 
+.fixWidthforImage {
+	min-width: 1525px;
+}
+
+.fixWidthforImage > div.pull-left {
+	margin-bottom: 1em;
+}
+
+.fixWidthforImage > div.pull-right {
+	max-width: 720px; margin-right:200px;
+}
+
 #pageTitle {
 	font-size: 25px;
 	color: #141414;
@@ -136,14 +149,15 @@ a:active {
 	color:#141414;
 	font-size: 14px;
 	padding: 0px 5px 5px 10px;
+    margin-right: 8em;
 }
 
 #pageContent p {
 	text-align: justify;
-	width: 90%;
 }
 
 #pageContent li {
+    margin-bottom: 0.65ex;
 	text-align: justify;
 	width: 95%;
 }
@@ -155,7 +169,7 @@ p.panel-title.aboutHeaders {
 
 .name {
 	font-weight:bold;
-	font-size:18px;	
+	font-size:18px;
 	margin:0 0 0 0;
 	padding-left:15px;
 }
@@ -164,6 +178,11 @@ p.panel-title.aboutHeaders {
 	font-weight:normal;
 	font-size:15px;
 	margin: 0 0 0 30px;
+        white-space: nowrap;
+}
+
+.studentName {
+	padding-left: 30px;
 }
 
 h3 {
@@ -171,21 +190,31 @@ h3 {
 	margin: 15px 0 10px 0;
 }
 
-.abstract {
+.abstract, .publication {
 	font-size: 15px;
+    margin-bottom: 3em;
 	margin-left: 30px;
+    margin-right: 15px;
 }
 
-div.abstract > iframe {
-	border:1px solid #CCC; 
-	border-width:1px 1px 0; 
-	margin-bottom:5px; 
+figure.publication {
+    margin-left: 90px;
+}
+
+figure.publication > iframe {
+	border:1px solid #CCC;
+	border-width:1px 1px 0;
+	margin-bottom:5px;
 	max-width: 100%;
+}
+
+figure.publication > figcaption > a {
+    font-weight: bold;
 }
 
 .newsDate {
 	font-weight:bold;
-	font-size:18px;	
+	font-size:18px;
 	line-height: 1.5;
 	margin:0 0 0 0;
 	padding-left:15px;
@@ -195,32 +224,32 @@ div.abstract > iframe {
 
 .newsHeader {
 	font-weight:bold;
-	font-size:15px;	
+	font-size:15px;
 	margin:0 0 0 0;
 	padding: 10px 0 0 30px;
 }
 
 .newsInfo {
-	font-size:14px;	
-	margin:0 0 0 0;
+	font-size:14px;
+	margin: 0 0 0 0;
 	padding: 10px 0 30px 30px;
 }
 
 .extraInfo {
-    font-size:14px;	
-	margin:0 0 0 0;
-	padding: 10px 0 0 30px;
+	font-size:14px;
+	margin: 0 0 0 0;
+	padding: 10px 0 0px 30px;
 }
 
 .linkHeader {
 	font-weight:bold;
-	font-size:18px;	
+	font-size:18px;
 	margin:0 0 0 0;
 	padding-left:15px;
 }
 
 .linkInfo {
-	font-size:15px;	
+	font-size:15px;
 }
 
 #separate {
@@ -232,6 +261,7 @@ div.abstract > iframe {
 	list-style-type: none;
 	font-size: 12px;
 	text-align: center;
+	clear:both
 }
 
 #footerNav li {
@@ -276,3 +306,44 @@ html {
 .panel-heading {
 	padding: 7px 15px;
 }
+
+/* This is derived from .alert.alert-success in full Bootstrap.
+   We are not using full Bootstrap on this site however, thus
+   the derivation. */
+#cookie-notice {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: rgba(60, 60, 60, 0.5) 0 8px 16px;
+    color: #3c763d;
+    font-family: sans-serif;
+    margin-bottom: 20px;
+    max-width: 34em;
+    padding: 15px;
+    position: absolute;
+    right: 2ex;
+    text-shadow: none;
+    top: 1ex;
+}
+
+.cookie-action {
+    background: none;
+    border: none;
+    float: right;
+    margin-left: 1em;
+    margin-top: 1em;
+    padding: 0;
+    text-align: right;
+}
+
+.cookie-action:hover {
+	color: #69163F;
+    text-decoration: underline;
+}
+
+.cookie-action:active {
+	color: #125432;
+    text-decoration: underline;
+}
+
