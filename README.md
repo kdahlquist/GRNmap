@@ -37,7 +37,7 @@ For documentation on how to format the input workbooks and how to interpret the 
 
 #### Running GRNmap from Code
 
-1. Download the GRNmap code zipped archive and extract.
+1. Download the latest version of the GRNmap code as a zipped archive from the [Download page](http://kdahlquist.github.io/GRNmap/downloads.html) and extract.
 2. Launch MATLAB version R2014b and open the file "GRNmap-<version>\matlab\GRNmodel.m".
 3. Run GRNmodel.m.
 4. When prompted by the Open dialog, select an input Excel workbook.  Demo files are found in the "GRNmap-<version>\test\_files\data_samples" directory.  
@@ -46,6 +46,16 @@ For documentation on how to format the input workbooks and how to interpret the 
 5. When the estimation (or forward simulation) is complete, Microsoft Excel (.xlsx) and MATLAB (.mat) output files will be automatically generated and saved in the same directory as the input file.  If the option "make\_graphs=1" in the optimization\_parameters worksheet, GRNmap will display expression plots for all genes in the network which compares the experimental data to the simulated data, and .jpg files of each expression plot will also be automatically saved in the same directory as the other output files.
 
 #### Installing and Running the GRNmap Executable
+
+1. Download the latest version of the GRNmap executable as a zipped archive from the [Download page](http://kdahlquist.github.io/GRNmap/downloads.html) and extract.
+2. The MATLAB Compiler Runtime (MCR) library is needed to run the GRNmap stand-alone executable.  If you are running GRNmap for the first time, you will need to install MCR.
+ * The MCR installer is packaged in the zipped archive.  Alternately, you can download the latest version at http://www.mathworks.com/products/compiler/mcr/index.html.
+ * Double-click on the file "MyAppInstaller_mcr.exe" and follow the instructions to install.  _Note that you will need Administrator privileges to install MCR._
+3. Double-click on "GRNmap.exe" to run GRNmap.
+4. When prompted by the Open dialog, select an input Excel workbook.  Demo files are found in the "data_samples" folder packaged with the zipped archive.  
+ * The filenames specify whether the production function used is sigmoidal (Sigmoid) or Michelis-Menten (MM), whether parameter estimation followed by a forward simulation will take place (estimation) or just a forward simulation (forward), and whether the workbook is an input or output sample.  For example, the file 21-genes\_50-edges\_Dahlquist-data\_Sigmoid\_estimation.xlsx estimates parameters for a 21-gene, 50-edge network using a sigmoidal production function.
+ * GRNmap will display an optimization diagnostics figure when the estimation is running, updating every 100 iterations.
+5. When the estimation (or forward simulation) is complete, Microsoft Excel (.xlsx) and MATLAB (.mat) output files will be automatically generated and saved in the same directory as the input file.  If the option "make\_graphs=1" in the optimization\_parameters worksheet, GRNmap will display expression plots for all genes in the network which compares the experimental data to the simulated data, and .jpg files of each expression plot will also be automatically saved in the same directory as the other output files.
 
 ## Acknowledgments
 ### People
