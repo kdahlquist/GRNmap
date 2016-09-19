@@ -33,6 +33,10 @@ advances
 * Other conduct which could reasonably be considered inappropriate in a
   professional setting
 
+### Loyola Marymount University Policies
+
+Loyola Marymount University student participants in this project are also bound by the Lion's Code and the LMU Student Conduct Code found in the  and the [LMU Community Standards Publication](http://studentaffairs.lmu.edu/media/lmustudentaffairs/administration/judicialaffairs/Community%20Standards%20Booklet.pdf) and the [LMU Academic Honesty Policy](http://academics.lmu.edu/honesty). 
+
 ## Our Responsibilities
 
 Project maintainers are responsible for clarifying the standards of acceptable
