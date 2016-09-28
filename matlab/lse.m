@@ -6,7 +6,7 @@ function GRNstruct = lse(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain wtmat b is_forced      
+global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain b is_forced      
 global SSE 
 % We store relevant values and matrices from
 % the struct into local variables
@@ -23,6 +23,7 @@ MaxIter        = GRNstruct.controlParams.MaxIter;
 MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
 TolFun         = GRNstruct.controlParams.TolFun;
 TolX           = GRNstruct.controlParams.TolX;
+wtmat          = GRNstruct.GRNParams.wtmat;
 
 b              = GRNstruct.GRNParams.b;
 

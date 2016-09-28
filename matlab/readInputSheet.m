@@ -9,7 +9,7 @@ function GRNstruct = readInputSheet( GRNstruct )
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate production_function Strain wtmat expression_timepoints
+global adjacency_mat alpha b degrate fix_b fix_P log2FC num_genes prorate production_function Strain expression_timepoints
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -115,7 +115,7 @@ if strcmpi(GRNstruct.controlParams.production_function, 'Sigmoid')
 else
     GRNstruct.controlParams.fix_b = 1;
     fix_b = 1;
-    GRNstruct.GRNParams.b = zeros(length(degrate),1);
+    GRNstruct.GRNParams.b = zeros(length(GRNstruct.degRates),1);
     b = GRNstruct.GRNParams.b;
 end
 
@@ -200,12 +200,9 @@ GRNstruct.GRNParams.positions  = sortrows([rows,columns],1);
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
 
 % Populating the globals
-is_forced     = GRNstruct.GRNParams.is_forced;
 num_genes     = GRNstruct.GRNParams.num_genes;
-num_times     = GRNstruct.GRNParams.num_times;
 degrate       = GRNstruct.degRates;
 adjacency_mat = GRNstruct.GRNParams.adjacency_mat;
 prorate       = GRNstruct.GRNParams.prorate;
-wtmat         = GRNstruct.GRNParams.wtmat;
 
 end
