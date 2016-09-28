@@ -15,31 +15,24 @@ classdef initializeArraysTest < matlab.unittest.TestCase
     
     methods (Test)
         function testAverageSize(testCase)
-%             GRNstruct = readInputSheet(testCase.GRNstruct);
             testCase.GRNstruct = initializeArrays(testCase.GRNstruct);            
             testCase.verifyTrue(isequal(testCase.GRNstruct.microData(1).avg, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
             testCase.verifyTrue(isequal(testCase.GRNstruct.microData(2).avg, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
         end
         
         function testStandardDevSize(testCase)
-%             GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph.xlsx'];
-%             GRNstruct = readInputSheet(testCase.GRNstruct);
             testCase.GRNstruct = initializeArrays(testCase.GRNstruct);            
             testCase.verifyTrue(isequal(testCase.GRNstruct.microData(1).stdev, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
             testCase.verifyTrue(isequal(testCase.GRNstruct.microData(2).stdev, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
         end
         
         function testInitialAndEstimatedGuessesSize(testCase)
-%             GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph.xlsx'];
-%             GRNstruct = readInputSheet(testCase.GRNstruct);
             testCase.GRNstruct = initializeArrays(testCase.GRNstruct);            
             testCase.verifyTrue(isequal(testCase.GRNstruct.locals.initial_guesses, [0; 0; 0; 0; 0; 0; 0; 0; 0; 0]));
             testCase.verifyTrue(isequal(testCase.GRNstruct.locals.estimated_guesses, [0; 0; 0; 0; 0; 0; 0; 0; 0; 0]));
         end
         
         function testSSESize(testCase)
-            testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph.xlsx'];
-            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
             testCase.GRNstruct = initializeArrays(testCase.GRNstruct);            
             testCase.verifyTrue(isequal(testCase.GRNstruct.GRNOutput.SSE, [0 0; 0 0; 0 0; 0 0]));
         end

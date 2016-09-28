@@ -200,7 +200,6 @@ GRNstruct.GRNParams.positions  = sortrows([rows,columns],1);
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
 
 % Populating the globals
-is_forced     = GRNstruct.GRNParams.is_forced;
 num_genes     = GRNstruct.GRNParams.num_genes;
 num_times     = GRNstruct.GRNParams.num_times;
 degrate       = GRNstruct.degRates;

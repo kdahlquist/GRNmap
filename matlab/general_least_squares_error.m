@@ -43,7 +43,6 @@ else
 end
 
 errormat = 0;
-SSE      = zeros(num_genes,length(Strain));
 
 % % Call for all deletion strains simultaneously
 
