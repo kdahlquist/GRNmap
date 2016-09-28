@@ -6,7 +6,7 @@ function GRNstruct = lse(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain wtmat b is_forced      
+global counter fix_b fix_P log2FC lse_out penalty_out prorate Strain wtmat b is_forced      
 global SSE 
 % We store relevant values and matrices from
 % the struct into local variables
@@ -17,8 +17,6 @@ num_forced     = GRNstruct.GRNParams.num_forced;
 is_forced      = GRNstruct.GRNParams.is_forced;
 estimate_params = GRNstruct.controlParams.estimate_params;
 kk_max         = GRNstruct.controlParams.kk_max;
-simulation_timepoints        = GRNstruct.controlParams.simulation_timepoints;
-x0             = GRNstruct.GRNParams.x0;
 MaxIter        = GRNstruct.controlParams.MaxIter;
 MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
 TolFun         = GRNstruct.controlParams.TolFun;
@@ -108,23 +106,7 @@ end
 % This is the forward simulation, which is performed for every single strain
 % The simulation gives the gene expression at each of the time 
 % points specified by simulation_timepoints
-for qq = 1:length(Strain)
-    deletion = GRNstruct.microData(qq).deletion;
-    % t is the time points for which we did the forward simulation. It's
-    % always the same as simulation_timepoints.
-    % model is the expression of each gene in the network at each of those
-    % time points in t.
-    if strcmpi(production_function, 'Sigmoid')
-        [~,model] = ode45(@general_network_dynamics_sigmoid,simulation_timepoints,x0);
-    else
-        [~,model] = ode45(@general_network_dynamics_mm,simulation_timepoints,x0);
-    end
-    log2FC(qq).model               = (log2(model))';
-    log2FC(qq).simulation_timepoints             = simulation_timepoints';
-    GRNstruct.GRNModel(qq).model   = log2FC(qq).model;
-    GRNstruct.GRNModel(qq).simulation_timepoints = log2FC(qq).simulation_timepoints;
-end
-
+runForwardSimulation(GRNstruct);
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
