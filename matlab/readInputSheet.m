@@ -58,6 +58,7 @@ for index = 1:length(Strain)
     currentStrain = strtrim(lower(Strain{index}));
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).Strain = currentStrain;
+%   Populate log2FC with recently read GRNstruct.microData
     log2FC(index).data = GRNstruct.microData(index).data;
     
     genes = strtrim(lower(GRNstruct.labels.TX1(2:end,1)));
