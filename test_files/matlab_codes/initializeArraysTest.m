@@ -80,5 +80,23 @@ classdef initializeArraysTest < matlab.unittest.TestCase
             testCase.verifyTrue(isequal(testCase.GRNstruct.GRNOutput.tspan, [0 0 0 0]));
         end
         
+        function testGRNModelModelSize(testCase)
+            testCase.GRNstruct = initializeArrays(testCase.GRNstruct);    
+            testCase.verifyTrue(isequal(testCase.GRNstruct.GRNModel(1).model, [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; ...
+                                                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; ...
+                                                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; ...
+                                                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]));
+            testCase.verifyTrue(isequal(testCase.GRNstruct.GRNModel(2).model, [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; ...
+                                                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; ...
+                                                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; ...
+                                                                            0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]));
+        end
+        
+        function testGRNModelSimulationTimepointsSize(testCase)
+            testCase.GRNstruct = initializeArrays(testCase.GRNstruct);    
+            testCase.verifyTrue(isequal(testCase.GRNstruct.GRNModel(1).simulation_timepoints, [0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0]));
+            testCase.verifyTrue(isequal(testCase.GRNstruct.GRNModel(2).simulation_timepoints, [0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0]));
+        end
+        
     end
 end
