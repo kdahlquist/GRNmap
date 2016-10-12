@@ -5,6 +5,11 @@ function GRNstruct = initializeArrays (GRNstruct)
     num_edges  = GRNstruct.GRNParams.num_edges;
     num_forced = GRNstruct.GRNParams.num_forced;
     num_genes  = GRNstruct.GRNParams.num_genes;
+    
+    for i = 1:length(Strain)
+       GRNstruct.GRNModel(i).model = zeros(num_genes, length(GRNstruct.controlParams.simulation_timepoints));
+       GRNstruct.GRNModel(i).simulation_timepoints = zeros(length(GRNstruct.controlParams.simulation_timepoints), 1);
+    end
             
     GRNstruct.locals.initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1 - fix_P), 1);
     GRNstruct.locals.estimated_guesses = zeros(length(GRNstruct.locals.initial_guesses), 1);
