@@ -20,6 +20,7 @@ end
 % Back Simulation
 % Populates the structure as well as the global variables
 GRNstruct = readInputSheet(GRNstruct);
+GRNstruct = initializeArrays(GRNstruct);
 if (GRNstruct.controlParams.L_curve) 
    GRNstruct = GRNLCurve(GRNstruct);
 else
