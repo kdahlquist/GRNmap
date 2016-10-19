@@ -52,11 +52,9 @@ for currentRow = 2:numRows
     end
 end
 
+GRNstruct = rmfield(GRNstruct, 'microData');
 % This reads the microarray data for each strain.
-
 for index = 1:length(Strain)
-    GRNstruct.microData(index).Strain = {};
-    GRNstruct.microData(index).deletion = {};
     currentStrain = strtrim(lower(Strain{index}));
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).Strain = currentStrain;
