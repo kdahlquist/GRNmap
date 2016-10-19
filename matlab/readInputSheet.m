@@ -9,7 +9,7 @@ function GRNstruct = readInputSheet( GRNstruct )
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global adjacency_mat alpha b degrate fix_b fix_P log2FC num_genes prorate production_function Strain expression_timepoints
+global alpha b degrate fix_b fix_P log2FC num_genes prorate production_function Strain expression_timepoints
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -83,7 +83,6 @@ end
 [GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]         = xlsread(input_file,'network_weights');
 [GRNstruct.GRNParams.adjacency_mat,GRNstruct.labels.TX3] = xlsread(input_file,'network');
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
-
 % Describes the geometry of the gene regulatory network.
 GRNstruct.GRNParams.num_edges                        = sum(GRNstruct.GRNParams.adjacency_mat(:));
 GRNstruct.GRNParams.num_genes                        = size(GRNstruct.GRNParams.adjacency_mat,2);
@@ -208,7 +207,6 @@ GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
 % Populating the globals
 num_genes     = GRNstruct.GRNParams.num_genes;
 degrate       = GRNstruct.degRates;
-adjacency_mat = GRNstruct.GRNParams.adjacency_mat;
 prorate       = GRNstruct.GRNParams.prorate;
 
 end
