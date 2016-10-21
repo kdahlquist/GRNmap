@@ -32,7 +32,7 @@ classdef outputTest < matlab.unittest.TestCase
     
     methods (TestClassSetup)
         function setupGRNstruct(testCase, test_files)
-            global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate production_function Strain expression_timepoints wts
+            global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate production_function Strain wts
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
             
             adjacency_mat = testCase.GRNstruct.globals.adjacency_mat;
@@ -48,8 +48,7 @@ classdef outputTest < matlab.unittest.TestCase
             prorate = testCase.GRNstruct.globals.prorate;
             production_function = testCase.GRNstruct.globals.production_function;
             Strain = testCase.GRNstruct.globals.Strain;
-            expression_timepoints = testCase.GRNstruct.globals.expression_timepoints;
-            wts = testCase.GRNstruct.globals.wts;
+            wts = testCase.GRNstruct.globals.wts; 
             
             testCase.GRNstruct.output_file = [test_files.file '_output'];
             testCase.GRNstruct.inputFile = [pwd testCase.test_dir test_files.file '.xlsx'];
@@ -60,6 +59,7 @@ classdef outputTest < matlab.unittest.TestCase
             fprintf('\n%s\n', testCase.input_file);         
             testCase.GRNstruct.directory = tempdir;
             cd(tempdir);
+            
             
             output(testCase.GRNstruct);
             [~, testCase.GRNstruct.output_sheets] = xlsfinfo (testCase.GRNstruct.output_file);

@@ -6,7 +6,7 @@ function GRNstruct = lse(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain b is_forced SSE     
+global counter fix_b fix_P log2FC lse_out penalty_out prorate Strain b is_forced SSE     
 
 % We store relevant values and matrices from
 % the struct into local variables
