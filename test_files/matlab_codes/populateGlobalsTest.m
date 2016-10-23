@@ -26,6 +26,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         GRNstruct
         adjacency_mat
         b
+        deletion
         degrate
         fix_b
         num_genes
@@ -35,7 +36,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
     
     methods(TestClassSetup)
         function makeGlobals(testCase, test_files)
-            global adjacency_mat b degrate fix_b num_genes prorate wts
+            global adjacency_mat b degrate fix_b num_genes prorate wts deletion
             addpath([pwd '/../../matlab']);
             addpath('tests/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
@@ -43,6 +44,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.adjacency_mat = adjacency_mat;
             testCase.b = b;
             testCase.degrate = degrate;
+            testCase.deletion = deletion;
             testCase.fix_b = fix_b;
             testCase.num_genes = num_genes;
             testCase.prorate = prorate;
@@ -54,7 +56,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         function testAdjacencyMat(testCase)
             testCase.verifyEqual(testCase.adjacency_mat, [1 0 0 0; 0 1 0 0; 0 0 1 1; 0 0 1 1]);
         end
-        %b might depend on input%
+
         function testB(testCase)
             testCase.verifyEqual(testCase.b, [0;0;0;0]);
         end
@@ -71,22 +73,12 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.verifyEqual(testCase.num_genes, 4);
         end
         
+        %prorates depend on input%
         function testProRate(testCase)
             testCase.verifyEqual(testCase.prorate, [0.697407193664997;
                              1.15680032250197; 
                              2.7591362546192;
                              2.37852370311734]);
-        end
-        
-        function testWTS(testCase)
-            testCase.verifyEqual(testCase.wts, [1.13903751151646; 1.16519792669147;...
-                         1.23141151310352; 1.34723746031295;...
-                         0.0855776852173311; 0.399610913872118;...
-                         0.697407193664997; 1.15680032250197;...
-                         2.7591362546192; 2.37852370311734...
-                        ]);
-        end
-        
-    end
-            
+        end    
+    end           
 end
