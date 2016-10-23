@@ -6,14 +6,13 @@ classdef LSETest < matlab.unittest.TestCase
     end
      
    methods (TestClassSetup)
-       function addPath (testCase)
+       function addpath (testCase)
            addpath([pwd '/../../matlab']);
        end
        
        function setup (testCase)
            testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_no-graph'];
            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
-           
        end
    end
    
