@@ -9,7 +9,9 @@ function GRNstruct = output(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate production_function Strain expression_timepoints wts
+global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes no_inputs prorate production_function Strain wts
+
+num_times = GRNstruct.GRNParams.num_times;
 
 if GRNstruct.controlParams.make_graphs
     GRNstruct = graphs(GRNstruct);
@@ -17,6 +19,7 @@ end
 
 warning('off','MATLAB:xlswrite:AddSheet');
 
+expression_timepoints       = GRNstruct.GRNParams.expression_timepoints;
 directory                   = GRNstruct.directory; 
 positions                   = GRNstruct.GRNParams.positions;
 num_edges                   = GRNstruct.GRNParams.num_edges;

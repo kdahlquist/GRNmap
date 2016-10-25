@@ -2,7 +2,7 @@ function dz = general_network_dynamics_mm(t,zz)
 % USAGE  dz = general_network_dynamics(t,zz)
 global adjacency_mat degrate deletion num_genes no_inputs prorate wts  
 
-dz  = zeros(size(zz));
+% dz  = zeros(size(zz));
 W   = zeros(size(adjacency_mat));
 P   = prorate(:);
 D   = degrate(:);

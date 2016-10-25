@@ -9,7 +9,7 @@ function GRNstruct = readInputSheet( GRNstruct )
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate production_function Strain wtmat expression_timepoints
+global alpha b degrate fix_b fix_P log2FC num_genes prorate production_function Strain expression_timepoints
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -52,12 +52,13 @@ for currentRow = 2:numRows
     end
 end
 
+GRNstruct = rmfield(GRNstruct, 'microData');
 % This reads the microarray data for each strain.
-
 for index = 1:length(Strain)
     currentStrain = strtrim(lower(Strain{index}));
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).Strain = currentStrain;
+%   Populate log2FC with recently read GRNstruct.microData
     log2FC(index).data = GRNstruct.microData(index).data;
     
     genes = strtrim(lower(GRNstruct.labels.TX1(2:end,1)));
@@ -80,17 +81,18 @@ end
 [GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]         = xlsread(input_file,'network_weights');
 [GRNstruct.GRNParams.adjacency_mat,GRNstruct.labels.TX3] = xlsread(input_file,'network');
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
-
 % Describes the geometry of the gene regulatory network.
 GRNstruct.GRNParams.num_edges                        = sum(GRNstruct.GRNParams.adjacency_mat(:));
 GRNstruct.GRNParams.num_genes                        = size(GRNstruct.GRNParams.adjacency_mat,2);
 GRNstruct.GRNParams.active                           = 1:GRNstruct.GRNParams.num_genes;
 GRNstruct.GRNParams.alpha                            = alpha;
+GRNstruct.GRNParams.expression_timepoints            = zeros(1, length(expression_timepoints));
 GRNstruct.GRNParams.expression_timepoints            = expression_timepoints;
 GRNstruct.GRNParams.num_times                        = length(expression_timepoints);
 
 % Describes the runtime paramters given by the user in the
 % optimization_paramenters sheet
+GRNstruct.controlParams.simulation_timepoints        = zeros(1, length(simulation_timepoints));
 GRNstruct.controlParams.simulation_timepoints        = simulation_timepoints;
 % The following are used as parameters for fmincon. Refer to fmincon
 % documentation for the meaning of these variables
@@ -115,7 +117,7 @@ if strcmpi(GRNstruct.controlParams.production_function, 'Sigmoid')
 else
     GRNstruct.controlParams.fix_b = 1;
     fix_b = 1;
-    GRNstruct.GRNParams.b = zeros(length(degrate),1);
+    GRNstruct.GRNParams.b = zeros(length(GRNstruct.degRates),1);
     b = GRNstruct.GRNParams.b;
 end
 
@@ -140,6 +142,7 @@ GRNstruct.GRNParams.nData   = 0;
 GRNstruct.GRNParams.minLSE  = 0;
 
 for i = 1:length(Strain)
+    GRNstruct.microData(i).t = {};
     % The first row of the GRNstruct.microData data indicating all of the replicate timepoints
     reps = (GRNstruct.microData(i).data(1,:));
     % Finds the indices in reps that correspond to each timepoint in tspan.
@@ -200,12 +203,8 @@ GRNstruct.GRNParams.positions  = sortrows([rows,columns],1);
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
 
 % Populating the globals
-is_forced     = GRNstruct.GRNParams.is_forced;
 num_genes     = GRNstruct.GRNParams.num_genes;
-num_times     = GRNstruct.GRNParams.num_times;
 degrate       = GRNstruct.degRates;
-adjacency_mat = GRNstruct.GRNParams.adjacency_mat;
 prorate       = GRNstruct.GRNParams.prorate;
-wtmat         = GRNstruct.GRNParams.wtmat;
 
 end

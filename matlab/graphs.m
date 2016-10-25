@@ -6,9 +6,11 @@ function GRNstruct = graphs(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global log2FC Strain expression_timepoints
+global log2FC Strain
 
 directory = GRNstruct.directory;
+expression_timepoints = GRNstruct.GRNParams.expression_timepoints;
+disp(Strain);
 
 tmin = 0;
 tmax = max(expression_timepoints);
