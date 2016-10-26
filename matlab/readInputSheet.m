@@ -9,7 +9,7 @@ function GRNstruct = readInputSheet( GRNstruct )
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global alpha b degrate fix_b fix_P log2FC num_genes prorate production_function Strain expression_timepoints
+global alpha fix_b fix_P log2FC production_function Strain expression_timepoints
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -52,9 +52,11 @@ for currentRow = 2:numRows
     end
 end
 
-GRNstruct = rmfield(GRNstruct, 'microData');
+% GRNstruct = rmfield(GRNstruct, 'microData');
 % This reads the microarray data for each strain.
 for index = 1:length(Strain)
+    GRNstruct.microData(index).Strain = {};
+    GRNstruct.microData(index).deletion = {};
     currentStrain = strtrim(lower(Strain{index}));
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).Strain = currentStrain;
@@ -113,12 +115,10 @@ GRNstruct.controlParams.L_curve                      = L_curve;
 
 if strcmpi(GRNstruct.controlParams.production_function, 'Sigmoid')
     [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'threshold_b');
-    b = GRNstruct.GRNParams.b;
 else
     GRNstruct.controlParams.fix_b = 1;
     fix_b = 1;
     GRNstruct.GRNParams.b = zeros(length(GRNstruct.degRates),1);
-    b = GRNstruct.GRNParams.b;
 end
 
 %TX1 contains both the systemic and standard names
@@ -201,10 +201,4 @@ GRNstruct.GRNParams.positions  = sortrows([rows,columns],1);
 
 
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
-
-% Populating the globals
-num_genes     = GRNstruct.GRNParams.num_genes;
-degrate       = GRNstruct.degRates;
-prorate       = GRNstruct.GRNParams.prorate;
-
 end

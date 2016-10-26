@@ -63,6 +63,8 @@ end
 
 % Call the least squares error program, store the sum of the squares of the
 % errors in lse_0
+populateGlobals(GRNstruct);
+
 counter = 0;
 GRNstruct.GRNOutput.lse_0   = general_least_squares_error(initial_guesses);
 GRNstruct.GRNOutput.lse_out = lse_out;

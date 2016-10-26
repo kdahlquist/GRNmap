@@ -51,7 +51,6 @@ GRNstruct.directory     = sixteen_tests_path;
 GRNstruct.tempdir       = tempdir;
 
 suite = TestSuite.fromFolder('tests');
-
 warning('off', 'all')
 results = runner.run(suite);
 warning('on', 'all')
