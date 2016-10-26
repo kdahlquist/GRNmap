@@ -56,29 +56,48 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         function testAdjacencyMat(testCase)
             testCase.verifyEqual(testCase.adjacency_mat, [1 0 0 0; 0 1 0 0; 0 0 1 1; 0 0 1 1]);
         end
-
+        %b depends on input%
         function testB(testCase)
-            testCase.verifyEqual(testCase.b, [0;0;0;0]);
+            
+            if strcmpi(testCase.GRNstruct.controlParams.production_function, 'Sigmoid') 
+                if testCase.GRNstruct.controlParams.fix_b
+                    testCase.verifyEqual(testCase.b, [0;0;0;0]);
+                else
+                    testCase.verifyEqual(testCase.b, [-0.00404604737918295;
+                         -0.263988472015534;
+                         -0.556104458089822;
+                         -0.0606381708767741]);
+                end
+            else
+                testCase.verifyEqual(testCase.b, [0;0;0;0]);
+            end
+            
         end
         
         function testDegrate(testCase)
             testCase.verifyEqual(testCase.degrate, [1; 1; 1; 1]);
         end
-        %might depend on input%
+        
+        %depends on input%
         function testFixB(testCase)
-            testCase.verifyEqual(testCase.fix_b, 0);
+   
+            if testCase.GRNstruct.controlParams.fix_b
+                testCase.verifyEqual(testCase.fix_b, 1);
+            else
+                testCase.verifyEqual(testCase.fix_b, 0);
+            end
         end
         
         function testNumGenes(testCase)
             testCase.verifyEqual(testCase.num_genes, 4);
         end
         
-        %prorates depend on input%
+
         function testProRate(testCase)
-            testCase.verifyEqual(testCase.prorate, [0.697407193664997;
-                             1.15680032250197; 
-                             2.7591362546192;
-                             2.37852370311734]);
+            testCase.verifyEqual(testCase.prorate, [0.5;
+                             1.0;
+                             2.0;
+                             1.0]);
         end    
     end           
 end

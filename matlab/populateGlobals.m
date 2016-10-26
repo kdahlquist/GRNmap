@@ -3,6 +3,7 @@ function populateGlobals(GRNstruct)
    
     adjacency_mat = GRNstruct.GRNParams.adjacency_mat;
     b             = GRNstruct.GRNParams.b;
+    disp(b);
     degrate       = GRNstruct.degRates;
     fix_b         = GRNstruct.controlParams.fix_b;
     num_genes     = GRNstruct.GRNParams.num_genes;
