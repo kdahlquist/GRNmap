@@ -32,11 +32,12 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         num_genes
         prorate
         wts
+        alpha
     end
     
     methods(TestClassSetup)
         function makeGlobals(testCase, test_files)
-            global adjacency_mat b degrate fix_b num_genes prorate wts deletion
+            global alpha adjacency_mat b degrate fix_b num_genes prorate wts deletion
             addpath([pwd '/../../matlab']);
             addpath('tests/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
@@ -49,6 +50,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.num_genes = num_genes;
             testCase.prorate = prorate;
             testCase.wts = wts;
+            testCase.alpha = alpha;
          end
     end
     
@@ -99,5 +101,9 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
                              2.0;
                              1.0]);
         end    
+        
+        function testAlpha(testCase)
+            testCase.verifyEqual(testCase.alpha, 0);
+        end
     end           
 end
