@@ -10,7 +10,6 @@ global log2FC Strain
 
 directory = GRNstruct.directory;
 expression_timepoints = GRNstruct.GRNParams.expression_timepoints;
-disp(Strain);
 
 tmin = 0;
 tmax = max(expression_timepoints);
