@@ -1,4 +1,4 @@
-function GRNstruct = readInputSheet( GRNstruct )
+function GRNstruct = readInputSheet(GRNstruct)
 % USAGE: GRNstruct = readInputSheet(GRNstruct)
 % 
 % Purpose: (1) load input data from excel workbook
@@ -9,7 +9,8 @@ function GRNstruct = readInputSheet( GRNstruct )
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global alpha fix_b fix_P log2FC production_function Strain expression_timepoints
+%global alpha fix_b fix_P log2FC production_function Strain expression_timepoints
+global log2FC
 
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
@@ -86,9 +87,7 @@ end
 GRNstruct.GRNParams.num_edges                        = sum(GRNstruct.GRNParams.adjacency_mat(:));
 GRNstruct.GRNParams.num_genes                        = size(GRNstruct.GRNParams.adjacency_mat,2);
 GRNstruct.GRNParams.active                           = 1:GRNstruct.GRNParams.num_genes;
-GRNstruct.GRNParams.alpha                            = alpha;
 GRNstruct.GRNParams.expression_timepoints            = zeros(1, length(expression_timepoints));
-GRNstruct.GRNParams.expression_timepoints            = expression_timepoints;
 GRNstruct.GRNParams.num_times                        = length(expression_timepoints);
 
 % Describes the runtime paramters given by the user in the
@@ -116,7 +115,6 @@ if strcmpi(GRNstruct.controlParams.production_function, 'Sigmoid')
     [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'threshold_b');
 else
     GRNstruct.controlParams.fix_b = 1;
-    fix_b = 1;
     GRNstruct.GRNParams.b = zeros(length(GRNstruct.degRates),1);
 end
 
@@ -200,4 +198,6 @@ GRNstruct.GRNParams.positions  = sortrows([rows,columns],1);
 
 
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
+
+disp(GRNstruct.microData);
 end

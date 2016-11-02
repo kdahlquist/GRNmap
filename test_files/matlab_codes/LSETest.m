@@ -16,6 +16,13 @@ classdef LSETest < matlab.unittest.TestCase
        end
    end
    
+   methods (TestClassTeardown)
+       function teardown(testCase)
+          testCase.GRNstruct = {};
+          clearvars -global
+       end
+   end
+   
    methods (Test)
        function testLSE (testCase)
            testCase.GRNstruct = lse(testCase.GRNstruct);
