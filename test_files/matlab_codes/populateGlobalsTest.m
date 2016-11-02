@@ -22,7 +22,6 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
     end
 
     properties
-        test_dir = '..\populate_globals_test\'
         GRNstruct
         adjacency_mat
         b
