@@ -66,15 +66,11 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         end
         %b depends on input%
         function testB(testCase)
-            
             if strcmpi(testCase.GRNstruct.controlParams.production_function, 'Sigmoid') 
                 if testCase.GRNstruct.controlParams.fix_b
                     testCase.verifyEqual(testCase.b, [0;0;0;0]);
                 else
-                    testCase.verifyEqual(testCase.b, [-0.00404604737918295;
-                         -0.263988472015534;
-                         -0.556104458089822;
-                         -0.0606381708767741]);
+                    testCase.verifyEqual(testCase.b, [1;1;1;1]);
                 end
             else
                 testCase.verifyEqual(testCase.b, [0;0;0;0]);
@@ -106,6 +102,10 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
                              1.0;
                              2.0;
                              1.0]);
-        end    
+        end         
+        function testAlpha(testCase)
+            testCase.verifyEqual(testCase.alpha, 0.001);
+        end
+
     end           
 end
