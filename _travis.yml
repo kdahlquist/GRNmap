@@ -1,6 +1,6 @@
 # vim ft=yaml
 # travis-ci.org definition for MOxUnit build (based on CoSMoMVPA,
-# which is based on PyMVPA, which is based on nipype configuration, 
+# which is based on PyMVPA, which is based on nipype configuration,
 # which in turn was based on nipy)
 #
 # We pretend to be java because we need GNU Octave which is not
@@ -54,4 +54,5 @@ script:
     - echo Test arguments $TEST_ARGS $COVER_ARGS $OUTPUT_ARGS $RESULT_ARGS
     - make test $TEST_ARGS $COVER_ARGS $OUTPUT_ARGS $RESULT_ARGS
     - $AFTER_SCRIPT
+    
 
