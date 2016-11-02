@@ -55,4 +55,3 @@ script:
     - make test $TEST_ARGS $COVER_ARGS $OUTPUT_ARGS $RESULT_ARGS
     - $AFTER_SCRIPT
     
-
