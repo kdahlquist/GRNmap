@@ -25,6 +25,7 @@ wtmat          = GRNstruct.GRNParams.wtmat;
 
 b              = GRNstruct.GRNParams.b;
 
+populateGlobals(GRNstruct);
 % initial_guesses contains all weights, and optionally the threshholds for
 % controlled genes and optionally the production rates
 initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P),1);
@@ -63,7 +64,6 @@ end
 
 % Call the least squares error program, store the sum of the squares of the
 % errors in lse_0
-populateGlobals(GRNstruct);
 
 counter = 0;
 GRNstruct.GRNOutput.lse_0   = general_least_squares_error(initial_guesses);

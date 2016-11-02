@@ -60,8 +60,6 @@ classdef outputTest < matlab.unittest.TestCase
             testCase.GRNstruct.directory = tempdir;
             cd(tempdir);
             
-            disp(pwd)
-            disp(testCase.GRNstruct)
             output(testCase.GRNstruct);
             [~, testCase.GRNstruct.output_sheets] = xlsfinfo (testCase.GRNstruct.output_file);
 

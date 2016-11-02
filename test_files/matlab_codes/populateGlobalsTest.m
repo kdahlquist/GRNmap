@@ -54,6 +54,12 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
          end
     end
     
+    methods(TestClassTeardown)
+        function clearGlobals(testCase)
+           clearvars -global alpha adjacency_mat b degrate fix_b num_genes prorate wts deletion
+        end
+    end
+    
     methods(Test)
         function testAdjacencyMat(testCase)
             testCase.verifyEqual(testCase.adjacency_mat, [1 0 0 0; 0 1 0 0; 0 0 1 1; 0 0 1 1]);
@@ -96,10 +102,10 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
                              1.0;
                              2.0;
                              1.0]);
-        end    
-        
+        end         
         function testAlpha(testCase)
             testCase.verifyEqual(testCase.alpha, 0.001);
         end
+
     end           
 end
