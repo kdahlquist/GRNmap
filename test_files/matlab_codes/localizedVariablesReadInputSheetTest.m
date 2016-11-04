@@ -24,6 +24,10 @@ classdef localizedVariablesReadInputSheetTest < matlab.unittest.TestCase
         
         function testAlpha(testCase)
             testCase.verifyEqual(testCase.GRNstruct.GRNParams.alpha, 0.001);
+        end 
+        
+        function testExpressionTimepoints(testCase)
+            testCase.verifyEqual(testCase.GRNstruct.GRNParams.expression_timepoints, [0.4000 0.8000 1.2000 1.6000]);
         end  
         
         function testB(testCase)
@@ -39,6 +43,10 @@ classdef localizedVariablesReadInputSheetTest < matlab.unittest.TestCase
         
         function testFixP(testCase)
             testCase.verifyEqual(testCase.GRNstruct.controlParams.fix_P, 0);
+        end  
+        
+        function testIsForced(testCase)
+            testCase.verifyEqual(testCase.GRNstruct.GRNParams.is_forced, [1 2 3 4]);
         end  
         
 %        function testMicroData(testCase)
@@ -85,8 +93,6 @@ classdef localizedVariablesReadInputSheetTest < matlab.unittest.TestCase
      %       testCase.verifyEqual(testCase.GRNstruct.microData.Strain,  {{'wt'};{'dcin5'}});
       %  end  
         
-        function testExpressionTimepoints(testCase)
-            testCase.verifyEqual(testCase.GRNstruct.GRNParams.expression_timepoints, [0.4 0.8 1.2 1.6]);
-        end  
+
     end
 end
