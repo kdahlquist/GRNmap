@@ -1,6 +1,6 @@
-function GRNstruct = readInputSheet( GRNstruct )
+function GRNstruct = readInputSheet(GRNstruct)
 % USAGE: GRNstruct = readInputSheet(GRNstruct)
-% 
+%
 % Purpose: (1) load input data from excel workbook
 %          (2) parse data into necessary containers
 %          (3) compute descriptive statistics (means, variances, etc)
@@ -9,12 +9,20 @@ function GRNstruct = readInputSheet( GRNstruct )
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global alpha fix_b fix_P log2FC production_function Strain expression_timepoints
+%global alpha fix_b fix_P log2FC production_function Strain expression_timepoints
+global log2FC
 
 alpha = 0;
+fix_b = 0;
+fix_P = 0;
+production_function = {};
+expression_timepoints = [];
+
 % If we do multiple runs in a row the Strain variable should be cleared
 % before each run.
+
 Strain = [];
+
 
 input_file = GRNstruct.inputFile;
 GRNstruct.microData = {};
@@ -28,13 +36,13 @@ GRNstruct.microData = {};
 for currentRow = 2:numRows
     % Gives us the indexes of the numerical values in the row.
     indexVec = find(isnan(parms0(currentRow-1,:))==0);
-    
+
     % If the parameter in the sheet has numerical values in its row,
     % create a row vector with that paramter's name and whose values are
     % the numerical entries in that row
     if ~isempty(indexVec)
         eval([parmnames0{currentRow,1} '= [' num2str(parms0(currentRow-1,indexVec)) '];']);
- 
+        
     % If the parameter in the sheet has strings in its row, we create a
     % cell array with that parameter's name and whose values are the
     % strings in that row.
@@ -48,7 +56,7 @@ for currentRow = 2:numRows
                break
            end
            eval([parmnames0{currentRow,1} '{currentCol - 1}= parmstr;']);
-           currentCol = currentCol + 1; 
+           currentCol = currentCol + 1;
         end
     end
 end
@@ -61,16 +69,16 @@ for index = 1:length(Strain)
     GRNstruct.microData(index).Strain = currentStrain;
 %   Populate log2FC with recently read GRNstruct.microData
     log2FC(index).data = GRNstruct.microData(index).data;
-    
+
     genes = strtrim(lower(GRNstruct.labels.TX1(2:end,1)));
-    
+
     if strcmp(currentStrain,'wt')
         deletedRow = 0;
     else
         deletedGene = currentStrain(2:end);
         deletedRow = find(strcmpi(genes,deletedGene));
     end
-    
+
     log2FC(index).deletion  = deletedRow;
     log2FC(index).strain    = Strain(index);
     GRNstruct.microData(index).deletion = deletedRow;
@@ -83,11 +91,12 @@ end
 [GRNstruct.GRNParams.adjacency_mat,GRNstruct.labels.TX3] = xlsread(input_file,'network');
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
 % Describes the geometry of the gene regulatory network.
+
+GRNstruct.GRNParams.alpha                            = alpha;
 GRNstruct.GRNParams.num_edges                        = sum(GRNstruct.GRNParams.adjacency_mat(:));
 GRNstruct.GRNParams.num_genes                        = size(GRNstruct.GRNParams.adjacency_mat,2);
 GRNstruct.GRNParams.active                           = 1:GRNstruct.GRNParams.num_genes;
-GRNstruct.GRNParams.alpha                            = alpha;
-GRNstruct.GRNParams.expression_timepoints            = zeros(1, length(expression_timepoints));
+
 GRNstruct.GRNParams.expression_timepoints            = expression_timepoints;
 GRNstruct.GRNParams.num_times                        = length(expression_timepoints);
 
@@ -116,7 +125,6 @@ if strcmpi(GRNstruct.controlParams.production_function, 'Sigmoid')
     [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'threshold_b');
 else
     GRNstruct.controlParams.fix_b = 1;
-    fix_b = 1;
     GRNstruct.GRNParams.b = zeros(length(GRNstruct.degRates),1);
 end
 
@@ -147,7 +155,7 @@ for i = 1:length(Strain)
     % Finds the indices in reps that correspond to each timepoint in tspan.
     for jj = 1:length(expression_timepoints)
         log2FC(i).t(jj).indx                = find(reps == expression_timepoints(jj));
-        log2FC(i).t(jj).t                   = expression_timepoints(jj); 
+        log2FC(i).t(jj).t                   = expression_timepoints(jj);
         GRNstruct.microData(i).t(jj).indx   = log2FC(i).t(jj).indx;
         GRNstruct.microData(i).t(jj).t      =  expression_timepoints(jj);
     end
@@ -159,18 +167,18 @@ for i = 1:length(Strain)
     GRNstruct.microData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
     log2FC(i).avg                   = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
     log2FC(i).stdev                 = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-        
+
     % The average GRNstruct.microData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.num_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
-        
+
         GRNstruct.microData(i).avg(:,iT)    = mean(data,2);
         GRNstruct.microData(i).stdev(:,iT)  = std(data,0,2);
         log2FC(i).avg(:,iT)                 = mean(data,2);
         log2FC(i).stdev(:,iT)               = std(data,0,2);
-        
+
         delDataAvg = data - log2FC(i).avg(:,iT)*ones(1,length(data(1,:)));
-        
+
         GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(data(:));
         GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum(delDataAvg(:).^2);
 
@@ -197,7 +205,6 @@ GRNstruct.GRNParams.num_forced = sum(is_controlled);
 % by the second gene.
 [rows,columns]                 = find(GRNstruct.GRNParams.adjacency_mat == 1);
 GRNstruct.GRNParams.positions  = sortrows([rows,columns],1);
-
 
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
 end

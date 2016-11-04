@@ -27,16 +27,18 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         b
         deletion
         degrate
+        expression_timepoints
         fix_b
         num_genes
         prorate
         wts
         alpha
+        is_forced
     end
     
     methods(TestClassSetup)
         function makeGlobals(testCase, test_files)
-            global alpha adjacency_mat b degrate fix_b num_genes prorate wts deletion
+            global alpha adjacency_mat b degrate expression_timepoints fix_b num_genes prorate wts deletion is_forced
             addpath([pwd '/../../matlab']);
             addpath('tests/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
@@ -45,17 +47,19 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.b = b;
             testCase.degrate = degrate;
             testCase.deletion = deletion;
+            testCase.expression_timepoints = expression_timepoints;
             testCase.fix_b = fix_b;
             testCase.num_genes = num_genes;
             testCase.prorate = prorate;
             testCase.wts = wts;
             testCase.alpha = alpha;
+            testCase.is_forced = is_forced;
          end
     end
     
     methods(TestClassTeardown)
         function clearGlobals(testCase)
-           clearvars -global alpha adjacency_mat b degrate fix_b num_genes prorate wts deletion
+           clearvars -global alpha adjacency_mat b degrate expression_timepoints fix_b num_genes prorate wts deletion is_forced
         end
     end
     
@@ -105,6 +109,15 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         function testAlpha(testCase)
             testCase.verifyEqual(testCase.alpha, 0.001);
         end
+        
+        function testExpressionTimepoints(testCase)
+            testCase.verifyEqual(testCase.expression_timepoints,  [0.4000 0.8000 1.2000 1.6000]);
+        end
+        
+        function testIsForced(testCase)
+              testCase.verifyEqual(testCase.is_forced,  [1 2 3 4]);
+        end
+
 
     end           
 end
