@@ -46,7 +46,7 @@ classdef localizedVariablesReadInputSheetTest < matlab.unittest.TestCase
         end  
         
         function testIsForced(testCase)
-            testCase.verifyEqual(testCase.GRNstruct.GRNParams.is_forced, [1 2 3 4]);
+            testCase.verifyEqual(testCase.GRNstruct.GRNParams.is_forced, [1; 2; 3; 4]);
         end  
         
 %        function testMicroData(testCase)

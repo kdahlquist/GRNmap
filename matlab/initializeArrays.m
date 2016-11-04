@@ -1,10 +1,13 @@
 function GRNstruct = initializeArrays (GRNstruct)
     % We can get rid of these globals later
-    global fix_b fix_P Strain expression_timepoints
+    global Strain
     
-    num_edges  = GRNstruct.GRNParams.num_edges;
-    num_forced = GRNstruct.GRNParams.num_forced;
-    num_genes  = GRNstruct.GRNParams.num_genes;
+    num_edges             = GRNstruct.GRNParams.num_edges;
+    num_forced            = GRNstruct.GRNParams.num_forced;
+    num_genes             = GRNstruct.GRNParams.num_genes;
+    fix_b                 = GRNstruct.controlParams.fix_b;
+    fix_P                 = GRNstruct.controlParams.fix_P;
+    expression_timepoints = GRNstruct.GRNParams.expression_timepoints;
     
     for i = 1:length(Strain)
        GRNstruct.GRNModel(i).model = zeros(num_genes, length(GRNstruct.controlParams.simulation_timepoints));

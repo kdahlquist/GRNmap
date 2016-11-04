@@ -10,7 +10,7 @@ function GRNstruct = readInputSheet(GRNstruct)
 %                   GRNmap data
 
 %global alpha fix_b fix_P log2FC production_function Strain expression_timepoints
-global log2FC
+global log2FC Strain
 
 alpha = 0;
 fix_b = 0;

@@ -29,6 +29,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         degrate
         expression_timepoints
         fix_b
+        fix_P
         num_genes
         prorate
         wts
@@ -38,7 +39,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
     
     methods(TestClassSetup)
         function makeGlobals(testCase, test_files)
-            global alpha adjacency_mat b degrate expression_timepoints fix_b num_genes prorate wts deletion is_forced
+            global alpha adjacency_mat b degrate expression_timepoints fix_b fix_P num_genes prorate wts deletion is_forced
             addpath([pwd '/../../matlab']);
             addpath('tests/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
@@ -49,6 +50,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.deletion = deletion;
             testCase.expression_timepoints = expression_timepoints;
             testCase.fix_b = fix_b;
+            testCase.fix_P = fix_P;
             testCase.num_genes = num_genes;
             testCase.prorate = prorate;
             testCase.wts = wts;
@@ -95,6 +97,14 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             end
         end
         
+        function testFixP(testCase)
+            if testCase.GRNstruct.controlParams.fix_P
+                testCase.verifyEqual(testCase.fix_P, 1);
+            else
+                testCase.verifyEqual(testCase.fix_P, 0);
+            end
+        end
+        
         function testNumGenes(testCase)
             testCase.verifyEqual(testCase.num_genes, 4);
         end
@@ -115,9 +125,8 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         end
         
         function testIsForced(testCase)
-              testCase.verifyEqual(testCase.is_forced,  [1 2 3 4]);
+            testCase.verifyEqual(testCase.is_forced,  [1; 2; 3; 4]);
         end
-
-
+        
     end           
 end
