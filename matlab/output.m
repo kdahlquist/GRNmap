@@ -9,7 +9,7 @@ function GRNstruct = output(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate production_function Strain expression_timepoints wts
+global log2FC Strain
 
 if GRNstruct.controlParams.make_graphs
     GRNstruct = graphs(GRNstruct);
@@ -17,11 +17,30 @@ end
 
 warning('off','MATLAB:xlswrite:AddSheet');
 
-directory                   = GRNstruct.directory; 
+GRNstruct.GRNOutput.name    = GRNstruct.inputFile;
+GRNstruct.GRNOutput.active  = GRNstruct.GRNParams.active;
+
+adjacency_mat               = GRNstruct.GRNOutput.adjacency_mat;
+degrate                     = GRNstruct.GRNOutput.degrate;
+prorate                     = GRNstruct.GRNOutput.prorate;
+b                           = GRNstruct.GRNOutput.b;
+
+
+expression_timepoints       = GRNstruct.GRNParams.expression_timepoints;
+directory                   = GRNstruct.directory;
+
 positions                   = GRNstruct.GRNParams.positions;
 num_edges                   = GRNstruct.GRNParams.num_edges;
 num_forced                  = GRNstruct.GRNParams.num_forced;
+is_forced                   = GRNstruct.GRNParams.is_forced;
+num_genes                   = GRNstruct.GRNParams.num_genes;
+no_inputs                   = GRNstruct.GRNParams.no_inputs;
+num_times                   = GRNstruct.GRNParams.num_times;
+
 simulation_timepoints       = GRNstruct.controlParams.simulation_timepoints;
+production_function         = GRNstruct.controlParams.production_function;
+fix_b                       = GRNstruct.controlParams.fix_b;
+
 initial_guesses             = GRNstruct.locals.initial_guesses;
 estimated_guesses           = GRNstruct.locals.estimated_guesses;
 
@@ -168,17 +187,6 @@ if isfield(GRNstruct,'copy_counter') && GRNstruct.copy_counter >= GRNstruct.alph
    GRNstruct.copy_counter = 0; 
 end
 
-
 xlswrite(output_file,outputDiag,'optimization_diagnostics');
-
-GRNstruct.GRNOutput.name          = GRNstruct.inputFile;
-GRNstruct.GRNOutput.prorate       = prorate;
-GRNstruct.GRNOutput.degrate       = degrate;
-GRNstruct.GRNOutput.wts           = wts;
-GRNstruct.GRNOutput.b             = b;
-GRNstruct.GRNOutput.adjacency_mat = adjacency_mat;
-GRNstruct.GRNOutput.active        = GRNstruct.GRNParams.active;
-GRNstruct.GRNOutput.tspan         = expression_timepoints;
-GRNstruct.GRNOutput.alpha         = alpha;
 
 save(output_mat);
