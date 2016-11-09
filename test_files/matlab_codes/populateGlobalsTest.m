@@ -35,11 +35,14 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         wts
         alpha
         is_forced
+        production_function
     end
     
     methods(TestClassSetup)
         function makeGlobals(testCase, test_files)
-            global alpha adjacency_mat b degrate expression_timepoints fix_b fix_P num_genes prorate wts deletion is_forced
+            global alpha adjacency_mat b degrate expression_timepoints ... 
+                fix_b fix_P num_genes prorate wts deletion is_forced ...
+                production_function
             addpath([pwd '/../../matlab']);
             addpath('tests/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
@@ -56,6 +59,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.wts = wts;
             testCase.alpha = alpha;
             testCase.is_forced = is_forced;
+            testCase.production_function = production_function;
          end
     end
     
@@ -126,6 +130,15 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         
         function testIsForced(testCase)
             testCase.verifyEqual(testCase.is_forced,  [1; 2; 3; 4]);
+        end
+        
+        function testProductionFunction(testCase)
+            if strcmpi(testCase.GRNstruct.controlParams.production_function, 'Sigmoid')
+                testCase.verifyEqual(testCase.production_function, 'Sigmoid');
+            else
+                testCase.verifyEqual(testCase.production_function, 'MM');
+            end
+            
         end
         
     end           

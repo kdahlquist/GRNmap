@@ -328,6 +328,24 @@ classdef outputTest < matlab.unittest.TestCase
             testCase.verifyTrue(any(ismember(expected_text_values, actual_text_values)),...
                                 testCase.GRNstruct.inputFile);
          end
+        
+%        The following tests are for when we update the sixteen_tests files
+%        Right now the optimization_diagnostics for some of the files show
+%        incorrect penalty_out and counters
+%        (i.e., the correct penalty_out should be NaN and counter = 0 if 
+%           estimate_params = 0)
+%    
+%          function testOptimizationDiagnosticsPenaltyOut(testCase)
+%             if ~testCase.GRNstruct.controlParams.estimate_params
+%                testCase.verifyTrue(isnan(testCase.GRNstruct.GRNOutput.reg_out)); 
+%             end
+%          end
+%          
+%          function testCounter(testCase)
+%             if ~testCase.GRNstruct.controlParams.estimate_params
+%                testCase.verifyEqual(testCase.GRNstruct.GRNOutput.counter, 0); 
+%             end
+%          end
     end
        
 end

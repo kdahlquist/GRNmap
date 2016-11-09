@@ -1,7 +1,7 @@
 classdef globalsToLocalTest < matlab.unittest.TestCase
     
     properties
-        GRNstruct = {}
+        GRNstruct = struct()
     end
    
     methods(TestClassSetup)
@@ -32,6 +32,7 @@ classdef globalsToLocalTest < matlab.unittest.TestCase
                    1; 1
                   ];
             
+            testCase.GRNstruct.controlParams.estimate_params = 1;
             testCase.GRNstruct = globalToStruct(testCase.GRNstruct);
         end
     end
@@ -94,5 +95,6 @@ classdef globalsToLocalTest < matlab.unittest.TestCase
         function testWtsAssignedCorrectly(testCase)
            testCase.verifyEqual(testCase.GRNstruct.GRNOutput.wts, [1; 1; 1; 1; 1; 1]);
         end
+        
     end
 end
