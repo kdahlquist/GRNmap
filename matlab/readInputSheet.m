@@ -9,7 +9,6 @@ function GRNstruct = readInputSheet(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-%global alpha fix_b fix_P log2FC production_function Strain expression_timepoints
 global log2FC Strain
 
 alpha = 0;

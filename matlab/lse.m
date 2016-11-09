@@ -6,24 +6,24 @@ function GRNstruct = lse(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global counter fix_b fix_P log2FC lse_out penalty_out prorate Strain b is_forced SSE     
+global counter fix_b fix_P log2FC lse_out penalty_out prorate Strain b is_forced     
 
 % We store relevant values and matrices from
 % the struct into local variables
-positions      = GRNstruct.GRNParams.positions;
-num_edges      = GRNstruct.GRNParams.num_edges;
-num_genes      = GRNstruct.GRNParams.num_genes;
-num_forced     = GRNstruct.GRNParams.num_forced;
-is_forced      = GRNstruct.GRNParams.is_forced;
+positions       = GRNstruct.GRNParams.positions;
+num_edges       = GRNstruct.GRNParams.num_edges;
+num_genes       = GRNstruct.GRNParams.num_genes;
+num_forced      = GRNstruct.GRNParams.num_forced;
+is_forced       = GRNstruct.GRNParams.is_forced;
 estimate_params = GRNstruct.controlParams.estimate_params;
-kk_max         = GRNstruct.controlParams.kk_max;
-MaxIter        = GRNstruct.controlParams.MaxIter;
-MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
-TolFun         = GRNstruct.controlParams.TolFun;
-TolX           = GRNstruct.controlParams.TolX;
-wtmat          = GRNstruct.GRNParams.wtmat;
+kk_max          = GRNstruct.controlParams.kk_max;
+MaxIter         = GRNstruct.controlParams.MaxIter;
+MaxFunEval      = GRNstruct.controlParams.MaxFunEval;
+TolFun          = GRNstruct.controlParams.TolFun;
+TolX            = GRNstruct.controlParams.TolX;
+wtmat           = GRNstruct.GRNParams.wtmat;
 
-b              = GRNstruct.GRNParams.b;
+b               = GRNstruct.GRNParams.b;
 
 populateGlobals(GRNstruct);
 % initial_guesses contains all weights, and optionally the threshholds for
@@ -113,7 +113,6 @@ runForwardSimulation(GRNstruct);
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
-
 GRNstruct.locals.estimated_guesses = estimated_guesses;
 
-GRNstruct.GRNOutput.SSE = SSE;
+GRNstruct = globalToStruct(GRNstruct);

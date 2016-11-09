@@ -11,7 +11,7 @@ function GRNstruct = globalToStruct(GRNstruct)
     GRNstruct.GRNOutput.alpha = alpha;
     GRNstruct.GRNOutput.counter = counter;
     GRNstruct.GRNOutput.lse_out = lse_out;
-    GRNstruct.GRNOutput.penalty_out = penalty_out;
+    GRNstruct.GRNOutput.reg_out = penalty_out;
     GRNstruct.GRNOutput.SSE = SSE;
 
 %     We skipped log2FC due to too many parts

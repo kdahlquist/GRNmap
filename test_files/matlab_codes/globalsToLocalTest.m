@@ -1,39 +1,45 @@
 classdef globalsToLocalTest < matlab.unittest.TestCase
     
     properties
-        constants_dir = '\..\tests\'
-        constantStruct
-        GRNstruct
+        GRNstruct = {}
     end
-    
-    properties (ClassSetupParameter)
-        test_files = {
-                      struct('GRNstruct','MM_estimation_fixP0_graph','file','4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph');...
-%                       struct('GRNstruct','MM_estimation_fixP0_nograph','file','4-genes_6-edges_artificial-data_MM_estimation_fixP-0_no-graph');...
-%                       struct('GRNstruct','MM_forward_graph','file','4-genes_6-edges_artificial-data_MM_forward_graph');...
-%                       struct('GRNstruct','MM_forward_nograph','file','4-genes_6-edges_artificial-data_MM_forward_no-graph');...
-%                       struct('GRNstruct','MM_estimation_fixP1_graph','file','4-genes_6-edges_artificial-data_MM_estimation_fixP-1_graph');...
-%                       struct('GRNstruct','MM_estimation_fixP1_nograph','file','4-genes_6-edges_artificial-data_MM_estimation_fixP-1_no-graph');...
-%                       struct('GRNstruct','Sigmoidal_estimation_fixb0_fixP0_graph','file','4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_graph');...
-%                       struct('GRNstruct','Sigmoidal_estimation_fixb0_fixP0_nograph','file','4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_no-graph');...                      
-%                       struct('GRNstruct','Sigmoidal_estimation_fixb0_fixP1_graph','file','4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-1_graph');...
-%                       struct('GRNstruct','Sigmoidal_estimation_fixb0_fixP1_nograph','file','4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-1_no-graph');...
-%                       struct('GRNstruct','Sigmoidal_estimation_fixb1_fixP0_graph','file','4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-0_graph');...
-%                       struct('GRNstruct','Sigmoidal_estimation_fixb1_fixP0_nograph','file','4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-0_no-graph');...
-%                       struct('GRNstruct','Sigmoidal_estimation_fixb1_fixP1_graph','file','4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_graph');...
-%                       struct('GRNstruct','Sigmoidal_estimation_fixb1_fixP1_nograph','file','4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_no-graph');...
-%                       struct('GRNstruct','Sigmoidal_forward_graph','file','4-genes_6-edges_artificial-data_Sigmoidal_forward_graph');...
-%                       struct('GRNstruct','Sigmoidal_forward_nograph','file','4-genes_6-edges_artificial-data_Sigmoidal_forward_no-graph');...
-                     };...
-    end
-    
+   
     methods(TestClassSetup)
-        function makeGlobals(testCase, test_files)
+        function setupGRNstruct(testCase)
+            global adjacency_mat alpha b counter expression_timepoints ...
+            degrate lse_out penalty_out SSE wts prorate
+       
             addpath([pwd '/../../matlab']);
-            addpath(testCase.constants_dir)
-            testCase.constantStruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
-            testCase.GRNstruct = globalToStruct(testCase.constantStruct);
-         end
+            
+            adjacency_mat = [1 0 0 0; 0 1 0 0; 0 0 1 1; 0 0 1 1];
+            alpha =  0.001;
+            b = [0;0;0;0];
+            counter = 1012;
+            expression_timepoints = [0.4 0.8 1.2 1.6];
+            degrate = [1; 1; 1; 1];
+            prorate = [0.5;
+                       1.0;
+                       2.0;
+                       1.0];
+            lse_out = 0.00562059511211463;
+            penalty_out = 2.12482998305364;
+            SSE = [0.00893765262173037	0.0178753052434607;...
+                   0.00558249174067118	0.0111649834813424;...
+                   0.00395421020246958	0.00395421020246958;...
+                   0.275044443910378	0.506582631835732];
+            wts = [1; 1;...
+                   1; 1;...
+                   1; 1
+                  ];
+            
+            testCase.GRNstruct = globalToStruct(testCase.GRNstruct);
+        end
+    end
+    
+    methods (TestClassTeardown)
+        function teardownGlobals (testCase)
+           clearvars -global adjacency_mat alpha b counter expression_timepoints degrate lse_out penalty_out SSE wts prorate
+        end
     end
     
     methods(Test)
@@ -63,11 +69,30 @@ classdef globalsToLocalTest < matlab.unittest.TestCase
         end
         
         function testProrateAssignedCorrectly(testCase)
-            testCase.verifyEqual(testCase.GRNstruct.GRNOutput.prorate, [0.4 0.8 1.2 1.6]);
+            testCase.verifyEqual(testCase.GRNstruct.GRNOutput.prorate, [0.5; 1.0; 2.0; 1.0]);
         end
         
-%         function testDegrateAssignedCorrectly(testCase)
-%            testCase.verifyEqual(testCase. 
-%         end
+        function testDegrateAssignedCorrectly(testCase)
+           testCase.verifyEqual(testCase.GRNstruct.GRNOutput.degrate, [1; 1; 1; 1]);
+        end
+        
+        function testLSEOutAssignedCorrectly(testCase)
+           testCase.verifyEqual(testCase.GRNstruct.GRNOutput.lse_out, 0.00562059511211463);
+        end
+        
+        function testPenaltyOutAssignedCorrectly(testCase)
+           testCase.verifyEqual(testCase.GRNstruct.GRNOutput.reg_out, 2.12482998305364);
+        end
+        
+        function testSSEAssignedCorrectly(testCase)
+           testCase.verifyEqual(testCase.GRNstruct.GRNOutput.SSE, [0.00893765262173037	0.0178753052434607;...
+                                                                   0.00558249174067118	0.0111649834813424;...
+                                                                   0.00395421020246958	0.00395421020246958;...
+                                                                   0.275044443910378	0.506582631835732]);
+        end
+        
+        function testWtsAssignedCorrectly(testCase)
+           testCase.verifyEqual(testCase.GRNstruct.GRNOutput.wts, [1; 1; 1; 1; 1; 1]);
+        end
     end
 end
