@@ -36,13 +36,14 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         alpha
         is_forced
         production_function
+        strain_length
     end
     
     methods(TestClassSetup)
         function makeGlobals(testCase, test_files)
             global alpha adjacency_mat b degrate expression_timepoints ... 
                 fix_b fix_P num_genes prorate wts deletion is_forced ...
-                production_function
+                production_function strain_length
             addpath([pwd '/../../matlab']);
             addpath('tests/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
@@ -60,12 +61,13 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.alpha = alpha;
             testCase.is_forced = is_forced;
             testCase.production_function = production_function;
+            testCase.strain_length = strain_length;
          end
     end
     
     methods(TestClassTeardown)
         function clearGlobals(testCase)
-           clearvars -global alpha adjacency_mat b degrate expression_timepoints fix_b num_genes prorate wts deletion is_forced
+           clearvars -global
         end
     end
     
@@ -139,6 +141,10 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
                 testCase.verifyEqual(testCase.production_function, 'MM');
             end
             
+        end
+        
+        function testStrainLength(testCase)
+           testCase.verifyEqual(testCase.strain_length, 2); 
         end
         
     end           
