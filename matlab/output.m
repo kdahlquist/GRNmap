@@ -1,6 +1,6 @@
 function GRNstruct = output(GRNstruct)
 % USAGE: GRNstruct = output(GRNstruct)
-% 
+%
 % Purpose: (1) call graphs if desired to produce output graph files
 %          (2) parse data into necessary containers for output
 %          (3) save excel workbook with output data
@@ -9,7 +9,7 @@ function GRNstruct = output(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global log2FC Strain
+global log2FC
 
 if GRNstruct.controlParams.make_graphs
     GRNstruct = graphs(GRNstruct);
@@ -44,15 +44,17 @@ fix_b                       = GRNstruct.controlParams.fix_b;
 initial_guesses             = GRNstruct.locals.initial_guesses;
 estimated_guesses           = GRNstruct.locals.estimated_guesses;
 
+strain_length               = length(GRNstruct.microData);
+
 [~,name,ext]                = fileparts(GRNstruct.inputFile);
 output_file                 = [directory name '_output' ext];
 output_mat                  = [directory name '_output.mat'];
 copyfile(GRNstruct.inputFile, output_file, 'f');
 
-for qq = 1:length(Strain)
-    
+for qq = 1:strain_length
+
     for ik = 1:num_genes+1
-        
+
 %       The id's for each gene is copied over from the "degradation_rates"
 %       spreadsheet. This assumes that each of the genes are in the same in
 %       each sheet.
@@ -63,7 +65,7 @@ for qq = 1:length(Strain)
         outputdeg{ik,1}   = GRNstruct.labels.TX0{ik,1};
         outputpro{ik,1}   = GRNstruct.labels.TX0{ik,1};
         outputsigmas{ik,1}= GRNstruct.labels.TX0{ik,1};
-        
+
         if ik>=2
             for jj = 2:length(simulation_timepoints)+1
                 outputcells{ik,jj} = log2FC(qq).model(ik-1,jj-1);
@@ -77,11 +79,11 @@ for qq = 1:length(Strain)
             end
             outputpro{ik,2} = prorate(ik-1);
             outputdeg{ik,2} = degrate(ik-1);
-         
+
         else
             outputdeg{ik,2} = GRNstruct.labels.TX0{ik,2};
             outputpro{ik,2} = 'production_rate';
-            
+
             for jj = 2:length(simulation_timepoints)+1
                 outputcells{ik,jj} = simulation_timepoints(jj-1);
             end
@@ -92,13 +94,13 @@ for qq = 1:length(Strain)
             end
         end
     end
-    
+
     outputSigmaCells{qq} = outputsigmas;
     GRNstruct.GRNOutput.d = log2FC(qq).data(2:end,:);
-    xlswrite(output_file,outputcells,[Strain{qq} '_log2_optimized_expression']);
+    xlswrite(output_file,outputcells,[GRNstruct.microData(qq).strain '_log2_optimized_expression']);
 end
-for qq = 1:length(Strain)
-    xlswrite(output_file,outputSigmaCells{qq},[Strain{qq} '_sigmas']);
+for qq = strain_length
+    xlswrite(output_file,outputSigmaCells{qq},[GRNstruct.microData(qq).strain '_sigmas']);
 end
 
 % Change to if not fix_p. Basically if we don't fix the production
@@ -159,15 +161,15 @@ outputDiag{5,2} = GRNstruct.GRNOutput.counter;
 outputDiag{6,1} = ' ';
 outputDiag{7,1} = 'Gene';
 
-for qq = 1:length(Strain);
-    
-    strainString = [Strain{qq} ' MSE'];
+for qq = 1: strain_length
+
+    strainString = [GRNstruct.microData(qq).strain ' MSE'];
     outputDiag{7,1+qq} = strainString;
 end
 
 for ii = 1:num_genes
     outputDiag{7+ii,1} = GRNstruct.labels.TX0{1+ii,1};
-    for jj = 1:length(Strain)
+    for jj = 1: strain_length
         outputDiag{7+ii,1+jj} = GRNstruct.GRNOutput.SSE(ii,jj);
     end
 end
@@ -184,7 +186,7 @@ end
 
 close all
 if isfield(GRNstruct,'copy_counter') && GRNstruct.copy_counter >= GRNstruct.alpha_list_length
-   GRNstruct.copy_counter = 0; 
+   GRNstruct.copy_counter = 0;
 end
 
 xlswrite(output_file,outputDiag,'optimization_diagnostics');

@@ -9,7 +9,7 @@ function GRNstruct = readInputSheet(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global log2FC Strain
+global log2FC
 
 alpha = 0;
 fix_b = 0;
@@ -41,7 +41,7 @@ for currentRow = 2:numRows
     % the numerical entries in that row
     if ~isempty(indexVec)
         eval([parmnames0{currentRow,1} '= [' num2str(parms0(currentRow-1,indexVec)) '];']);
-        
+
     % If the parameter in the sheet has strings in its row, we create a
     % cell array with that parameter's name and whose values are the
     % strings in that row.
