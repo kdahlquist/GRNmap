@@ -1,6 +1,3 @@
-GRNstruct = struct();
-clearvars -global
-
 % Allows user to choose an .xls or .xlsx file. If unsupported file is chosen
 % the program is aborted. The dialog box defaults to .xlsx files.
 [GRNstruct.fileName, GRNstruct.directory, ~] = uigetfile({'*.xlsx'},'Select Input Worksheet for Simulation.');
@@ -23,7 +20,6 @@ end
 % Back Simulation
 % Populates the structure as well as the global variables
 GRNstruct = readInputSheet(GRNstruct);
-GRNstruct = initializeArrays(GRNstruct);
 if (GRNstruct.controlParams.L_curve) 
    GRNstruct = GRNLCurve(GRNstruct);
 else
