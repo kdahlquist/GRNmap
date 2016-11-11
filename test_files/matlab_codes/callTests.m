@@ -1,4 +1,4 @@
-clear all
+clearvars -global
 clc
 import matlab.unittest.TestSuite
 import matlab.unittest.TestRunner

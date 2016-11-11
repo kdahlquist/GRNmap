@@ -6,24 +6,25 @@ function GRNstruct = lse(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global counter fix_b fix_P log2FC lse_out penalty_out prorate Strain b is_forced SSE     
+global counter log2FC prorate Strain b is_forced     
 
 % We store relevant values and matrices from
 % the struct into local variables
-positions      = GRNstruct.GRNParams.positions;
-num_edges      = GRNstruct.GRNParams.num_edges;
-num_genes      = GRNstruct.GRNParams.num_genes;
-num_forced     = GRNstruct.GRNParams.num_forced;
-is_forced      = GRNstruct.GRNParams.is_forced;
+positions       = GRNstruct.GRNParams.positions;
+num_edges       = GRNstruct.GRNParams.num_edges;
+num_genes       = GRNstruct.GRNParams.num_genes;
+num_forced      = GRNstruct.GRNParams.num_forced;
+is_forced       = GRNstruct.GRNParams.is_forced;
 estimate_params = GRNstruct.controlParams.estimate_params;
-kk_max         = GRNstruct.controlParams.kk_max;
-MaxIter        = GRNstruct.controlParams.MaxIter;
-MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
-TolFun         = GRNstruct.controlParams.TolFun;
-TolX           = GRNstruct.controlParams.TolX;
-wtmat          = GRNstruct.GRNParams.wtmat;
-
-b              = GRNstruct.GRNParams.b;
+kk_max          = GRNstruct.controlParams.kk_max;
+MaxIter         = GRNstruct.controlParams.MaxIter;
+MaxFunEval      = GRNstruct.controlParams.MaxFunEval;
+TolFun          = GRNstruct.controlParams.TolFun;
+TolX            = GRNstruct.controlParams.TolX;
+wtmat           = GRNstruct.GRNParams.wtmat;
+fix_b           = GRNstruct.controlParams.fix_b;
+fix_P           = GRNstruct.controlParams.fix_P;
+b               = GRNstruct.GRNParams.b;
 
 populateGlobals(GRNstruct);
 % initial_guesses contains all weights, and optionally the threshholds for
@@ -67,10 +68,9 @@ end
 
 counter = 0;
 GRNstruct.GRNOutput.lse_0   = general_least_squares_error(initial_guesses);
-GRNstruct.GRNOutput.lse_out = lse_out;
+% GRNstruct.GRNOutput.lse_out = lse_out;
 estimated_guesses           = initial_guesses;
-GRNstruct.GRNOutput.reg_out = penalty_out;
-GRNstruct.GRNOutput.counter = counter;
+% GRNstruct.GRNOutput.reg_out = penalty_out;
 
 if estimate_params
     % This performs the optimization
@@ -78,15 +78,10 @@ if estimate_params
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
         estimated_guesses = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
         [GRNstruct.GRNOutput.lse_final, strain_data] = general_least_squares_error(estimated_guesses);
-        GRNstruct.GRNOutput.lse_out = lse_out;
+%         GRNstruct.GRNOutput.lse_out = lse_out;
         % lse_1   = L;
         % pen     = penalty_out;
     end
-    GRNstruct.GRNOutput.reg_out = penalty_out;
-    GRNstruct.GRNOutput.counter = counter;
-else
-    GRNstruct.GRNOutput.reg_out = NaN;
-    GRNstruct.GRNOutput.counter = 0;
 end
 
 % Make optimization diagnostic ih the counter is
@@ -113,7 +108,6 @@ runForwardSimulation(GRNstruct);
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
-
 GRNstruct.locals.estimated_guesses = estimated_guesses;
 
-GRNstruct.GRNOutput.SSE = SSE;
+GRNstruct = globalToStruct(GRNstruct);

@@ -1,3 +1,6 @@
+GRNstruct = struct();
+clearvars -global
+
 % Allows user to choose an .xls or .xlsx file. If unsupported file is chosen
 % the program is aborted. The dialog box defaults to .xlsx files.
 [GRNstruct.fileName, GRNstruct.directory, ~] = uigetfile({'*.xlsx'},'Select Input Worksheet for Simulation.');
