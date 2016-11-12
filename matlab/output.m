@@ -9,8 +9,6 @@ function GRNstruct = output(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global log2FC
-
 if GRNstruct.controlParams.make_graphs
     GRNstruct = graphs(GRNstruct);
 end
@@ -24,7 +22,6 @@ adjacency_mat               = GRNstruct.GRNOutput.adjacency_mat;
 degrate                     = GRNstruct.GRNOutput.degrate;
 prorate                     = GRNstruct.GRNOutput.prorate;
 b                           = GRNstruct.GRNOutput.b;
-
 
 expression_timepoints       = GRNstruct.GRNParams.expression_timepoints;
 directory                   = GRNstruct.directory;
@@ -68,10 +65,10 @@ for qq = 1:strain_length
 
         if ik>=2
             for jj = 2:length(simulation_timepoints)+1
-                outputcells{ik,jj} = log2FC(qq).model(ik-1,jj-1);
+                outputcells{ik,jj} = GRNstruct.GRNModel(qq).model(ik-1,jj-1);
             end
             for jj = 2:num_times+1
-                outputdata{ik,jj} = log2FC(qq).data(ik,jj-1);
+                outputdata{ik,jj} = GRNstruct.microData(qq).data(ik,jj-1);
                 outputsigmas{ik,jj} = GRNstruct.microData(qq).stdev(ik-1,jj-1);
             end
             for jj = 2:num_genes+1
@@ -96,17 +93,17 @@ for qq = 1:strain_length
     end
 
     outputSigmaCells{qq} = outputsigmas;
-    GRNstruct.GRNOutput.d = log2FC(qq).data(2:end,:);
-    xlswrite(output_file,outputcells,[GRNstruct.microData(qq).strain '_log2_optimized_expression']);
+    GRNstruct.GRNOutput.d = GRNstruct.microData(qq).data(2:end,:);
+    xlswrite(output_file,outputcells,[cell2mat(GRNstruct.microData(qq).strain) '_log2_optimized_expression']);
 end
-for qq = strain_length
-    xlswrite(output_file,outputSigmaCells{qq},[GRNstruct.microData(qq).strain '_sigmas']);
+for qq = 1:strain_length
+    xlswrite(output_file,outputSigmaCells{qq},[cell2mat(GRNstruct.microData(qq).strain) '_sigmas']);
 end
 
 % Change to if not fix_p. Basically if we don't fix the production
 % rates we want to output the optimized production rates.
 
-if ~GRNstruct.controlParams.fix_P
+if GRNstruct.controlParams.estimate_params && ~GRNstruct.controlParams.fix_P
     xlswrite(output_file,outputpro,'optimized_production_rates');
 end
 
@@ -163,7 +160,7 @@ outputDiag{7,1} = 'Gene';
 
 for qq = 1: strain_length
 
-    strainString = [GRNstruct.microData(qq).strain ' MSE'];
+    strainString = [cell2mat(GRNstruct.microData(qq).strain) ' MSE'];
     outputDiag{7,1+qq} = strainString;
 end
 

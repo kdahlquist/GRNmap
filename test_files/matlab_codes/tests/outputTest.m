@@ -32,11 +32,11 @@ classdef outputTest < matlab.unittest.TestCase
     
     methods (TestClassSetup)
         function setupGRNstruct(testCase, test_files)
-            global log2FC Strain
+%             global log2FC Strain
             testCase.GRNstruct = getfield(OutputGRNstructs, test_files.GRNstruct);
             
-            log2FC = testCase.GRNstruct.globals.log2FC;
-            Strain = testCase.GRNstruct.globals.Strain;
+%             log2FC = testCase.GRNstruct.globals.log2FC;
+%             Strain = testCase.GRNstruct.globals.strain;
             
             testCase.GRNstruct.output_file = [test_files.file '_output'];
             testCase.GRNstruct.inputFile = [pwd testCase.test_dir test_files.file '.xlsx'];
@@ -92,7 +92,7 @@ classdef outputTest < matlab.unittest.TestCase
                for strain_index = 1:length(testCase.GRNstruct.microData)
                    expected_sigmas = zeros(testCase.GRNstruct.GRNParams.num_genes, testCase.GRNstruct.GRNParams.num_times);
                    output_sigmas  = xlsread(testCase.GRNstruct.output_file, ...
-                                            [testCase.GRNstruct.microData(strain_index).Strain{:} '_sigmas']);
+                                            [testCase.GRNstruct.microData(strain_index).strain{:} '_sigmas']);
                    testCase.assertEqual(round(output_sigmas(1,:), 6),...
                                         round((0.4:0.4:1.6), 6),...
                                         testCase.GRNstruct.inputFile);
@@ -145,7 +145,7 @@ classdef outputTest < matlab.unittest.TestCase
         
         function testOptimizedExpressionExists (testCase)
             for strain_index = 1:length(testCase.GRNstruct.microData)
-                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).Strain{:} '_log2_optimized_expression'],...
+                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).strain{:} '_log2_optimized_expression'],...
                                      testCase.GRNstruct.output_sheets)),...
                                      testCase.GRNstruct.inputFile);
             end
@@ -153,7 +153,7 @@ classdef outputTest < matlab.unittest.TestCase
         
         function testSigmaExists (testCase)
             for strain_index = 1:length(testCase.GRNstruct.microData)
-                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).Strain{:} '_sigmas'],...
+                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).strain{:} '_sigmas'],...
                                     testCase.GRNstruct.output_sheets)),...
                                     testCase.GRNstruct.inputFile);
             end
@@ -275,7 +275,7 @@ classdef outputTest < matlab.unittest.TestCase
         end
         
         function testOutputOptimizedProductionRatesCorrect (testCase)
-            if ~testCase.GRNstruct.controlParams.fix_P
+            if ~testCase.GRNstruct.controlParams.fix_P && testCase.GRNstruct.controlParams.estimate_params
                 [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'optimized_production_rates');
                 [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'optimized_production_rates');
                 testCase.verifyEqual (round(actual_output_data, 6),...
@@ -285,7 +285,7 @@ classdef outputTest < matlab.unittest.TestCase
         end
         
         function testOutputOptimizedProductionRatesNamesCorrect (testCase)
-            if ~testCase.GRNstruct.controlParams.fix_P
+            if ~testCase.GRNstruct.controlParams.fix_P && testCase.GRNstruct.controlParams.estimate_params
                 [~, expected_output_names] = xlsread (testCase.GRNstruct.output_file, 'optimized_production_rates');
                 [~, actual_output_names] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'optimized_production_rates');
                 testCase.verifyEqual (actual_output_names, expected_output_names,...

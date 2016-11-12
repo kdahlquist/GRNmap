@@ -7,7 +7,7 @@ classdef globalsToLocalTest < matlab.unittest.TestCase
     methods(TestClassSetup)
         function setupGRNstruct(testCase)
             global adjacency_mat alpha b counter expression_timepoints ...
-            degrate lse_out penalty_out SSE wts prorate
+            degrate lse_out penalty_out SSE wts prorate log2FC
        
             addpath([pwd '/../../matlab']);
             

@@ -37,13 +37,14 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         is_forced
         production_function
         strain_length
+        log2FC
     end
     
     methods(TestClassSetup)
         function makeGlobals(testCase, test_files)
             global alpha adjacency_mat b degrate expression_timepoints ... 
                 fix_b fix_P num_genes prorate wts deletion is_forced ...
-                production_function strain_length
+                production_function strain_length log2FC
             addpath([pwd '/../../matlab']);
             addpath('tests/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
@@ -62,6 +63,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.is_forced = is_forced;
             testCase.production_function = production_function;
             testCase.strain_length = strain_length;
+            testCase.log2FC = log2FC;
          end
     end
     
@@ -144,8 +146,86 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
         end
         
         function testStrainLength(testCase)
-           testCase.verifyEqual(testCase.strain_length, 2); 
+            testCase.verifyEqual(testCase.strain_length, 2); 
         end
+        
+        function testLog2FC_data(testCase)
+            testCase.verifyEqual(testCase.log2FC(1).data, [0.4	0.4	0.4	0.8	0.8	0.8	1.2	1.2	1.2	1.6	1.6	1.6;...
+                                                          -0.376334306292052	-0.376334306292052	-0.376334306292052	-0.706666467343382	-0.706666467343382	-0.706666467343382	-0.987239299670092	-0.987239299670092	-0.987239299670092	-1.21744326547615	-1.21744326547615	-1.21744326547615;...
+                                                          -0.227718654239836	-0.227718654239836	-0.227718654239836	-0.408017743026565	-0.408017743026565	-0.408017743026565	-0.546412653239117	-0.546412653239117	-0.546412653239117	-0.649843860182989	-0.649843860182989	-0.649843860182989;...
+                                                           0.269293821322375	0.269293821322375	0.269293821322375	0.415935372482249	0.415935372482249	0.415935372482249	0.497511633589691	0.497511633589691	0.497511633589691	0.541599938412416	0.541599938412416	0.541599938412416;...
+                                                          -0.290936155220703	-0.290936155220703	-0.290936155220703	-0.579771801563864	-0.579771801563864	-0.579771801563864	-0.85583465653557	-0.85583465653557	-0.85583465653557	-1.10972623205696	-1.10972623205696	-1.10972623205696...
+                                                          ]);
+            testCase.verifyEqual(testCase.log2FC(2).data, [0.4	0.4	0.4	0.8	0.8	0.8	1.2	1.2	1.2	1.6	1.6	1.6;...
+                                                          -0.376334306292052	-0.376334306292052	-0.376334306292052	-0.706666467343382	-0.706666467343382	-0.706666467343382	-0.987239299670092	-0.987239299670092	-0.987239299670092	-1.21744326547615	-1.21744326547615	-1.21744326547615;...
+                                                          -0.227718654239836	-0.227718654239836	-0.227718654239836	-0.408017743026565	-0.408017743026565	-0.408017743026565	-0.546412653239117	-0.546412653239117	-0.546412653239117	-0.649843860182989	-0.649843860182989	-0.649843860182989;...
+                                                           0	0	0	0	0	0	0	0	0	0	0	0;...
+                                                          -0.13932150464649	-0.13932150464649	-0.13932150464649	-0.249851730445413	-0.249851730445413	-0.249851730445413	-0.336140688374095	-0.336140688374095	-0.336140688374095	-0.402590113617106	-0.402590113617106	-0.402590113617106...
+                                                          ]);
+        end
+        
+        function testLog2FC_deletion(testCase)
+            testCase.verifyEqual(testCase.log2FC(1).deletion, 0);
+            testCase.verifyEqual(testCase.log2FC(2).deletion, 3);
+        end
+        
+        function testLog2FC_strain(testCase)
+            testCase.verifyEqual(testCase.log2FC(1).Strain, {'wt'});
+            testCase.verifyEqual(testCase.log2FC(2).Strain, {'dcin5'});
+        end
+        
+        function testLog2FC_t_index(testCase)
+            testCase.verifyEqual(testCase.log2FC(1).t(1).indx, [1 2 3]);
+            testCase.verifyEqual(testCase.log2FC(1).t(2).indx, [4 5 6]);
+            testCase.verifyEqual(testCase.log2FC(1).t(3).indx, [7 8 9]);
+            testCase.verifyEqual(testCase.log2FC(1).t(4).indx, [10 11 12]);
+            
+            testCase.verifyEqual(testCase.log2FC(2).t(1).indx, [1 2 3]);
+            testCase.verifyEqual(testCase.log2FC(2).t(2).indx, [4 5 6]);
+            testCase.verifyEqual(testCase.log2FC(2).t(3).indx, [7 8 9]);
+            testCase.verifyEqual(testCase.log2FC(2).t(4).indx, [10 11 12]);
+        end
+        
+        function testLog2FC_t_t(testCase)
+            testCase.verifyEqual(testCase.log2FC(1).t(1).t, 0.4000);
+            testCase.verifyEqual(testCase.log2FC(1).t(2).t, 0.8000);
+            testCase.verifyEqual(testCase.log2FC(1).t(3).t, 1.2000);
+            testCase.verifyEqual(testCase.log2FC(1).t(4).t, 1.6000);
+            
+            testCase.verifyEqual(testCase.log2FC(2).t(1).t, 0.4000);
+            testCase.verifyEqual(testCase.log2FC(2).t(2).t, 0.8000);
+            testCase.verifyEqual(testCase.log2FC(2).t(3).t, 1.2000);
+            testCase.verifyEqual(testCase.log2FC(2).t(4).t, 1.6000);
+        end
+        
+        function testLog2FC_avg(testCase)
+            testCase.verifyEqual(testCase.log2FC(1).avg, [-0.3763 -0.7067 -0.9872 -1.2174
+                                                          -0.2277 -0.4080 -0.5464 -0.6498
+                                                           0.2693  0.4159  0.4975  0.5416
+                                                          -0.2909 -0.5798 -0.8558 -1.1097]);
+            testCase.verifyEqual(testCase.log2FC(2).avg, [-0.3763 -0.7067 -0.9872 -1.2174
+                                                          -0.2277 -0.4080 -0.5464 -0.6498
+                                                           0       0       0       0
+                                                          -0.1393 -0.2499 -0.3361 -0.4026]);
+        end
+        
+        function testLog2FC_stdev(testCase)
+            testCase.verifyEqual(testCase.log2FC(1).stdev, [6.79869977755259E-17	1.35973995551052E-16	0	0;...
+                                                            3.3993498887763E-17	0	0	0;...
+                                                            0	0	0	0;...
+                                                            0	0	0   0]);
+            testCase.verifyEqual(testCase.log2FC(2).stdev, [6.79869977755259E-17	1.35973995551052E-16	0	0;...
+                                                            3.3993498887763E-17	0	0	0;...
+                                                            0	0	0	0;...
+                                                            0	0	0   0]);
+        end
+        
+%       GRNstruct.GRNmodel.model --> will probably be different for each
+%       indidivual test files
+%         function testLog2FC_model(testCase)
+%             testCase.verifyEqual(testCase.log2FC(1).model, );
+%             testCase.verifyEqual(testCase.log2FC(2).model, );
+%         end
         
     end           
 end

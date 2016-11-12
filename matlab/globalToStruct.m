@@ -1,6 +1,6 @@
 function GRNstruct = globalToStruct(GRNstruct)
     global adjacency_mat alpha b counter expression_timepoints ...
-           degrate lse_out penalty_out SSE wts prorate
+           degrate lse_out penalty_out SSE wts prorate log2FC
     
     GRNstruct.GRNOutput.adjacency_mat = adjacency_mat;
     GRNstruct.GRNOutput.prorate = prorate;
@@ -19,6 +19,8 @@ function GRNstruct = globalToStruct(GRNstruct)
         GRNstruct.GRNOutput.reg_out = NaN;
         GRNstruct.GRNOutput.counter = 0;
     end
+    
+    GRNstruct.GRNModel.model = log2FC.model;
 
 %     We skipped log2FC due to too many parts
 %     GRNstruct.microData = log2FC; 
