@@ -2,11 +2,13 @@ classdef optimizationDiagnosticTest < matlab.unittest.TestCase
 
     properties
         test_dir = '..\optimization_diagnostic_test\'
+        grnmap_path
     end
     
     methods(TestClassSetup)
         function addPath(testCase)
-            addpath([pwd '/../../matlab']);
+            testCase.grnmap_path = [pwd '/../../matlab'];
+            addpath(testCase.grnmap_path);
         end
     end
     

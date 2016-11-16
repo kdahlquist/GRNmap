@@ -1,4 +1,4 @@
-clear all
+clearvars -global
 clc
 import matlab.unittest.TestSuite
 import matlab.unittest.TestRunner
@@ -51,7 +51,6 @@ GRNstruct.directory     = sixteen_tests_path;
 GRNstruct.tempdir       = tempdir;
 
 suite = TestSuite.fromFolder('tests');
-
 warning('off', 'all')
 results = runner.run(suite);
 warning('on', 'all')

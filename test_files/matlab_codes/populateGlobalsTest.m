@@ -22,20 +22,27 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
     end
 
     properties
-        test_dir = '..\populate_globals_test\'
         GRNstruct
         adjacency_mat
         b
+        deletion
         degrate
+        expression_timepoints
         fix_b
+        fix_P
         num_genes
         prorate
         wts
+        alpha
+        is_forced
+        production_function
     end
     
     methods(TestClassSetup)
         function makeGlobals(testCase, test_files)
-            global adjacency_mat b degrate fix_b num_genes prorate wts
+            global alpha adjacency_mat b degrate expression_timepoints ... 
+                fix_b fix_P num_genes prorate wts deletion is_forced ...
+                production_function
             addpath([pwd '/../../matlab']);
             addpath('tests/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
@@ -43,50 +50,96 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             testCase.adjacency_mat = adjacency_mat;
             testCase.b = b;
             testCase.degrate = degrate;
+            testCase.deletion = deletion;
+            testCase.expression_timepoints = expression_timepoints;
             testCase.fix_b = fix_b;
+            testCase.fix_P = fix_P;
             testCase.num_genes = num_genes;
             testCase.prorate = prorate;
             testCase.wts = wts;
+            testCase.alpha = alpha;
+            testCase.is_forced = is_forced;
+            testCase.production_function = production_function;
          end
+    end
+    
+    methods(TestClassTeardown)
+        function clearGlobals(testCase)
+           clearvars -global alpha adjacency_mat b degrate expression_timepoints fix_b num_genes prorate wts deletion is_forced
+        end
     end
     
     methods(Test)
         function testAdjacencyMat(testCase)
             testCase.verifyEqual(testCase.adjacency_mat, [1 0 0 0; 0 1 0 0; 0 0 1 1; 0 0 1 1]);
         end
-        %b might depend on input%
+        %b depends on input%
         function testB(testCase)
-            testCase.verifyEqual(testCase.b, [0;0;0;0]);
+            if strcmpi(testCase.GRNstruct.controlParams.production_function, 'Sigmoid') 
+                if testCase.GRNstruct.controlParams.fix_b
+                    testCase.verifyEqual(testCase.b, [0;0;0;0]);
+                else
+                    testCase.verifyEqual(testCase.b, [1;1;1;1]);
+                end
+            else
+                testCase.verifyEqual(testCase.b, [0;0;0;0]);
+            end
+            
         end
         
         function testDegrate(testCase)
             testCase.verifyEqual(testCase.degrate, [1; 1; 1; 1]);
         end
-        %might depend on input%
+        
+        %depends on input%
         function testFixB(testCase)
-            testCase.verifyEqual(testCase.fix_b, 0);
+   
+            if testCase.GRNstruct.controlParams.fix_b
+                testCase.verifyEqual(testCase.fix_b, 1);
+            else
+                testCase.verifyEqual(testCase.fix_b, 0);
+            end
+        end
+        
+        function testFixP(testCase)
+            if testCase.GRNstruct.controlParams.fix_P
+                testCase.verifyEqual(testCase.fix_P, 1);
+            else
+                testCase.verifyEqual(testCase.fix_P, 0);
+            end
         end
         
         function testNumGenes(testCase)
             testCase.verifyEqual(testCase.num_genes, 4);
         end
         
+
         function testProRate(testCase)
-            testCase.verifyEqual(testCase.prorate, [0.697407193664997;
-                             1.15680032250197; 
-                             2.7591362546192;
-                             2.37852370311734]);
+            testCase.verifyEqual(testCase.prorate, [0.5;
+                             1.0;
+                             2.0;
+                             1.0]);
+        end         
+        function testAlpha(testCase)
+            testCase.verifyEqual(testCase.alpha, 0.001);
         end
         
-        function testWTS(testCase)
-            testCase.verifyEqual(testCase.wts, [1.13903751151646; 1.16519792669147;...
-                         1.23141151310352; 1.34723746031295;...
-                         0.0855776852173311; 0.399610913872118;...
-                         0.697407193664997; 1.15680032250197;...
-                         2.7591362546192; 2.37852370311734...
-                        ]);
+        function testExpressionTimepoints(testCase)
+            testCase.verifyEqual(testCase.expression_timepoints,  [0.4000 0.8000 1.2000 1.6000]);
         end
         
-    end
+        function testIsForced(testCase)
+            testCase.verifyEqual(testCase.is_forced,  [1; 2; 3; 4]);
+        end
+        
+        function testProductionFunction(testCase)
+            if strcmpi(testCase.GRNstruct.controlParams.production_function, 'Sigmoid')
+                testCase.verifyEqual(testCase.production_function, 'Sigmoid');
+            else
+                testCase.verifyEqual(testCase.production_function, 'MM');
+            end
             
+        end
+        
+    end           
 end
