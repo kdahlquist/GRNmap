@@ -1,12 +1,12 @@
 function GRNstruct = lse(GRNstruct)
 % USAGE: GRNstruct = lse(GRNstruct)
-% 
+%
 % Purpose: perform parameter estimation to fit model to data
 %
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global counter log2FC prorate Strain b is_forced     
+global counter log2FC prorate strain_length b is_forced     
 
 % We store relevant values and matrices from
 % the struct into local variables
@@ -53,7 +53,7 @@ if ~fix_P
     end
 end
 
-% We set upper and lower bounds 
+% We set upper and lower bounds
 lb              = zeros(size(initial_guesses));
 lb(1:num_edges) = -10 * ones(num_edges,1);
 ub              = 10 * ones(size(initial_guesses));
@@ -87,14 +87,14 @@ end
 % Make optimization diagnostic ih the counter is
 % less than 100.
 
-               
+
 if counter < 100 && estimate_params
     graphData = struct('strain_data',strain_data,...
                    'estimated_guesses',estimated_guesses,...
                    'log2FC',log2FC,...
-                   'num_of_strains', length(Strain),...
+                   'num_of_strains', strain_length,...
                    'LSE',GRNstruct.GRNOutput.lse_final);
-               
+
     createDiagnosticsGraph(graphData, counter);
 end
 
@@ -102,9 +102,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % This is the forward simulation, which is performed for every single strain
-% The simulation gives the gene expression at each of the time 
+% The simulation gives the gene expression at each of the time
 % points specified by simulation_timepoints
-runForwardSimulation(GRNstruct);
+GRNstruct = runForwardSimulation(GRNstruct);
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
