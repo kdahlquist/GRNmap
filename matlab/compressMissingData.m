@@ -1,7 +1,6 @@
 function GRNstruct = compressMissingData (GRNstruct)
 
-    global Strain
-    simulation_timepoints = GRNstruct.controlParams.simulation_timepoints;
+    expression_timepoints = GRNstruct.controlParams.expression_timepoints;
     % Naming new data expressionData
 
     % Iterates through rawExpressionData(microData) for every
@@ -9,8 +8,8 @@ function GRNstruct = compressMissingData (GRNstruct)
     currentTimePoint = 0;
     currentTimePointIndex = 1;
 
-    for index = 1:length(Strain)
-        GRNstruct.expressionData(index).data = struct();
+    for index = 1:length(GRNStruct.Strain)
+        GRNstruct.expressionData(index).data = {};
     end
 
 end
