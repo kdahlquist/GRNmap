@@ -104,7 +104,7 @@ end
 % This is the forward simulation, which is performed for every single strain
 % The simulation gives the gene expression at each of the time
 % points specified by simulation_timepoints
-runForwardSimulation(GRNstruct);
+GRNstruct = runForwardSimulation(GRNstruct);
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
