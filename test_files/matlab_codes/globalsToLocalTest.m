@@ -7,7 +7,7 @@ classdef globalsToLocalTest < matlab.unittest.TestCase
     methods(TestClassSetup)
         function setupGRNstruct(testCase)
             global adjacency_mat alpha b counter expression_timepoints ...
-            degrate lse_out penalty_out SSE wts prorate
+            degrate lse_out penalty_out SSE wts prorate log2FC
        
             addpath([pwd '/../../matlab']);
             
@@ -31,8 +31,19 @@ classdef globalsToLocalTest < matlab.unittest.TestCase
                    1; 1;...
                    1; 1
                   ];
+            log2FC = struct('model', {[0	-0.0898003214492152	-0.177837235669622	-0.264143175465653; ...
+                                       0	-0.0535544725451915	-0.105340331017462	-0.155412951361923; ...
+                                       0	 0.0743459203142814	 0.138786287342172	 0.195043980758031; ...
+                                       0	-0.0586045566610957	-0.116780839243491	-0.174488024612268]; ...
+                                      [0	-0.0898003214492152	-0.177837235669622	-0.264143175465653; ...
+                                       0	-0.0535544725451915	-0.105340331017462	-0.155412951361923; ...
+                                       0	 0	                 0                   0	; ...
+                                       0	-0.0458513259283481	-0.0908341460604173	-0.134976605186563]} ...
+             );
             
             testCase.GRNstruct.controlParams.estimate_params = 1;
+            testCase.GRNstruct.microData(1).data = [1 2 3];
+            testCase.GRNstruct.microData(2).data = [1 3 5];
             testCase.GRNstruct = globalToStruct(testCase.GRNstruct);
         end
     end
@@ -95,6 +106,6 @@ classdef globalsToLocalTest < matlab.unittest.TestCase
         function testWtsAssignedCorrectly(testCase)
            testCase.verifyEqual(testCase.GRNstruct.GRNOutput.wts, [1; 1; 1; 1; 1; 1]);
         end
-        
+                
     end
 end
