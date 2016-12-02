@@ -14,21 +14,29 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
        function setupArray(testCase)
           testCase.timepoint    = {[1 2 3]};
           testCase.genes        = {'A', 'B', 'C'};
-          testCase.arrayWithNaN = [15  15 15 20 20
-                                   10  22 30 40 50;
-                                   NaN 10 20 50 60;
-                                   20  20 10 20 20];
+          % test values are formatted in XYZ format, where:
+          % X is the expression timepoint value
+          % Y is the row number
+          % Z is the column number
+          testCase.arrayWithNaN = [
+                                       1   1   1   2   2;
+                                       111 112 113 211 212;
+                                       NaN 122 123 221 222;
+                                       131 132 133 231 232
+                                   ];
        end       
    end
    
    methods(Test)
-      function testRemoveNaN(testCase)
-           cellArrayWithoutNaN = removeNaN(testCase.arrayWithNaN);
-           expected = {15 20; 
-                      [10 20 30; 1 2 3], [40 50; 1 2]; 
-                      [10 20; 2 3],      [50 60; 1 2]; 
-                      [20 20 10; 1 2 3], [20 20; 1 2]};
-           testCase.verifyEqual(cellArrayWithoutNaN, expected);
+      function testConvertToNestedStructure(testCase)
+           rawCellArray = convertToNestedStructure(testCase.arrayWithNaN);
+           expected = {
+                          1,                    2; 
+                          [111 112 113; 1 2 3], [211 212; 1 2]; 
+                          [122 123; 2 3],       [221 222; 1 2]; 
+                          [131 132 133; 1 2 3], [231 232; 1 2]
+                      };
+           testCase.verifyEqual(rawCellArray, expected);
       end
    end
    
