@@ -1,4 +1,4 @@
-function expressionData = convertToNestedStructure( expression_timepoints, rawExpressionData )
+function expressionData = convertToNestedStructure( indices, rawExpressionData )
 
     expressionData = cell();
     
@@ -14,6 +14,10 @@ function expressionData = convertToNestedStructure( expression_timepoints, rawEx
     for index = 1:length(rawExpressionData)
         % TODO: Nested Matrix Dissection
     end    
+    
+    for replicate = 1:length(indices)
+        
+    end
 
 end
 
