@@ -4,6 +4,7 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
       arrayWithNaN
       timepoint
       genes
+      indices
    end
    
    methods(TestClassSetup)
@@ -14,6 +15,7 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
        function setupArray(testCase)
           testCase.timepoint    = {[1 2 3]};
           testCase.genes        = {'A', 'B', 'C'};
+          testCase.indices      = {[1 2 3]; [4 5]};
           % test values are formatted in XYZ format, where:
           % X is the expression timepoint value
           % Y is the row number

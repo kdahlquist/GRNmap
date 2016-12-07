@@ -1,17 +1,36 @@
 classdef compressMissingDataTest < matlab.unittest.TestCase
+    
+    properties(ClassSetupParameter)
+       test_data = { struct('input_GRNstruct', 'GRNstruct_with_one_NaN', 'expected_GRNstruct', 'expected_output_for_GRNstruct_with_one_NaN') };
+    end
 
     properties
         test_dir = '..\compress_missing_data_tests\'
         GRNstruct
+        expected_GRNstruct
     end
 
     methods(TestClassSetup)
         function addPath(testCase) %#ok<MANU>
             addpath([pwd '/../../matlab']);
+            addpath([pwd 'tests']);
+        end
+        
+        function setupGRNstruct(testCase, test_data)
+            testCase.GRNstruct = getfield(CompressMissingDataStruct, test_data.input_GRNstruct);
+            testCase.expected_GRNstruct = getfield(CompressMissingDataStruct, test_data.expected_GRNstruct);
         end
     end
 
     methods (Test)
+        function testOne(testCase)
+            disp(testCase.GRNstruct.expressionData(1).data);
+            disp(testCase.expected_GRNstruct.expressionData(1).data);
+            actual = compressMissingData(testCase.GRNstruct);
+            expected = testCase.expected_GRNstruct;
+            testCase.verifyEqual(actual, expected);
+        end
+        
         function testExpressionDataStructureWithoutMissingData(testCase)
             testCase.GRNstruct.inputFile = [testCase.test_dir 'Control_4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph.xlsx'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
