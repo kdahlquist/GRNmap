@@ -44,7 +44,16 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
                            151 251 351 352 353 451 452 551 NaN 651 652 751;
 
          ];
-     
+
+         testCase.arrayMissingFourCorners = [
+                            1   1   2   3   3   3   4   4   5   6   6   7;
+                            NaN 112 211 311 312 313 411 412 511 611 612 NaN;
+                            121 122 NaN 321 322 323 421 422 521 621 622 721;
+                            131 132 231 331 332 333 431 432 531 631 632 731;
+                            141 142 241 341 342 343 441 442 541 641 642 741;
+                            NaN 152 251 351 352 353 451 452 551 651 652 NaN;
+         ];
+
        end
    end
 
@@ -96,4 +105,30 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
        end
    end
 
+   methods(Test)
+       function testConvertToNestedStructureMissingFourCorners(testCase)
+           rawCellArray = convertToNestedStructure(testCase.arrayMissingFourCorners);
+
+           testCase.arrayMissingFourCorners = [
+                              1   1   2   3   3   3   4   4   5   6   6   7;
+                              NaN 112 211 311 312 313 411 412 511 611 612 NaN;
+                              121 122 NaN 321 322 323 421 422 521 621 622 721;
+                              131 132 231 331 332 333 431 432 531 631 632 731;
+                              141 142 241 341 342 343 441 442 541 641 642 741;
+                              NaN 152 251 351 352 353 451 452 551 651 652 NaN;
+           ];
+
+           expected = {
+           1,        2,         3,                     4,               5,        6,              7;
+           [],       [211; 1],  [311 312 313; 1 2 3],  [411 412; 1 2],  [511; 1], [611 612; 1 2], []
+           [121; 1]  [221; 1],  [321 322 323; 1 2 3],  [421 422; 1 2],  [521; 1], [621 622; 1 2], [721; 1]
+           [131; 1]  [231; 1],  [331 332 333; 1 2 3],  [431 432; 1 2],  [531; 1], [631 632; 1 2], [731; 1]
+           [141; 1]  [241; 1],  [341 342 343; 1 2 3],  [441 442; 1 2],  [541; 1], [641 642; 1 2], [741; 1]
+           []        [251; 1],  [351 352 353; 1 2 3],  [451 452; 1 2],  [551; 1,] [651 652; 1 2], []
+
+           };
+
+           testCase.verifyEqual(rawCellArray, expected);
+       end
+   end
 end
