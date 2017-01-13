@@ -1,10 +1,13 @@
 classdef convertToNestedStructureTest < matlab.unittest.TestCase
-
+%TODO GROUP METHODS
    properties
       arrayWithNaN
       timepoint
       genes
       indices
+      array1
+      array2
+      arrayMissingFourCorners
    end
 
    methods(TestClassSetup)
@@ -26,6 +29,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
                                        NaN 122 123 221 222;
                                        131 132 133 231 232
                                    ];
+          
+
            testCase.array1 = [
                             1   2   2   2   2   3   3   4   4   5   6   6   6;
                             111 211 212 213 214 NaN 312 411 412 511 611 NaN 613;
@@ -34,7 +39,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
                             NaN 241 242 243 244 341 342 441 442 541 641 642 643;
                             151 251 NaN 253 254 351 352 451 454 551 651 652 653
           ];
-
+            
+            
           testCase.array2 = [
                            1   2   3   3   3   4   4   5   5   6   6   7;
                            111 NaN 311 312 313 411 NaN 511 512 611 612 711;
@@ -44,6 +50,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
                            151 251 351 352 353 451 452 551 NaN 651 652 751
 
          ];
+        
+
 
          testCase.arrayMissingFourCorners = [
                             1   1   2   3   3   3   4   4   5   6   6   7;
@@ -53,13 +61,15 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
                             141 142 241 341 342 343 441 442 541 641 642 741;
                             NaN 152 251 351 352 353 451 452 551 651 652 NaN
          ];
+     
 
        end
    end
 
    methods(Test)
       function testConvertToNestedStructure(testCase)
-           rawCellArray = convertToNestedStructure(testCase.arrayWithNaN);
+           t = struct('indx', {[1 2 3]; [4 5];}, 't', {1; 2});
+           rawCellArray = convertToNestedStructure(t, testCase.arrayWithNaN);
            expected = {
                           1,                    2;
                           [111 112 113; 1 2 3], [211 212; 1 2];
@@ -72,8 +82,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
 
    methods(Test)
        function testConvertToNestedStructure1(testCase)
-
-           rawCellArray = convertToNestedStructure(testCase.array1);
+           t = struct('indx', {[1]; [2 3 4 5]; [6 7]; [8 9]; [10]; [11 12 13]}, 't', {1; 2; 3; 4 ; 5; 6});
+           rawCellArray = convertToNestedStructure(t, testCase.array1);
 
            expected = {
                       1,        2,                          3,                4,              5,        6;
@@ -90,7 +100,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
 
    methods(Test)
        function testConvertToNestedStructure2(testCase)
-           rawCellArray = convertToNestedStructure(testCase.array2);
+           t = struct('indx', {[1]; [2]; [3 4 5]; [6 7]; [8 9]; [10 11]; [12]}, 't', {1; 2; 3; 4 ; 5; 6});
+           rawCellArray = convertToNestedStructure(t, testCase.array2);
 
            expected = {
                     1,        2,        3,                    4,              5,               6,               7
@@ -108,8 +119,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
 
    methods(Test)
        function testConvertToNestedStructureMissingFourCorners(testCase)
+           t = struct('indx', {[1 2]; [3]; [4 5 6]; [7 8]; [9]; [10 11]; [12]}, 't', {1; 2; 3; 4 ; 5; 6; 7});
            rawCellArray = convertToNestedStructure(testCase.arrayMissingFourCorners);
-
            testCase.arrayMissingFourCorners = [
                               1   1   2   3   3   3   4   4   5   6   6   7;
                               NaN 112 211 311 312 313 411 412 511 611 612 NaN;
@@ -121,11 +132,11 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
 
            expected = {
            1,        2,         3,                     4,               5,        6,              7;
-           [112; 2],       [211; 1],  [311 312 313; 1 2 3],  [411 412; 1 2],  [511; 1], [611 612; 1 2], []
-           [121; 1]  [221; 1],  [321 322 323; 1 2 3],  [421 422; 1 2],  [521; 1], [621 622; 1 2], [721; 1]
-           [131; 1]  [231; 1],  [331 332 333; 1 2 3],  [431 432; 1 2],  [531; 1], [631 632; 1 2], [731; 1]
-           [141; 1]  [241; 1],  [341 342 343; 1 2 3],  [441 442; 1 2],  [541; 1], [641 642; 1 2], [741; 1]
-           [152; 2]        [251; 1],  [351 352 353; 1 2 3],  [451 452; 1 2],  [551; 1,] [651 652; 1 2], []
+           [112; 2],       [211; 1],  [311 312 313; 1 2 3],  [411 412; 1 2],  [511; 1], [611 612; 1 2], [];
+           [121; 1]  [221; 1],  [321 322 323; 1 2 3],  [421 422; 1 2],  [521; 1], [621 622; 1 2], [721; 1];
+           [131; 1]  [231; 1],  [331 332 333; 1 2 3],  [431 432; 1 2],  [531; 1], [631 632; 1 2], [731; 1];
+           [141; 1]  [241; 1],  [341 342 343; 1 2 3],  [441 442; 1 2],  [541; 1], [641 642; 1 2], [741; 1];
+           [152; 2]        [251; 1],  [351 352 353; 1 2 3],  [451 452; 1 2],  [551; 1,] [651 652; 1 2], [];
 
            };
 
