@@ -84,25 +84,29 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
        function testConvertToNestedStructure1(testCase)
            t = struct('indx', {[1]; [2 3 4 5]; [6 7]; [8 9]; [10]; [11 12 13]}, 't', {1; 2; 3; 4 ; 5; 6});
            rawCellArray = convertToNestedStructure(t, testCase.array1);
+           
+          
 
            expected = {
                       1,        2,                          3,                4,              5,        6;
                       [111; 1], [211 212 213 214; 1 2 3 4], [312; 2],         [411 412; 1 2], [511; 1], [611 613; 1 3];
                       [121; 1], [221 222 223; 1 2 3],       [321 322; 1 2],   [421 422; 1 2], [521; 1], [621 622 623; 1 2 3];
                       [131; 1], [231 232 233; 1 2 3],       [331 332; 1 2],   [431 432; 1 2], [531; 1], [631 632 633; 1 2 3];
-                      [141; 1], [241 242 243 244; 1 2 3 4], [341 342; 1 2],   [441 442; 1 2], [541; 1], [641 642 643; 1 2 3];
+                      [],       [241 242 243 244; 1 2 3 4], [341 342; 1 2],   [441 442; 1 2], [541; 1], [641 642 643; 1 2 3];
                       [151; 1], [251 253 254; 1 3 4],       [351 352; 1 2],   [451 452; 1 2], [551; 1], [651 652 653; 1 2 3];
 
                       };
+                  
+                  
           testCase.verifyEqual(rawCellArray, expected);
        end
    end
 
    methods(Test)
        function testConvertToNestedStructure2(testCase)
-           t = struct('indx', {[1]; [2]; [3 4 5]; [6 7]; [8 9]; [10 11]; [12]}, 't', {1; 2; 3; 4 ; 5; 6});
+           t = struct('indx', {[1]; [2]; [3 4 5]; [6 7]; [8 9]; [10 11]; [12]}, 't', {1; 2; 3; 4; 5; 6; 7});
            rawCellArray = convertToNestedStructure(t, testCase.array2);
-
+            
            expected = {
                     1,        2,        3,                    4,              5,               6,               7
                     [111; 1], [],       [311 312 313; 1 2 3], [411; 1],       [511 512; 1 2],  [611 612; 1 2],  [711; 1];
@@ -120,7 +124,7 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
    methods(Test)
        function testConvertToNestedStructureMissingFourCorners(testCase)
            t = struct('indx', {[1 2]; [3]; [4 5 6]; [7 8]; [9]; [10 11]; [12]}, 't', {1; 2; 3; 4 ; 5; 6; 7});
-           rawCellArray = convertToNestedStructure(testCase.arrayMissingFourCorners);
+           rawCellArray = convertToNestedStructure(t, testCase.arrayMissingFourCorners);
            testCase.arrayMissingFourCorners = [
                               1   1   2   3   3   3   4   4   5   6   6   7;
                               NaN 112 211 311 312 313 411 412 511 611 612 NaN;
@@ -133,9 +137,9 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
            expected = {
            1,        2,         3,                     4,               5,        6,              7;
            [112; 2],       [211; 1],  [311 312 313; 1 2 3],  [411 412; 1 2],  [511; 1], [611 612; 1 2], [];
-           [121; 1]  [221; 1],  [321 322 323; 1 2 3],  [421 422; 1 2],  [521; 1], [621 622; 1 2], [721; 1];
-           [131; 1]  [231; 1],  [331 332 333; 1 2 3],  [431 432; 1 2],  [531; 1], [631 632; 1 2], [731; 1];
-           [141; 1]  [241; 1],  [341 342 343; 1 2 3],  [441 442; 1 2],  [541; 1], [641 642; 1 2], [741; 1];
+           [121 122; 1 2]  [],        [321 322 323; 1 2 3],  [421 422; 1 2],  [521; 1], [621 622; 1 2], [721; 1];
+           [131 132; 1 2]  [231; 1],  [331 332 333; 1 2 3],  [431 432; 1 2],  [531; 1], [631 632; 1 2], [731; 1];
+           [141 142; 1 2]  [241; 1],  [341 342 343; 1 2 3],  [441 442; 1 2],  [541; 1], [641 642; 1 2], [741; 1];
            [152; 2]        [251; 1],  [351 352 353; 1 2 3],  [451 452; 1 2],  [551; 1,] [651 652; 1 2], [];
 
            };
