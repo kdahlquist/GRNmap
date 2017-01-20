@@ -19,10 +19,28 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
           % X is the expression timepoint value
           % Y is the row number
           % Z is the column number
+          
        end
    end
 
-    methods(Test)
+
+
+   methods(Test)
+      function testConvertToNestedStructure(testCase)
+           t = struct('indx', {[1 2 3]; [4 5];}, 't', {1; 2});
+           rawCellArray = convertToNestedStructure(t, testCase.arrayWithNaN);
+           expected = {
+                          1,                    2;
+                          [111 112 113; 1 2 3], [211 212; 1 2];
+                          [122 123; 2 3],       [221 222; 1 2];
+                          [131 132 133; 1 2 3], [231 232; 1 2];
+                      };
+           testCase.verifyEqual(rawCellArray, expected);
+      end
+   end
+
+   methods(Test)
+
 
         function testConvertToNestedStructureWithWholeArray (testCase)
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
@@ -76,7 +94,7 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
                                121 221 222 223 NaN 321 322 421 422 521 621 622 623;
                                131 231 232 233 NaN 331 332 431 432 531 631 632 633;
                                NaN 241 242 243 244 341 342 441 442 541 641 642 643;
-                               151 251 NaN 253 254 351 352 451 454 551 651 652 653
+                               151 251 NaN 253 254 351 352 451 452 551 651 652 653
             ];
 
             expected = {
@@ -109,12 +127,13 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
               ];
 
              expected = {
-                      1,        2,        3,                    4,              5,               6,               7
-                      [111; 1], [],       [311 312 313; 1 2 3], [411; 1],       [511 512; 1 2],  [611 612; 1 2],  [711; 1];
-                      [121; 1], [221; 1], [322 323; 2 3],       [421 422; 1 2], [521 522; 1 2],  [621 622; 1 2],  [721; 1];
-                      [131; 1], [231; 1], [331 332 333; 1 2 3], [431 432; 1 2], [531 532; 1 2],  [631 632; 1 2],  [731; 1];
-                      [],       [241; 1], [341 342 343; 1 2 3], [441 442; 1 2], [541 542; 1 2],  [641 642; 1 2],  [741; 1];
-                      [151; 1], [251; 1], [351 352 353; 1 2 3], [451 452; 1 2], [551; 1],        [651 652; 1 2],  [751; 1];
+                 
+                1,        2,        3,                    4,              5,               6,               7
+                [111; 1], [],       [311 312 313; 1 2 3], [411; 1],       [511 512; 1 2],  [611 612; 1 2],  [711; 1];
+                [121; 1], [221; 1], [322 323; 2 3],       [421 422; 1 2], [521 522; 1 2],  [621 622; 1 2],  [721; 1];
+                [131; 1], [231; 1], [331 332 333; 1 2 3], [431 432; 1 2], [531 532; 1 2],  [631 632; 1 2],  [731; 1];
+                [],       [241; 1], [341 342 343; 1 2 3], [441 442; 1 2], [541 542; 1 2],  [641 642; 1 2],  [741; 1];
+                [151; 1], [251; 1], [351 352 353; 1 2 3], [451 452; 1 2], [551; 1],        [651 652; 1 2],  [751; 1];
 
             };
 
