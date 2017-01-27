@@ -7,7 +7,7 @@ classdef compressMissingDataTest < matlab.unittest.TestCase
     methods(TestClassSetup)
         function addPath(testCase)
             addpath([pwd '/../../matlab']);
-            addpath([pwd 'tests']);
+            addpath([pwd '/tests']);
         end
     end
     
