@@ -39,16 +39,46 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
                       [121 122 123; 1 2 3],   [221 222 223; 1 2 3],  [321 322 323; 1 2 3];
                       [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
             };
+<<<<<<< HEAD
 
             rawCellArray = convertToNestedStructure(t, wholeArray);
             testCase.verifyEqual(rawCellArray, expected);
         end
 
          function testOneRowOfNaNs (testCase)
+=======
+        
+            rawCellArray = convertToNestedStructure(t, wholeArray);
+            testCase.verifyEqual(rawCellArray, expected);
+        end
+        
+         function testOneRowOfNaNs (testCase)
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
             wholeArray = [
                   1   1   1   2   2   2   3   3   3;
                   111 112 113 211 212 213 311 312 313;
+                  121 122 123 221 222 223 321 322 323;
+                  131 132 133 231 232 233 331 332 333
+            ];
+
+            expected = {
+                      1,                      2,                     3;
+                      [111 112 113; 1 2 3],   [211 212 213; 1 2 3],  [311 312 313; 1 2 3];
+                      [121 122 123; 1 2 3],   [221 222 223; 1 2 3],  [321 322 323; 1 2 3];
+                      [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
+            };
+
+            rawCellArray = convertToNestedStructure(t, wholeArray);
+            testCase.verifyEqual(rawCellArray, expected);
+        end
+        
+        function testUpperLeftCornerWithNaN (testCase)
+>>>>>>> upstream/beta
+            t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
+            wholeArray = [
+                  1   1   1   2   2   2   3   3   3;
+                  111 112 113 211 212 213 311 312 313;
+<<<<<<< HEAD
                   121 122 123 NaN NaN NaN 321 322 323;
                   131 132 133 231 232 233 331 332 333
             ];
@@ -69,13 +99,14 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
             wholeArray = [
                   1   1   1   2   2   2   3   3   3;
                   NaN 112 113 211 212 213 311 312 313;
+=======
                   121 122 123 221 222 223 321 322 323;
                   131 132 133 231 232 233 331 332 333
             ];
 
             expected = {
                       1,                      2,                     3;
-                      [112 113; 2 3],         [211 212 213; 1 2 3],  [311 312 313; 1 2 3];
+                      [111 112 113; 1 2 3],   [211 212 213; 1 2 3],  [311 312 313; 1 2 3];
                       [121 122 123; 1 2 3],   [221 222 223; 1 2 3],  [321 322 323; 1 2 3];
                       [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
             };
@@ -83,68 +114,139 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
             rawCellArray = convertToNestedStructure(t, wholeArray);
             testCase.verifyEqual(rawCellArray, expected);
         end
+        
+        function testUpperRightCornerWithNaN (testCase)
+            t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
+            wholeArray = [
+                  1   1   1   2   2   2   3   3   3;
+                  111 112 113 211 212 213 311 312 313;
+>>>>>>> upstream/beta
+                  121 122 123 221 222 223 321 322 323;
+                  131 132 133 231 232 233 331 332 333
+            ];
+
+            expected = {
+                      1,                      2,                     3;
+<<<<<<< HEAD
+                      [112 113; 2 3],         [211 212 213; 1 2 3],  [311 312 313; 1 2 3];
+=======
+                      [111 112 113; 1 2 3],   [211 212 213; 1 2 3],  [311 312 313; 1 2 3];
+>>>>>>> upstream/beta
+                      [121 122 123; 1 2 3],   [221 222 223; 1 2 3],  [321 322 323; 1 2 3];
+                      [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
+            };
+
+            rawCellArray = convertToNestedStructure(t, wholeArray);
+            testCase.verifyEqual(rawCellArray, expected);
+        end
+<<<<<<< HEAD
 
         function testUpperRightCornerWithNaN (testCase)
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
             wholeArray = [
                   1   1   1   2   2   2   3   3   3;
                   111 112 113 211 212 213 311 312 NaN;
-                  121 122 123 221 222 223 321 322 323;
-                  131 132 133 231 232 233 331 332 333
-            ];
-
-            expected = {
-                      1,                      2,                     3;
-                      [111 112 113; 1 2 3],   [211 212 213; 1 2 3],  [311 312; 1 2];
-                      [121 122 123; 1 2 3],   [221 222 223; 1 2 3],  [321 322 323; 1 2 3];
-                      [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
-            };
-
-            rawCellArray = convertToNestedStructure(t, wholeArray);
-            testCase.verifyError(rawCellArray, expected);
-        end
-
+=======
+        
         function testLowerLeftCornerWithNaN (testCase)
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
             wholeArray = [
                   1   1   1   2   2   2   3   3   3;
                   111 112 113 211 212 213 311 312 313;
+>>>>>>> upstream/beta
                   121 122 123 221 222 223 321 322 323;
-                  NaN 132 133 231 232 233 331 332 333
+                  131 132 133 231 232 233 331 332 333
             ];
 
             expected = {
                       1,                      2,                     3;
+<<<<<<< HEAD
+                      [111 112 113; 1 2 3],   [211 212 213; 1 2 3],  [311 312; 1 2];
+=======
                       [111 112 113; 1 2 3],   [211 212 213; 1 2 3],  [311 312 313; 1 2 3];
+>>>>>>> upstream/beta
                       [121 122 123; 1 2 3],   [221 222 223; 1 2 3],  [321 322 323; 1 2 3];
-                      [132 133; 2 3],         [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
+                      [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
             };
 
             rawCellArray = convertToNestedStructure(t, wholeArray);
+<<<<<<< HEAD
+            testCase.verifyError(rawCellArray, expected);
+        end
+
+        function testLowerLeftCornerWithNaN (testCase)
+=======
             testCase.verifyEqual(rawCellArray, expected);
         end
 
         function testLowerRightCornerWithNaN (testCase)
+>>>>>>> upstream/beta
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
             wholeArray = [
                   1   1   1   2   2   2   3   3   3;
                   111 112 113 211 212 213 311 312 313;
                   121 122 123 221 222 223 321 322 323;
-                  131 132 133 231 232 233 331 332 NaN
+<<<<<<< HEAD
+                  NaN 132 133 231 232 233 331 332 333
+=======
+                  131 132 133 231 232 233 331 332 333
+>>>>>>> upstream/beta
             ];
 
             expected = {
                       1,                      2,                     3;
                       [111 112 113; 1 2 3],   [211 212 213; 1 2 3],  [311 312 313; 1 2 3];
                       [121 122 123; 1 2 3],   [221 222 223; 1 2 3],  [321 322 323; 1 2 3];
-                      [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332; 1 2]
+<<<<<<< HEAD
+                      [132 133; 2 3],         [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
+=======
+                      [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
+>>>>>>> upstream/beta
             };
 
             rawCellArray = convertToNestedStructure(t, wholeArray);
             testCase.verifyEqual(rawCellArray, expected);
         end
+<<<<<<< HEAD
+
+        function testLowerRightCornerWithNaN (testCase)
+=======
+        
+        function testReplicateNaNPermutations (testCase)
+>>>>>>> upstream/beta
+            t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
+            wholeArray = [
+                  1   1   1   2   2   2   3   3   3;
+                  111 112 113 211 212 213 311 312 313;
+                  121 122 123 221 222 223 321 322 323;
+<<<<<<< HEAD
+                  131 132 133 231 232 233 331 332 NaN
+=======
+                  131 132 133 231 232 233 331 332 333
+>>>>>>> upstream/beta
+            ];
+
+            expected = {
+                      1,                      2,                     3;
+                      [111 112 113; 1 2 3],   [211 212 213; 1 2 3],  [311 312 313; 1 2 3];
+                      [121 122 123; 1 2 3],   [221 222 223; 1 2 3],  [321 322 323; 1 2 3];
+<<<<<<< HEAD
+                      [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332; 1 2]
+=======
+                      [131 132 133; 1 2 3],   [231 232 233; 1 2 3],  [331 332 333; 1 2 3]
+>>>>>>> upstream/beta
+            };
+
+            rawCellArray = convertToNestedStructure(t, wholeArray);
+            testCase.verifyEqual(rawCellArray, expected);
+        end
+<<<<<<< HEAD
 
         function testReplicateNaNPermutations (testCase)
+=======
+        
+        function testRowNaNPermutations (testCase)
+>>>>>>> upstream/beta
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
             wholeArray = [
                   1   1   1   2   2   2   3   3   3;
@@ -163,8 +265,13 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
             rawCellArray = convertToNestedStructure(t, wholeArray);
             testCase.verifyEqual(rawCellArray, expected);
         end
+<<<<<<< HEAD
 
         function testRowNaNPermutations (testCase)
+=======
+        
+        function testColumnNaNPermutations (testCase)
+>>>>>>> upstream/beta
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
             wholeArray = [
                   1   1   1   2   2   2   3   3   3;
@@ -183,8 +290,13 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
             rawCellArray = convertToNestedStructure(t, wholeArray);
             testCase.verifyEqual(rawCellArray, expected);
         end
+<<<<<<< HEAD
 
         function testColumnNaNPermutations (testCase)
+=======
+        
+        function testAllNaNs (testCase)
+>>>>>>> upstream/beta
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
             wholeArray = [
                   1   1   1   2   2   2   3   3   3;
@@ -204,6 +316,7 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
             testCase.verifyEqual(rawCellArray, expected);
         end
 
+<<<<<<< HEAD
         function testAllNaNs (testCase)
             t = struct('indx', {[1 2 3]; [4 5 6]; [7 8 9];}, 't', {1; 2; 3});
             wholeArray = [
@@ -224,6 +337,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
             testCase.verifyError(convertToNestedStructure(t, wholeArray), expected);
         end
 
+=======
+>>>>>>> upstream/beta
         % Old Tests
 
         function testConvertToNestedStructureNaN(testCase)
@@ -272,7 +387,11 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
             rawCellArray = convertToNestedStructure(t, randomizedArray1);
             testCase.verifyEqual(rawCellArray, expected);
         end
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> upstream/beta
         function emptyArray(testCase)
             t = struct('indx', {}, 't', {});
             emptyArray = [];
@@ -280,9 +399,15 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
             rawCellArray = convertToNestedStructure(t, emptyArray);
             testCase.verifyEqual(rawCellArray, expected);
         end
+<<<<<<< HEAD
 
 
 
+=======
+        
+        
+        
+>>>>>>> upstream/beta
         function testConvertToNestedStructureRandomizedArray2(testCase)
             t = struct('indx', {[1]; [2]; [3 4 5]; [6 7]; [8 9]; [10 11]; [12]}, 't', {1; 2; 3; 4 ; 5; 6; 7});
 

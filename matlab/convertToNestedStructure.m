@@ -1,23 +1,38 @@
-function expressionData = convertToNestedStructure( indices, rawExpressionData )
+function expressionData = convertToNestedStructure( timepoints, rawExpressionData )
 
-    expressionData = cell();
-    
-    prevTimepoint = -1;
-    for index = 1:length(expression_timepoints)
-        if expression_timepoints(index) ~= prevTimepoint
-           prevTimepoint = expression_timepoints(index);
-           sizes = cellfun('length', expressionData);
-           expressionData{sizes(1) + 1 , 1} = expression_timepoints(index);
+    expressionData = cell(size(rawExpressionData, 1), length(timepoints));
+
+    % This takes care of heading (timepoints) for each column
+    for index = 1:length(timepoints)
+        expressionData{1, index} = timepoints(index).t;
+    end
+
+    firstRowData = rawExpressionData (1, 1:end);
+
+    for row = 2:size(rawExpressionData, 1)
+        dataMat = [];
+        dataIndex = 1;
+        expressionDataColumnCounter = 1;
+        previousTimepoint = firstRowData(1, 1);
+        for col = 1:length(rawExpressionData)
+
+            if previousTimepoint ~= firstRowData(1, col)
+                expressionData{row, expressionDataColumnCounter} = dataMat;
+                expressionDataColumnCounter = expressionDataColumnCounter + 1;
+                dataMat = [];
+                dataIndex = 1;
+            end
+
+            if ~isnan(rawExpressionData(row, col))
+                currentDataMat = [rawExpressionData(row, col); dataIndex];
+                dataMat = [dataMat currentDataMat];
+            end
+
+            dataIndex = dataIndex + 1;
+            previousTimepoint = firstRowData(1, col);
         end
-    end    
-    
-    for index = 1:length(rawExpressionData)
-        % TODO: Nested Matrix Dissection
-    end    
-    
-    for replicate = 1:length(indices)
         
+        expressionData{row, expressionDataColumnCounter} = dataMat;
     end
 
 end
-
