@@ -17,6 +17,17 @@ function expressionData = convertToNestedStructure( timepoints, rawExpressionDat
         for col = 1:length(rawExpressionData)
 
             if previousTimepoint ~= firstRowData(1, col)
+                if isequal(dataMat, [])
+                    errorMsg = sprintf('Missing data for timepoint %d on row %d.', previousTimepoint, row);
+                    errordlg(errorMsg, 'Missing Data');
+                    error('convertToNestedStructure:MissingData', errorMsg);
+                end
+                
+                if size(dataMat, 2) == 1
+                    warningMsg = sprintf('Only 1 data exists for timepoint %d on row %d', previousTimepoint, row);
+                    warndlg(warningMsg, 'Single Replicate Data');
+                end
+                
                 expressionData{row, expressionDataColumnCounter} = dataMat;
                 expressionDataColumnCounter = expressionDataColumnCounter + 1;
                 dataMat = [];
