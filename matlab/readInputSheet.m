@@ -9,8 +9,6 @@ function GRNstruct = readInputSheet( GRNstruct )
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global adjacency_mat alpha b degrate fix_b fix_P is_forced log2FC num_genes num_times prorate production_function Strain wtmat expression_timepoints
-
 alpha = 0;
 % If we do multiple runs in a row the Strain variable should be cleared
 % before each run.
@@ -33,7 +31,6 @@ for currentRow = 2:numRows
     % the numerical entries in that row
     if ~isempty(indexVec)
         eval([parmnames0{currentRow,1} '= [' num2str(parms0(currentRow-1,indexVec)) '];']);
- 
     % If the parameter in the sheet has strings in its row, we create a
     % cell array with that parameter's name and whose values are the
     % strings in that row.
@@ -57,9 +54,8 @@ end
 for index = 1:length(Strain)
     currentStrain = strtrim(lower(Strain{index}));
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
-    GRNstruct.microData(index).Strain = currentStrain;
-    log2FC(index).data = GRNstruct.microData(index).data;
-    
+    GRNstruct.microData(index).strain = currentStrain;
+
     genes = strtrim(lower(GRNstruct.labels.TX1(2:end,1)));
     
     if strcmp(currentStrain,'wt')
@@ -68,10 +64,8 @@ for index = 1:length(Strain)
         deletedGene = currentStrain(2:end);
         deletedRow = find(strcmpi(genes,deletedGene));
     end
-    
-    log2FC(index).deletion  = deletedRow;
-    log2FC(index).strain    = Strain(index);
     GRNstruct.microData(index).deletion = deletedRow;
+    GRNstruct.microData(index).strain = Strain(index);
 
 end
 
@@ -144,10 +138,8 @@ for i = 1:length(Strain)
     reps = (GRNstruct.microData(i).data(1,:));
     % Finds the indices in reps that correspond to each timepoint in tspan.
     for jj = 1:length(expression_timepoints)
-        log2FC(i).t(jj).indx                = find(reps == expression_timepoints(jj));
-        log2FC(i).t(jj).t                   = expression_timepoints(jj); 
-        GRNstruct.microData(i).t(jj).indx   = log2FC(i).t(jj).indx;
-        GRNstruct.microData(i).t(jj).t      =  expression_timepoints(jj);
+        GRNstruct.microData(i).t(jj).indx                = find(reps == expression_timepoints(jj));
+        GRNstruct.microData(i).t(jj).t                   = expression_timepoints(jj);
     end
     % GRNstruct.microData data for all strains
     % GRNstruct.microData(i).data  = (GRNstruct.microData(i).d(2:end,:));
@@ -155,20 +147,15 @@ for i = 1:length(Strain)
     % Preallocate these arrays. Should probably be done somewhere else
     GRNstruct.microData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
     GRNstruct.microData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-    log2FC(i).avg                   = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-    log2FC(i).stdev                 = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-        
     % The average GRNstruct.microData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.num_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
         
         GRNstruct.microData(i).avg(:,iT)    = mean(data,2);
         GRNstruct.microData(i).stdev(:,iT)  = std(data,0,2);
-        log2FC(i).avg(:,iT)                 = mean(data,2);
-        log2FC(i).stdev(:,iT)               = std(data,0,2);
-        
-        delDataAvg = data - log2FC(i).avg(:,iT)*ones(1,length(data(1,:)));
-        
+
+        delDataAvg = data - GRNstruct.microData(i).avg(:,iT)*ones(1,length(data(1,:)));
+
         GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(data(:));
         GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum(delDataAvg(:).^2);
 

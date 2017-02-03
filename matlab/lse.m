@@ -1,13 +1,18 @@
 function GRNstruct = lse(GRNstruct)
 % USAGE: GRNstruct = lse(GRNstruct)
-% 
+%
 % Purpose: perform parameter estimation to fit model to data
 %
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
+<<<<<<< HEAD
 global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain wtmat b is_forced      
 global SSE 
+=======
+global counter log2FC prorate strain_length b is_forced     
+
+>>>>>>> 7352b2da66c07fd6e68ce8fdac9a25f6dc9899f7
 % We store relevant values and matrices from
 % the struct into local variables
 positions      = GRNstruct.GRNParams.positions;
@@ -52,7 +57,7 @@ if ~fix_P
     end
 end
 
-% We set upper and lower bounds 
+% We set upper and lower bounds
 lb              = zeros(size(initial_guesses));
 lb(1:num_edges) = -10 * ones(num_edges,1);
 ub              = 10 * ones(size(initial_guesses));
@@ -91,14 +96,14 @@ end
 % Make optimization diagnostic ih the counter is
 % less than 100.
 
-               
+
 if counter < 100 && estimate_params
     graphData = struct('strain_data',strain_data,...
                    'estimated_guesses',estimated_guesses,...
                    'log2FC',log2FC,...
-                   'num_of_strains', length(Strain),...
+                   'num_of_strains', strain_length,...
                    'LSE',GRNstruct.GRNOutput.lse_final);
-               
+
     createDiagnosticsGraph(graphData, counter);
 end
 
@@ -106,25 +111,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % This is the forward simulation, which is performed for every single strain
-% The simulation gives the gene expression at each of the time 
+% The simulation gives the gene expression at each of the time
 % points specified by simulation_timepoints
-for qq = 1:length(Strain)
-    deletion = GRNstruct.microData(qq).deletion;
-    % t is the time points for which we did the forward simulation. It's
-    % always the same as simulation_timepoints.
-    % model is the expression of each gene in the network at each of those
-    % time points in t.
-    if strcmpi(production_function, 'Sigmoid')
-        [~,model] = ode45(@general_network_dynamics_sigmoid,simulation_timepoints,x0);
-    else
-        [~,model] = ode45(@general_network_dynamics_mm,simulation_timepoints,x0);
-    end
-    log2FC(qq).model               = (log2(model))';
-    log2FC(qq).simulation_timepoints             = simulation_timepoints';
-    GRNstruct.GRNModel(qq).model   = log2FC(qq).model;
-    GRNstruct.GRNModel(qq).simulation_timepoints = log2FC(qq).simulation_timepoints;
-end
-
+GRNstruct = runForwardSimulation(GRNstruct);
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
