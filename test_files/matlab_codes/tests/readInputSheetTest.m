@@ -37,10 +37,6 @@ classdef readInputSheetTest < matlab.unittest.TestCase
         end
     end
     
-    methods(TestClassTeardown)
-        
-    end
-    
     methods (Test)
         
 %       Test to see if input worksheets have correct names

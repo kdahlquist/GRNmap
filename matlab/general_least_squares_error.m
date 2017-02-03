@@ -1,6 +1,6 @@
-function [L, strain_x1] = general_least_squares_error(theta)
+function [L,strain_x1] = general_least_squares_error(theta)
 % USAGE  L = general_least_squares_error(theta)
-% 
+%
 % Purpose: compute fit criterion for minimization purposes
 %          designed to be called by MATLAB minimization functions
 %          all parameters (weights, b's, production rates) must be
@@ -9,8 +9,8 @@ function [L, strain_x1] = general_least_squares_error(theta)
 % Input:  theta = vector of parameters we modify to fit data to model
 % Output: L     = penalized least squares fit criterion
 
-global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain expression_timepoints wts 
-global SSE   
+global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function strain_length expression_timepoints wts 
+global SSE
 
 counter = counter + 1;
 
@@ -43,7 +43,7 @@ else
 end
 
 errormat = 0;
-SSE      = zeros(num_genes,length(Strain));
+SSE      = zeros(num_genes, strain_length);
 
 % % Call for all deletion strains simultaneously
 
@@ -51,13 +51,13 @@ nData = 0;
 % This needs to be outputed to create the graph.
 strain_x1 = [];
 
-for qq = 1:length(Strain)
-    
+for qq = 1: strain_length
+
     deletion = log2FC(qq).deletion;
     d        = log2FC(qq).data(2:end,:);
-    
+
     nData = nData + length(d(:));
-    
+
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
     if strcmpi(production_function, 'Sigmoid')
@@ -66,36 +66,36 @@ for qq = 1:length(Strain)
     else
         [~,x] = ode45('general_network_dynamics_mm',tspan1,x0);
     end
-    
+
     if addzero == 1;
         x1 = x(2:end,:);
     else
         x1 = x;
     end
-    
+
     strain_x1 = [strain_x1;x1];
-    
+
     nSE = 0;
     errMatStrain = 0;
-    for iT = 1:length(expression_timepoints)    
+    for iT = 1:length(expression_timepoints)
         for iF =  1:length(log2FC(qq).t(iT).indx)
             errMatStrain = errMatStrain+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
             nSE      = nSE + 1;
         end
     end
     errormat = errormat + errMatStrain;
-    
+
 %     SSE(:,qq) = errormat/nSE;
     SSE(:,qq) = errMatStrain/nSE;
-    
+
 end
 
 graphData = struct('strain_data',strain_x1,...
                    'estimated_guesses',theta,...
                    'log2FC',log2FC,...
-                   'num_of_strains', length(Strain),...
+                   'num_of_strains', strain_length,...
                    'LSE',  sum(errormat(:))/nData);
-                   
+
 % Output graph every 100 iterations.
 if rem(counter,100) ==  0
     createDiagnosticsGraph(graphData, counter)

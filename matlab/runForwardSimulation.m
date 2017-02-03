@@ -1,5 +1,5 @@
 function GRNstruct = runForwardSimulation (GRNstruct)
-    global deletion log2FC
+    global deletion
     simulation_timepoints = GRNstruct.controlParams.simulation_timepoints;
     x0 = GRNstruct.GRNParams.x0;
     for qq = 1:length(GRNstruct.microData)
@@ -13,9 +13,6 @@ function GRNstruct = runForwardSimulation (GRNstruct)
         else
             [~,model] = ode45(@general_network_dynamics_mm,simulation_timepoints,x0);
         end
-        log2FC(qq).model                             = (log2(model))';
-        log2FC(qq).simulation_timepoints             = simulation_timepoints';
-        GRNstruct.GRNModel(qq).model                 = log2FC(qq).model;
-        GRNstruct.GRNModel(qq).simulation_timepoints = log2FC(qq).simulation_timepoints;
+        GRNstruct.GRNModel(qq).model                             = (log2(model))';
     end
 end
