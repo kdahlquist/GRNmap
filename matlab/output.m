@@ -29,7 +29,15 @@ directory                   = GRNstruct.directory;
 positions                   = GRNstruct.GRNParams.positions;
 num_edges                   = GRNstruct.GRNParams.num_edges;
 num_forced                  = GRNstruct.GRNParams.num_forced;
+is_forced                   = GRNstruct.GRNParams.is_forced;
+num_genes                   = GRNstruct.GRNParams.num_genes;
+no_inputs                   = GRNstruct.GRNParams.no_inputs;
+num_times                   = GRNstruct.GRNParams.num_times;
+
 simulation_timepoints       = GRNstruct.controlParams.simulation_timepoints;
+production_function         = GRNstruct.controlParams.production_function;
+fix_b                       = GRNstruct.controlParams.fix_b;
+
 initial_guesses             = GRNstruct.locals.initial_guesses;
 estimated_guesses           = GRNstruct.locals.estimated_guesses;
 
@@ -178,17 +186,6 @@ if isfield(GRNstruct,'copy_counter') && GRNstruct.copy_counter >= GRNstruct.alph
    GRNstruct.copy_counter = 0;
 end
 
-
 xlswrite(output_file,outputDiag,'optimization_diagnostics');
-
-GRNstruct.GRNOutput.name          = GRNstruct.inputFile;
-GRNstruct.GRNOutput.prorate       = prorate;
-GRNstruct.GRNOutput.degrate       = degrate;
-GRNstruct.GRNOutput.wts           = wts;
-GRNstruct.GRNOutput.b             = b;
-GRNstruct.GRNOutput.adjacency_mat = adjacency_mat;
-GRNstruct.GRNOutput.active        = GRNstruct.GRNParams.active;
-GRNstruct.GRNOutput.tspan         = expression_timepoints;
-GRNstruct.GRNOutput.alpha         = alpha;
 
 save(output_mat);

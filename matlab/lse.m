@@ -6,31 +6,27 @@ function GRNstruct = lse(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-<<<<<<< HEAD
-global counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function Strain wtmat b is_forced      
-global SSE 
-=======
 global counter log2FC prorate strain_length b is_forced     
 
->>>>>>> 7352b2da66c07fd6e68ce8fdac9a25f6dc9899f7
 % We store relevant values and matrices from
 % the struct into local variables
-positions      = GRNstruct.GRNParams.positions;
-num_edges      = GRNstruct.GRNParams.num_edges;
-num_genes      = GRNstruct.GRNParams.num_genes;
-num_forced     = GRNstruct.GRNParams.num_forced;
-is_forced      = GRNstruct.GRNParams.is_forced;
+positions       = GRNstruct.GRNParams.positions;
+num_edges       = GRNstruct.GRNParams.num_edges;
+num_genes       = GRNstruct.GRNParams.num_genes;
+num_forced      = GRNstruct.GRNParams.num_forced;
+is_forced       = GRNstruct.GRNParams.is_forced;
 estimate_params = GRNstruct.controlParams.estimate_params;
-kk_max         = GRNstruct.controlParams.kk_max;
-simulation_timepoints        = GRNstruct.controlParams.simulation_timepoints;
-x0             = GRNstruct.GRNParams.x0;
-MaxIter        = GRNstruct.controlParams.MaxIter;
-MaxFunEval     = GRNstruct.controlParams.MaxFunEval;
-TolFun         = GRNstruct.controlParams.TolFun;
-TolX           = GRNstruct.controlParams.TolX;
+kk_max          = GRNstruct.controlParams.kk_max;
+MaxIter         = GRNstruct.controlParams.MaxIter;
+MaxFunEval      = GRNstruct.controlParams.MaxFunEval;
+TolFun          = GRNstruct.controlParams.TolFun;
+TolX            = GRNstruct.controlParams.TolX;
+wtmat           = GRNstruct.GRNParams.wtmat;
+fix_b           = GRNstruct.controlParams.fix_b;
+fix_P           = GRNstruct.controlParams.fix_P;
+b               = GRNstruct.GRNParams.b;
 
-b              = GRNstruct.GRNParams.b;
-
+populateGlobals(GRNstruct);
 % initial_guesses contains all weights, and optionally the threshholds for
 % controlled genes and optionally the production rates
 initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P),1);
@@ -69,12 +65,12 @@ end
 
 % Call the least squares error program, store the sum of the squares of the
 % errors in lse_0
+
 counter = 0;
 GRNstruct.GRNOutput.lse_0   = general_least_squares_error(initial_guesses);
-GRNstruct.GRNOutput.lse_out = lse_out;
+% GRNstruct.GRNOutput.lse_out = lse_out;
 estimated_guesses           = initial_guesses;
-GRNstruct.GRNOutput.reg_out = penalty_out;
-GRNstruct.GRNOutput.counter = counter;
+% GRNstruct.GRNOutput.reg_out = penalty_out;
 
 if estimate_params
     % This performs the optimization
@@ -82,15 +78,10 @@ if estimate_params
         options = optimset('Algorithm','interior-point','MaxIter',MaxIter,'MaxFunEval',MaxFunEval,'TolX',TolX,'TolFun',TolFun);
         estimated_guesses = fmincon(@general_least_squares_error,estimated_guesses,[],[],[],[],lb,ub,[],options);
         [GRNstruct.GRNOutput.lse_final, strain_data] = general_least_squares_error(estimated_guesses);
-        GRNstruct.GRNOutput.lse_out = lse_out;
+%         GRNstruct.GRNOutput.lse_out = lse_out;
         % lse_1   = L;
         % pen     = penalty_out;
     end
-    GRNstruct.GRNOutput.reg_out = penalty_out;
-    GRNstruct.GRNOutput.counter = counter;
-else
-    GRNstruct.GRNOutput.reg_out = NaN;
-    GRNstruct.GRNOutput.counter = 0;
 end
 
 % Make optimization diagnostic ih the counter is
@@ -117,7 +108,6 @@ GRNstruct = runForwardSimulation(GRNstruct);
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
 GRNstruct.locals.initial_guesses = initial_guesses;
-
 GRNstruct.locals.estimated_guesses = estimated_guesses;
 
-GRNstruct.GRNOutput.SSE = SSE;
+GRNstruct = globalToStruct(GRNstruct);

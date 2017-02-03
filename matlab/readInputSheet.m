@@ -1,6 +1,6 @@
-function GRNstruct = readInputSheet( GRNstruct )
+function GRNstruct = readInputSheet(GRNstruct)
 % USAGE: GRNstruct = readInputSheet(GRNstruct)
-% 
+%
 % Purpose: (1) load input data from excel workbook
 %          (2) parse data into necessary containers
 %          (3) compute descriptive statistics (means, variances, etc)
@@ -10,11 +10,19 @@ function GRNstruct = readInputSheet( GRNstruct )
 %                   GRNmap data
 
 alpha = 0;
+fix_b = 0;
+fix_P = 0;
+production_function = {};
+expression_timepoints = [];
+
 % If we do multiple runs in a row the Strain variable should be cleared
 % before each run.
+
 Strain = [];
 
+
 input_file = GRNstruct.inputFile;
+GRNstruct.microData = {};
 
 [parms0,parmnames0] = xlsread(input_file,'optimization_parameters');
 [numRows,numCols] = size(parmnames0);
@@ -25,12 +33,13 @@ input_file = GRNstruct.inputFile;
 for currentRow = 2:numRows
     % Gives us the indexes of the numerical values in the row.
     indexVec = find(isnan(parms0(currentRow-1,:))==0);
-    
+
     % If the parameter in the sheet has numerical values in its row,
     % create a row vector with that paramter's name and whose values are
     % the numerical entries in that row
     if ~isempty(indexVec)
         eval([parmnames0{currentRow,1} '= [' num2str(parms0(currentRow-1,indexVec)) '];']);
+
     % If the parameter in the sheet has strings in its row, we create a
     % cell array with that parameter's name and whose values are the
     % strings in that row.
@@ -44,26 +53,27 @@ for currentRow = 2:numRows
                break
            end
            eval([parmnames0{currentRow,1} '{currentCol - 1}= parmstr;']);
-           currentCol = currentCol + 1; 
+           currentCol = currentCol + 1;
         end
     end
 end
 
+% GRNstruct = rmfield(GRNstruct, 'microData');
 % This reads the microarray data for each strain.
-
 for index = 1:length(Strain)
     currentStrain = strtrim(lower(Strain{index}));
     [GRNstruct.microData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
     GRNstruct.microData(index).strain = currentStrain;
 
     genes = strtrim(lower(GRNstruct.labels.TX1(2:end,1)));
-    
+
     if strcmp(currentStrain,'wt')
         deletedRow = 0;
     else
         deletedGene = currentStrain(2:end);
         deletedRow = find(strcmpi(genes,deletedGene));
     end
+
     GRNstruct.microData(index).deletion = deletedRow;
     GRNstruct.microData(index).strain = Strain(index);
 
@@ -74,17 +84,19 @@ end
 [GRNstruct.GRNParams.wtmat,GRNstruct.labels.TX2]         = xlsread(input_file,'network_weights');
 [GRNstruct.GRNParams.adjacency_mat,GRNstruct.labels.TX3] = xlsread(input_file,'network');
 [GRNstruct.GRNParams.prorate,GRNstruct.labels.TX5]       = xlsread(input_file,'production_rates');
-
 % Describes the geometry of the gene regulatory network.
+
+GRNstruct.GRNParams.alpha                            = alpha;
 GRNstruct.GRNParams.num_edges                        = sum(GRNstruct.GRNParams.adjacency_mat(:));
 GRNstruct.GRNParams.num_genes                        = size(GRNstruct.GRNParams.adjacency_mat,2);
 GRNstruct.GRNParams.active                           = 1:GRNstruct.GRNParams.num_genes;
-GRNstruct.GRNParams.alpha                            = alpha;
+
 GRNstruct.GRNParams.expression_timepoints            = expression_timepoints;
 GRNstruct.GRNParams.num_times                        = length(expression_timepoints);
 
 % Describes the runtime paramters given by the user in the
 % optimization_paramenters sheet
+GRNstruct.controlParams.simulation_timepoints        = zeros(1, length(simulation_timepoints));
 GRNstruct.controlParams.simulation_timepoints        = simulation_timepoints;
 % The following are used as parameters for fmincon. Refer to fmincon
 % documentation for the meaning of these variables
@@ -105,12 +117,9 @@ GRNstruct.controlParams.L_curve                      = L_curve;
 
 if strcmpi(GRNstruct.controlParams.production_function, 'Sigmoid')
     [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'threshold_b');
-    b = GRNstruct.GRNParams.b;
 else
     GRNstruct.controlParams.fix_b = 1;
-    fix_b = 1;
-    GRNstruct.GRNParams.b = zeros(length(degrate),1);
-    b = GRNstruct.GRNParams.b;
+    GRNstruct.GRNParams.b = zeros(length(GRNstruct.degRates),1);
 end
 
 %TX1 contains both the systemic and standard names
@@ -134,6 +143,7 @@ GRNstruct.GRNParams.nData   = 0;
 GRNstruct.GRNParams.minLSE  = 0;
 
 for i = 1:length(Strain)
+    GRNstruct.microData(i).t = {};
     % The first row of the GRNstruct.microData data indicating all of the replicate timepoints
     reps = (GRNstruct.microData(i).data(1,:));
     % Finds the indices in reps that correspond to each timepoint in tspan.
@@ -147,10 +157,11 @@ for i = 1:length(Strain)
     % Preallocate these arrays. Should probably be done somewhere else
     GRNstruct.microData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
     GRNstruct.microData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+
     % The average GRNstruct.microData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.num_times
         data = GRNstruct.microData(i).data(2:end,GRNstruct.microData(i).t(iT).indx);
-        
+
         GRNstruct.microData(i).avg(:,iT)    = mean(data,2);
         GRNstruct.microData(i).stdev(:,iT)  = std(data,0,2);
 
@@ -183,16 +194,5 @@ GRNstruct.GRNParams.num_forced = sum(is_controlled);
 [rows,columns]                 = find(GRNstruct.GRNParams.adjacency_mat == 1);
 GRNstruct.GRNParams.positions  = sortrows([rows,columns],1);
 
-
 GRNstruct.GRNParams.x0 = ones(GRNstruct.GRNParams.num_genes,1);
-
-% Populating the globals
-is_forced     = GRNstruct.GRNParams.is_forced;
-num_genes     = GRNstruct.GRNParams.num_genes;
-num_times     = GRNstruct.GRNParams.num_times;
-degrate       = GRNstruct.degRates;
-adjacency_mat = GRNstruct.GRNParams.adjacency_mat;
-prorate       = GRNstruct.GRNParams.prorate;
-wtmat         = GRNstruct.GRNParams.wtmat;
-
 end

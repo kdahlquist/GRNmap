@@ -6,6 +6,8 @@ function GRNstruct = graphs(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
+% global log2FC
+
 directory = GRNstruct.directory;
 expression_timepoints = GRNstruct.GRNParams.expression_timepoints;
 strain_length = length(GRNstruct.microData);
