@@ -27,11 +27,11 @@ GRNmap code is available under the open source [BSD license](http://opensource.o
 
 ### Release Notes
 
-See the [GRNmap About page](http://kdahlquist.github.io/GRNmap/about.html#releaseContent) for current release notes.
+See the [GRNmap About page](https://kdahlquist.github.io/GRNmap/about) for current release notes.
 
 ## Documentation
 
-For documentation on how to format the input workbooks and how to interpret the output workbooks, please see the [GRNmap Documentation page](http://kdahlquist.github.io/GRNmap/documentation.html) or [wiki](https://github.com/kdahlquist/GRNmap/wiki).
+For documentation on how to format the input workbooks and how to interpret the output workbooks, please see the [GRNmap Documentation page](http://kdahlquist.github.io/GRNmap/documentation) or [wiki](https://github.com/kdahlquist/GRNmap/wiki).
 
 ### Quick Guide to Getting Started with a Demo Input Workbook
 
