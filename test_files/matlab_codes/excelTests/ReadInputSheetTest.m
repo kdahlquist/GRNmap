@@ -40,17 +40,13 @@ classdef ReadInputSheetTest < matlab.unittest.TestCase
         
         function testInputWorksheetsExist (testCase)
             testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'production_rates')), testCase.GRNstruct.inputFile); 
-            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'degradation_rat')), testCase.GRNstruct.inputFile); 
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'degradation_rates')), testCase.GRNstruct.inputFile); 
             testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'wt_log2_expression')), testCase.GRNstruct.inputFile); 
             testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'dcin5_log2_expression')), testCase.GRNstruct.inputFile); 
             testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'network')), testCase.GRNstruct.inputFile); 
             testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'network_weights')), testCase.GRNstruct.inputFile); 
             testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'optimization_parameters')), testCase.GRNstruct.inputFile); 
             testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'threshold_b')), testCase.GRNstruct.inputFile); 
-            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'wt_log2_optimized_expression')), testCase.GRNstruct.inputFile); 
-            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'optimized_production_rates')), testCase.GRNstruct.inputFile); 
-            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'optimized_threshold_b')), testCase.GRNstruct.inputFile); 
-            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'network_optimized_weights')), testCase.GRNstruct.inputFile); 
         end
         
         function testSimulationTimepointsMatch(testCase)
