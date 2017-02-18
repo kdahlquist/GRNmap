@@ -1,4 +1,4 @@
-classdef populateGlobalsTest < matlab.unittest.TestCase
+classdef PopulateGlobalsTest < matlab.unittest.TestCase
     
     properties (ClassSetupParameter)
         test_files = {
@@ -45,8 +45,7 @@ classdef populateGlobalsTest < matlab.unittest.TestCase
             global alpha adjacency_mat b degrate expression_timepoints ... 
                 fix_b fix_P num_genes prorate wts deletion is_forced ...
                 production_function strain_length log2FC
-            addpath([pwd '/../../matlab']);
-            addpath('tests/')
+            addpath('testStructs/')
             testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
             populateGlobals(testCase.GRNstruct);
             testCase.adjacency_mat = adjacency_mat;

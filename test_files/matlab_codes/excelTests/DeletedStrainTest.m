@@ -1,15 +1,7 @@
-classdef deletedStrainTest < matlab.unittest.TestCase
+classdef DeletedStrainTest < matlab.unittest.TestCase
 
     properties
-        test_dir = '..\deleted_strains_tests\'
-        grnmap_path
-    end
-    
-    methods(TestClassSetup)
-        function addPath(testCase)
-            testCase.grnmap_path = [pwd '/../../matlab'];
-            addpath(testCase.grnmap_path);
-        end
+        test_dir = '..\..\deleted_strains_tests\'
     end
     
     methods (Test)

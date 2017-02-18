@@ -1,13 +1,12 @@
 classdef MSETest < matlab.unittest.TestCase
     properties
-       test_dir = [pwd '\..\MSE_tests\']
+       test_dir = [pwd '\..\..\MSE_tests\']
        previous_dir = pwd
        GRNstruct
     end
     
     methods (TestClassSetup)
         function setup (testCase)
-           addpath([pwd '/../../matlab']);
            testCase.GRNstruct.inputFile = [testCase.test_dir 'dHAP4_15_gene_network_deletion_added_input_KD_20160126.xlsx'];
            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
            testCase.GRNstruct = lse(testCase.GRNstruct);

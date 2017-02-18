@@ -2,7 +2,6 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
     
     methods (TestClassSetup)
         function addpath(testCase)
-           addpath('../../matlab')
            addpath('../utils')
         end
     end

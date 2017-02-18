@@ -1,13 +1,12 @@
-classdef initializeArraysTest < matlab.unittest.TestCase
+classdef InitializeArraysTest < matlab.unittest.TestCase
    
     properties
-        test_dir = '..\initialize_arrays_test\'
+        test_dir = '..\..\initialize_arrays_test\'
         GRNstruct
     end
     
     methods(TestClassSetup)
         function setup(testCase)
-            addpath([pwd '/../../matlab']);
             testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph.xlsx'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
             testCase.GRNstruct = initializeArrays(testCase.GRNstruct);            

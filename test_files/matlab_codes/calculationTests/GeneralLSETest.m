@@ -1,7 +1,7 @@
 % This is to test that one run of general_least_squares_error produces the
 % correct outputs.
 
-classdef generalLSETest < matlab.unittest.TestCase
+classdef GeneralLSETest < matlab.unittest.TestCase
     properties
         % [L, strain_data] = general_least_squares_error(theta)
         theta

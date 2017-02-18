@@ -1,4 +1,4 @@
-classdef convertToNestedStructureTest < matlab.unittest.TestCase
+classdef ConvertToNestedStructureTest < matlab.unittest.TestCase
 
     properties
        timepoint
@@ -9,12 +9,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
     end
 
     methods(TestClassSetup)
-        function addPath(testCase)
-            addpath([pwd '/../../matlab']);
-        end
-
         function setupErrorHandling(testCase)
-            testCase.warning =  'convertToNestedStructure:SingleReplicateData';
+            testCase.warning = 'convertToNestedStructure:SingleReplicateData';
             testCase.error = 'convertToNestedStructure:MissingData';
         end
     end

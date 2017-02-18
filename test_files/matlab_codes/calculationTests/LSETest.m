@@ -2,7 +2,7 @@ classdef LSETest < matlab.unittest.TestCase
     
     properties
         GRNstruct
-        test_dir = '\..\lse_tests\'
+        test_dir = '\..\..\lse_tests\'
         
         % global variables used in lse.m
         counter
@@ -14,10 +14,6 @@ classdef LSETest < matlab.unittest.TestCase
     end
      
    methods (TestClassSetup)
-       function addpath (testCase) %#ok<MANU>
-           addpath([pwd '/../../matlab']);
-       end
-       
        function setup (testCase)
            testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_no-graph'];
            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);

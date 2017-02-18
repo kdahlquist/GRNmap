@@ -1,4 +1,4 @@
-classdef compressMissingDataTest < matlab.unittest.TestCase
+classdef CompressMissingDataTest < matlab.unittest.TestCase
     
     properties
         GRNstruct
@@ -6,8 +6,7 @@ classdef compressMissingDataTest < matlab.unittest.TestCase
 
     methods(TestClassSetup)
         function addPath(testCase)
-            addpath([pwd '/../../matlab']);
-            addpath([pwd '/tests']);
+            addpath([pwd '/testStructs']);
         end
     end
     

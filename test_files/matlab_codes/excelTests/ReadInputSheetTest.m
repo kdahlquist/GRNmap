@@ -1,4 +1,4 @@
-classdef readInputSheetTest < matlab.unittest.TestCase
+classdef ReadInputSheetTest < matlab.unittest.TestCase
     
     properties (ClassSetupParameter)
         filename = {'4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph',...
@@ -25,7 +25,10 @@ classdef readInputSheetTest < matlab.unittest.TestCase
         test_dir = '\..\..\sixteen_tests\'
     end
     
-    methods(TestClassSetup)
+    methods(TestClassSetup)        
+        function addStructPath(testCase)%#ok<MANU>
+            addpath('testStructs');
+        end
         
         function setupGRNstruct(testCase, filename)
             testCase.GRNstruct.inputFile = [pwd testCase.test_dir filename];

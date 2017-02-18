@@ -1,4 +1,4 @@
-classdef outputTest < matlab.unittest.TestCase
+classdef OutputTest < matlab.unittest.TestCase
     
     properties (ClassSetupParameter)
         test_files = {
