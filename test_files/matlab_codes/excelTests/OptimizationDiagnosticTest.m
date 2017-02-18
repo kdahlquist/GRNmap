@@ -8,7 +8,6 @@ classdef OptimizationDiagnosticTest < matlab.unittest.TestCase
         function testDiagnosticCreatedIfCounterLessThan100(testCase)
             close all
             GRNstruct.inputFile = [testCase.test_dir 'optimization_diagnostic_under_100_iterations_test'];
-            addpath([pwd '/../../matlab']);
             GRNstruct = readInputSheet(GRNstruct);            
             lse(GRNstruct);
             % We verify that the figure was indeed created.

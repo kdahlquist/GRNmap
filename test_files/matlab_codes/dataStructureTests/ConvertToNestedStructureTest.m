@@ -21,11 +21,11 @@ classdef ConvertToNestedStructureTest < matlab.unittest.TestCase
     % Z is the column number
 
     methods(TestClassTeardown)
-        function closeErrorDialogBoxes(testCase)
+        function closeErrorDialogBoxes(testCase) %#ok<MANU>
             close(findall(0, 'Type', 'figure', 'Name', 'Missing Data'));
         end
 
-        function closeWarningDialogBoxes(testCase)
+        function closeWarningDialogBoxes(testCase) %#ok<MANU>
             close(findall(0, 'Type', 'figure', 'Name', 'Single Replicate Data'))
         end
     end
