@@ -1,14 +1,13 @@
-classdef localizedVariablesReadInputSheetTest < matlab.unittest.TestCase
+classdef LocalizedVariablesReadInputSheetTest < matlab.unittest.TestCase
 
     
     properties
-        test_dir = '..\sixteen_tests\'
+        test_dir = '..\..\sixteen_tests\'
         GRNstruct
     end
     
     methods (TestClassSetup)
         function testLocalizedVariablesReadInputSheet(testCase)
-            addpath([pwd '/../../matlab']);
             testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_graph.xlsx'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);             
         end

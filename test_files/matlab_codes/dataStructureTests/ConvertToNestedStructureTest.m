@@ -1,4 +1,4 @@
-classdef convertToNestedStructureTest < matlab.unittest.TestCase
+classdef ConvertToNestedStructureTest < matlab.unittest.TestCase
 
     properties
        timepoint
@@ -9,12 +9,8 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
     end
 
     methods(TestClassSetup)
-        function addPath(testCase)
-            addpath([pwd '/../../matlab']);
-        end
-
         function setupErrorHandling(testCase)
-            testCase.warning =  'convertToNestedStructure:SingleReplicateData';
+            testCase.warning = 'convertToNestedStructure:SingleReplicateData';
             testCase.error = 'convertToNestedStructure:MissingData';
         end
     end
@@ -25,11 +21,11 @@ classdef convertToNestedStructureTest < matlab.unittest.TestCase
     % Z is the column number
 
     methods(TestClassTeardown)
-        function closeErrorDialogBoxes(testCase)
+        function closeErrorDialogBoxes(testCase) %#ok<MANU>
             close(findall(0, 'Type', 'figure', 'Name', 'Missing Data'));
         end
 
-        function closeWarningDialogBoxes(testCase)
+        function closeWarningDialogBoxes(testCase) %#ok<MANU>
             close(findall(0, 'Type', 'figure', 'Name', 'Single Replicate Data'))
         end
     end

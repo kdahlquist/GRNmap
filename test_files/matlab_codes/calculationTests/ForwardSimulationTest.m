@@ -2,7 +2,6 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
     
     methods (TestClassSetup)
         function addpath(testCase)
-           addpath('../../matlab')
            addpath('../utils')
         end
     end
@@ -10,7 +9,7 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
     methods(Test)
 
         function testFourByFourInputsHaveTheCorrectSolutions(testCase)
-            global deletion
+            global adjacency_mat b degrate deletion fix_b is_forced num_genes prorate wts 
 % We are using the file
 % 4-genes_6-edges_artificial-data_Sigmoidal_forward_graph
 
@@ -29,7 +28,7 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
                 0 1 0 0
                 0 0 1 1
                 0 0 1 1
-            ];       
+            ];                 
             GRNstruct.controlParams.production_function = 'Sigmoid';
             GRNstruct.controlParams.simulation_timepoints = 0:0.1:0.5;
             GRNstruct.GRNParams.x0 = ones(4,1);
@@ -37,8 +36,15 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
             GRNstruct.microData(2).deletion = 3;
             GRNstruct.GRNParams.is_forced = ones(4,1);
 
-            deletion = 0;
-            
+            adjacency_mat = GRNstruct.GRNParams.adjacency_mat;
+            b = GRNstruct.GRNParams.b;
+            degrate = GRNstruct.degRates;
+            fix_b = 1;
+            is_forced = GRNstruct.GRNParams.is_forced;
+            num_genes = 4;
+            prorate = GRNstruct.GRNParams.prorate;
+            wts = ones(6,1);
+            deletion = 0;            
             resultGRNstruct = runForwardSimulation(GRNstruct);
             
             expected_wt_expression = [ 

@@ -1,4 +1,4 @@
-classdef globalsToLocalTest < matlab.unittest.TestCase
+classdef GlobalsToLocalTest < matlab.unittest.TestCase
     
     properties
         GRNstruct = struct()
@@ -8,9 +8,7 @@ classdef globalsToLocalTest < matlab.unittest.TestCase
         function setupGRNstruct(testCase)
             global adjacency_mat alpha b counter expression_timepoints ...
             degrate lse_out penalty_out SSE wts prorate log2FC
-       
-            addpath([pwd '/../../matlab']);
-            
+                   
             adjacency_mat = [1 0 0 0; 0 1 0 0; 0 0 1 1; 0 0 1 1];
             alpha =  0.001;
             b = [0;0;0;0];

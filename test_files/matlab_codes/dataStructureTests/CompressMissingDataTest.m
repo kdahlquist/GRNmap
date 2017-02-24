@@ -1,16 +1,9 @@
-classdef compressMissingDataTest < matlab.unittest.TestCase
+classdef CompressMissingDataTest < matlab.unittest.TestCase
     
     properties
         GRNstruct
     end
 
-    methods(TestClassSetup)
-        function addPath(testCase)
-            addpath([pwd '/../../matlab']);
-            addpath([pwd '/tests']);
-        end
-    end
-    
     methods (TestClassTeardown)
         function closeErrorDialogBoxes(testCase)
             close(findall(0, 'Type', 'figure', 'Name', 'Missing Data'));

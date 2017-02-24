@@ -1,13 +1,12 @@
-classdef simulationTimepointsTest < matlab.unittest.TestCase        
+classdef SimulationTimepointsTest < matlab.unittest.TestCase        
 
     properties
-        test_dir = [pwd '\..\perturbation_tests\to_be_reformatted\math_L-curve\']
+        test_dir = [pwd '\..\..\perturbation_tests\to_be_reformatted\math_L-curve\']
         GRNstruct
     end
     
     methods (TestClassSetup)
         function addPath (testCase)
-            addpath([pwd '/../../matlab']);
             testCase.GRNstruct.inputFile = [testCase.test_dir '\4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_no-graph_test1.xlsx'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
         end
