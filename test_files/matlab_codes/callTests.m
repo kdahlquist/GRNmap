@@ -30,5 +30,7 @@ onlyShortTestsSuite = calculationSuite.selectIf( ...
 
 allSuites = [dataStructureSuite, excelSuite, onlyShortTestsSuite];
 
+warning('on', 'convertToNestedStructure:SingleReplicateData');
+
 result = runner.run(allSuites);
 disp(result);
