@@ -2,7 +2,6 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
     
     methods (TestClassSetup)
         function addpath(testCase)
-           addpath('../../matlab')
            addpath('../utils')
         end
     end
@@ -45,8 +44,7 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
             num_genes = 4;
             prorate = GRNstruct.GRNParams.prorate;
             wts = ones(6,1);
-            deletion = 0;
-            
+            deletion = 0;            
             resultGRNstruct = runForwardSimulation(GRNstruct);
             
             expected_wt_expression = [ 

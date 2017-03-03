@@ -1,4 +1,4 @@
-classdef readInputSheetTest < matlab.unittest.TestCase
+classdef ReadInputSheetTest < matlab.unittest.TestCase
     
     properties (ClassSetupParameter)
         filename = {'4-genes_6-edges_artificial-data_MM_estimation_fixP-0_graph',...
@@ -25,8 +25,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
         test_dir = '\..\..\sixteen_tests\'
     end
     
-    methods(TestClassSetup)
-        
+    methods(TestClassSetup)                
         function setupGRNstruct(testCase, filename)
             testCase.GRNstruct.inputFile = [pwd testCase.test_dir filename];
             [~, testCase.GRNstruct.sheets] = xlsfinfo(testCase.GRNstruct.inputFile);
@@ -39,15 +38,18 @@ classdef readInputSheetTest < matlab.unittest.TestCase
     
     methods (Test)
         
-%       Test to see if input worksheets have correct names
-        function testReadInputs (testCase)
-%           Check to see if input worksheets exist.  
-            sheetNames = {'production_rates', 'degradation_rates', 'wt_log2_expression', 'dcin5_log2_expression', 'network','network_weights', 'optimization_parameters', 'threshold_b', 'wt_log2_optimized_expression', 'optimized_production_rates', 'optimized_threshold_b', 'network_optimized_weights'};
-            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, sheetNames)), testCase.GRNstruct.inputFile); 
+        function testInputWorksheetsExist (testCase)
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'production_rates')), testCase.GRNstruct.inputFile); 
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'degradation_rates')), testCase.GRNstruct.inputFile); 
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'wt_log2_expression')), testCase.GRNstruct.inputFile); 
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'dcin5_log2_expression')), testCase.GRNstruct.inputFile); 
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'network')), testCase.GRNstruct.inputFile); 
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'network_weights')), testCase.GRNstruct.inputFile); 
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'optimization_parameters')), testCase.GRNstruct.inputFile); 
+            testCase.assertTrue(any(ismember(testCase.GRNstruct.sheets, 'threshold_b')), testCase.GRNstruct.inputFile); 
         end
         
-%       Test to see if timepoints match
-        function testSimTime(testCase)
+        function testSimulationTimepointsMatch(testCase)
            for strain_index = 1:length(testCase.GRNstruct.microData)
                 testCase.assertEqual(length(testCase.GRNstruct.GRNParams.expression_timepoints), length(testCase.GRNstruct.microData(strain_index).t),testCase.GRNstruct.inputFile);
                 for timepoint = 1: length(testCase.GRNstruct.GRNParams.expression_timepoints)
@@ -55,12 +57,7 @@ classdef readInputSheetTest < matlab.unittest.TestCase
                 end
            end
         end
-        
-%       Test if number of genes is correct
-        %function testNumGenes(testCase)
-        %     testCase.assertEqual(testCase.GRNstruct.GRNParams.num_genes, 4);
-        %end
-        
+     
         function testProductionFunctionIsSigmoidOrMichaelisMenten (testCase)
             testCase.assertTrue(strcmpi(testCase.GRNstruct.controlParams.production_function, 'MM') | strcmpi(testCase.GRNstruct.controlParams.production_function, 'Sigmoid'),testCase.GRNstruct.inputFile);
         end

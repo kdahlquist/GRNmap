@@ -1,17 +1,11 @@
-classdef matrixDimensionsTest < matlab.unittest.TestCase
+classdef MatrixDimensionsTest < matlab.unittest.TestCase
 
     properties
-        test_dir = '..\matrix_dimensions_test\'
+        test_dir = '..\..\matrix_dimensions_test\'
         GRNstruct
-        grnmap_path
     end
     
     methods(TestClassSetup)
-        function addPath(testCase)
-            testCase.grnmap_path = [pwd '/../../matlab'];
-            addpath(testCase.grnmap_path);
-        end
-        
         function readInputWithThreeStrains(testCase)
             testCase.GRNstruct.inputFile = [testCase.test_dir '4-gene_6-edges_wt-dcin5-dfhl1'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
