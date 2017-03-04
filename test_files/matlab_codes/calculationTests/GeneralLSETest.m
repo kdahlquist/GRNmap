@@ -533,7 +533,7 @@ classdef GeneralLSETest < matlab.unittest.TestCase
             % we need to test for strain_data later
             manualPenaltyOutCalculation = 0.7008928571 * alpha;
             expectedL = manualPenaltyOutCalculation;
-            testCase.verifyTrue(abs(testCase.L - expectedL)/expectedL < 1E-07); % round because relative error = 6.1148e-11
+            testCase.verifyTrue(abs(testCase.L - expectedL)/expectedL < 1E-10); % round because relative error = 6.1148e-11
         end
         
         function testLIsCorrectFor4Gene6EdgesTwoStrainsAlphaIs2(testCase)
@@ -576,7 +576,7 @@ classdef GeneralLSETest < matlab.unittest.TestCase
             % we need to test for strain_data later
             manualPenaltyOutCalculation = 0.7008928571 * alpha;
             expectedL = manualPenaltyOutCalculation;
-            testCase.verifyTrue(abs(testCase.L - expectedL)/expectedL < 1E-07); % round because relative error = 6.1148e-11
+            testCase.verifyTrue(abs(testCase.L - expectedL)/expectedL < 1E-10); % round because relative error = 6.1148e-11
         end
     end
 end
