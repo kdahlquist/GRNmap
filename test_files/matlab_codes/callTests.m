@@ -1,5 +1,4 @@
 clc
-clear all
 clearvars -global
 
 import matlab.unittest.TestSuite;
@@ -9,8 +8,9 @@ import matlab.unittest.constraints.ContainsSubstring;
 import matlab.unittest.plugins.CodeCoveragePlugin;
 
 grnmapPath = [pwd '\..\..\matlab'];
+testStructsPath = [pwd '\testStructs\'];
 addpath(grnmapPath);
-addpath([pwd '\testStructs\']);
+addpath(testStructsPath);
 
 runner = TestRunner.withTextOutput;
 diagnostic = DiagnosticRecorderPlugin;
@@ -34,3 +34,6 @@ warning('on', 'convertToNestedStructure:SingleReplicateData');
 
 result = runner.run(allSuites);
 disp(result);
+
+rmpath(grnmapPath);
+rmpath(testStructsPath);
