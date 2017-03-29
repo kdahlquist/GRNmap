@@ -36,7 +36,6 @@ classdef OutputTest < matlab.unittest.TestCase
             testCase.GRNstruct.output_file = [test_files.file '_output'];
             testCase.GRNstruct.inputFile = [pwd testCase.test_dir test_files.file '.xlsx'];
             [~, testCase.GRNstruct.sheets] = xlsfinfo(testCase.GRNstruct.inputFile);
-            [~, testCase.GRNstruct.output_sheets] = xlsfinfo(testCase.GRNstruct.output_file);
             testCase.previous_dir = pwd;
             testCase.input_file = [pwd testCase.test_dir test_files.file];
             fprintf('\n%s\n', testCase.input_file);         
@@ -50,17 +49,19 @@ classdef OutputTest < matlab.unittest.TestCase
     end
     
     methods (TestMethodTeardown)
-        function resetPath (testCase)
-            testCase.GRNstruct.directory = testCase.previous_dir;
-            testCase.GRNstruct.inputFile = testCase.input_file;
-            cd(testCase.previous_dir);
-        end
+        
     end
     
     methods (TestClassTeardown)
         function clearTempDir(testCase)
             deleteAllTempsCreated();
             clearvars -global
+        end
+        
+        function resetPath (testCase)
+            testCase.GRNstruct.directory = testCase.previous_dir;
+            testCase.GRNstruct.inputFile = testCase.input_file;
+            cd(testCase.previous_dir);
         end
     end
     
