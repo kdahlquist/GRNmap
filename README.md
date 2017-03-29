@@ -37,7 +37,7 @@ For documentation on how to format the input workbooks and how to interpret the 
 
 #### Running GRNmap from Code
 
-1. Download the latest version of the GRNmap code as a zipped archive from the [Download page](http://kdahlquist.github.io/GRNmap/downloads.html) and extract.
+1. Download the latest version of the GRNmap code as a zipped archive from the [Download page](http://kdahlquist.github.io/GRNmap/downloads) and extract.
 2. Launch MATLAB version R2014b and open the file "GRNmap-<version>\matlab\GRNmodel.m".
 3. Run GRNmodel.m.
 4. When prompted by the Open dialog, select an input Excel workbook.  Demo files are found in the "GRNmap-<version>\test\_files\data_samples" directory.  
@@ -47,7 +47,7 @@ For documentation on how to format the input workbooks and how to interpret the 
 
 #### Installing and Running the GRNmap Executable
 
-1. Download the latest version of the GRNmap executable as a zipped archive from the [Download page](http://kdahlquist.github.io/GRNmap/downloads.html) and extract.
+1. Download the latest version of the GRNmap executable as a zipped archive from the [Download page](http://kdahlquist.github.io/GRNmap/downloads) and extract.
 2. The MATLAB Compiler Runtime (MCR) library version 8.4 is needed to run the GRNmap stand-alone executable.  If you are running GRNmap for the first time, you will need to install MCR.
  * The MCR installer is packaged in the zipped archive.
  * Double-click on the file "MyAppInstaller\_mcr.exe" and follow the instructions to install.  _Note that you will need Administrator privileges to install MCR._
