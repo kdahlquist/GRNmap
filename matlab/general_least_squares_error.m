@@ -55,8 +55,13 @@ for qq = 1: strain_length
 
     deletion = log2FC(qq).deletion;
     d        = log2FC(qq).data(2:end,:);
-
+    
     nData = nData + length(d(:));
+    
+% % Replaces lines 57-59 above
+%     elemCount = cellfun(@length, log2FC(qq).expressionData(qq).data(2:end, :));
+%     elemCount = sum(elemCount(:));
+%     nData = nData + elemCount;
 
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
