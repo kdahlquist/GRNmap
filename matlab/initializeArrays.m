@@ -8,7 +8,7 @@ function GRNstruct = initializeArrays (GRNstruct)
     fix_P                 = GRNstruct.controlParams.fix_P;
     expression_timepoints = GRNstruct.GRNParams.expression_timepoints;
     
-    for i = 1:length(GRNstruct.microData)
+    for i = 1:length(GRNstruct.rawExpressionData)
        GRNstruct.GRNModel(i).model = zeros(num_genes, length(GRNstruct.controlParams.simulation_timepoints));
        GRNstruct.GRNModel(i).simulation_timepoints = zeros(length(GRNstruct.controlParams.simulation_timepoints), 1);
     end
@@ -16,8 +16,8 @@ function GRNstruct = initializeArrays (GRNstruct)
     GRNstruct.locals.initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1 - fix_P), 1);
     GRNstruct.locals.estimated_guesses = zeros(length(GRNstruct.locals.initial_guesses), 1);
         
-    GRNstruct.GRNOutput.SSE = zeros(num_genes, length(GRNstruct.microData));
-    GRNstruct.GRNOutput.d = zeros(num_genes, length(GRNstruct.microData(1).data));
+    GRNstruct.GRNOutput.SSE = zeros(num_genes, length(GRNstruct.rawExpressionData));
+    GRNstruct.GRNOutput.d = zeros(num_genes, length(GRNstruct.rawExpressionData(1).data));
     GRNstruct.GRNOutput.prorate = zeros(num_genes, 1);
     GRNstruct.GRNOutput.degrate = zeros(num_genes, 1);
     GRNstruct.GRNOutput.wts = zeros(num_edges, 1);

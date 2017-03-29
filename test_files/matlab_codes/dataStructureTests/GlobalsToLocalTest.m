@@ -40,8 +40,8 @@ classdef GlobalsToLocalTest < matlab.unittest.TestCase
              );
             
             testCase.GRNstruct.controlParams.estimate_params = 1;
-            testCase.GRNstruct.microData(1).data = [1 2 3];
-            testCase.GRNstruct.microData(2).data = [1 3 5];
+            testCase.GRNstruct.rawExpressionData(1).data = [1 2 3];
+            testCase.GRNstruct.rawExpressionData(2).data = [1 3 5];
             testCase.GRNstruct = globalToStruct(testCase.GRNstruct);
         end
     end
@@ -70,8 +70,8 @@ classdef GlobalsToLocalTest < matlab.unittest.TestCase
         end
         
 %         function testDeletionAssignedCorrectly(testCase)
-%             testCase.verifyEqual(testCase.GRNstruct.microData(1).deletion, 'wt');
-%             testCase.verifyEqual(testCase.GRNstruct.microData(2).deletion, 'dcin5');
+%             testCase.verifyEqual(testCase.GRNstruct.rawExpressionData(1).deletion, 'wt');
+%             testCase.verifyEqual(testCase.GRNstruct.rawExpressionData(2).deletion, 'dcin5');
 %         end
         
         function testExpressionTimepointsAssignedCorrectly(testCase)

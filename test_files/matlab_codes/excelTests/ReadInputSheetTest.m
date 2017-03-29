@@ -50,10 +50,10 @@ classdef ReadInputSheetTest < matlab.unittest.TestCase
         end
         
         function testSimulationTimepointsMatch(testCase)
-           for strain_index = 1:length(testCase.GRNstruct.microData)
-                testCase.assertEqual(length(testCase.GRNstruct.GRNParams.expression_timepoints), length(testCase.GRNstruct.microData(strain_index).t),testCase.GRNstruct.inputFile);
+           for strain_index = 1:length(testCase.GRNstruct.rawExpressionData)
+                testCase.assertEqual(length(testCase.GRNstruct.GRNParams.expression_timepoints), length(testCase.GRNstruct.rawExpressionData(strain_index).t),testCase.GRNstruct.inputFile);
                 for timepoint = 1: length(testCase.GRNstruct.GRNParams.expression_timepoints)
-                   testCase.assertEqual(testCase.GRNstruct.GRNParams.expression_timepoints(timepoint), testCase.GRNstruct.microData(strain_index).t(timepoint).t,testCase.GRNstruct.inputFile); 
+                   testCase.assertEqual(testCase.GRNstruct.GRNParams.expression_timepoints(timepoint), testCase.GRNstruct.rawExpressionData(strain_index).t(timepoint).t,testCase.GRNstruct.inputFile); 
                 end
            end
         end

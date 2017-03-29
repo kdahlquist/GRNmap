@@ -15,6 +15,7 @@ function populateGlobals(GRNstruct)
     prorate               = GRNstruct.GRNParams.prorate;
     is_forced             = GRNstruct.GRNParams.is_forced;
     production_function   = GRNstruct.controlParams.production_function;
-    strain_length         = length(GRNstruct.microData);
-    log2FC                = GRNstruct.microData;
+    strain_length         = length(GRNstruct.rawExpressionData);
+    log2FC                = GRNstruct.rawExpressionData;
+    
 end
