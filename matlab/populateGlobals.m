@@ -18,4 +18,11 @@ function populateGlobals(GRNstruct)
     strain_length         = length(GRNstruct.rawExpressionData);
     log2FC                = GRNstruct.rawExpressionData;
     
+    % just going to insert expressionData WITH raw data because idk how to
+    % separate them yet. need to ask in meeting
+    
+    for strain = 1:strain_length
+        log2FC(strain).expressionData = GRNstruct.expressionData(strain).data;
+    end
+    
 end
