@@ -149,6 +149,7 @@ classdef GeneralLSETest < matlab.unittest.TestCase
             [testCase.L, testCase.strain_data] = general_least_squares_error(testCase.theta);
 
             % we need to test for strain_data later
+            disp(abs(testCase.L - 0))
             testCase.verifyTrue(abs(testCase.L - 0) < 1E-14); % abs(testCase.L - 0) = 2.1e-15
         end
 

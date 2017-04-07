@@ -37,3 +37,5 @@ disp(result);
 
 rmpath(grnmapPath);
 rmpath(testStructsPath);
+
+close all

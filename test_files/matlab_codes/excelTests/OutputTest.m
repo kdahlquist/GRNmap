@@ -36,7 +36,6 @@ classdef OutputTest < matlab.unittest.TestCase
             testCase.GRNstruct.output_file = [test_files.file '_output'];
             testCase.GRNstruct.inputFile = [pwd testCase.test_dir test_files.file '.xlsx'];
             [~, testCase.GRNstruct.sheets] = xlsfinfo(testCase.GRNstruct.inputFile);
-            [~, testCase.GRNstruct.output_sheets] = xlsfinfo(testCase.GRNstruct.output_file);
             testCase.previous_dir = pwd;
             testCase.input_file = [pwd testCase.test_dir test_files.file];
             fprintf('\n%s\n', testCase.input_file);         
@@ -50,17 +49,19 @@ classdef OutputTest < matlab.unittest.TestCase
     end
     
     methods (TestMethodTeardown)
-        function resetPath (testCase)
-            testCase.GRNstruct.directory = testCase.previous_dir;
-            testCase.GRNstruct.inputFile = testCase.input_file;
-            cd(testCase.previous_dir);
-        end
+        
     end
     
     methods (TestClassTeardown)
         function clearTempDir(testCase)
             deleteAllTempsCreated();
             clearvars -global
+        end
+        
+        function resetPath (testCase)
+            testCase.GRNstruct.directory = testCase.previous_dir;
+            testCase.GRNstruct.inputFile = testCase.input_file;
+            cd(testCase.previous_dir);
         end
     end
     
@@ -84,10 +85,10 @@ classdef OutputTest < matlab.unittest.TestCase
 %       Test for finding out if the correct numbers are outputted
         function testSigmaValues(testCase)
            for timepoint_index = 1:length(testCase.GRNstruct.GRNParams.num_times)
-               for strain_index = 1:length(testCase.GRNstruct.microData)
+               for strain_index = 1:length(testCase.GRNstruct.rawExpressionData)
                    expected_sigmas = zeros(testCase.GRNstruct.GRNParams.num_genes, testCase.GRNstruct.GRNParams.num_times);
                    output_sigmas  = xlsread(testCase.GRNstruct.output_file, ...
-                                            [testCase.GRNstruct.microData(strain_index).strain{:} '_sigmas']);
+                                            [testCase.GRNstruct.rawExpressionData(strain_index).strain{:} '_sigmas']);
                    testCase.assertEqual(round(output_sigmas(1,:), 6),...
                                         round((0.4:0.4:1.6), 6),...
                                         testCase.GRNstruct.inputFile);
@@ -100,7 +101,7 @@ classdef OutputTest < matlab.unittest.TestCase
         
 %       Test if correct simtime is outputted to log2_optimized_expression        
         function testSimTime(testCase)
-            for strain_index = 1:length(testCase.GRNstruct.microData)
+            for strain_index = 1:length(testCase.GRNstruct.rawExpressionData)
                 if testCase.GRNstruct.controlParams.simulation_timepoints(1) == 0
                     testCase.assertEqual(round(testCase.GRNstruct.controlParams.simulation_timepoints, 6),...
                                          round((0:0.1:2), 6),...
@@ -139,16 +140,16 @@ classdef OutputTest < matlab.unittest.TestCase
         end
         
         function testOptimizedExpressionExists (testCase)
-            for strain_index = 1:length(testCase.GRNstruct.microData)
-                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).strain{:} '_log2_optimized_expression'],...
+            for strain_index = 1:length(testCase.GRNstruct.rawExpressionData)
+                testCase.verifyTrue(any(ismember([testCase.GRNstruct.rawExpressionData(strain_index).strain{:} '_log2_optimized_expression'],...
                                      testCase.GRNstruct.output_sheets)),...
                                      testCase.GRNstruct.inputFile);
             end
         end
         
         function testSigmaExists (testCase)
-            for strain_index = 1:length(testCase.GRNstruct.microData)
-                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).strain{:} '_sigmas'],...
+            for strain_index = 1:length(testCase.GRNstruct.rawExpressionData)
+                testCase.verifyTrue(any(ismember([testCase.GRNstruct.rawExpressionData(strain_index).strain{:} '_sigmas'],...
                                     testCase.GRNstruct.output_sheets)),...
                                     testCase.GRNstruct.inputFile);
             end

@@ -73,7 +73,7 @@ classdef LocalizedVariablesReadInputSheetTest < matlab.unittest.TestCase
 %                              0	0	0	0]}...
 %              );
 %         
-%            testCase.verifyEqual(testCase.GRNstruct.microData, testStructMicroData);
+%            testCase.verifyEqual(testCase.GRNstruct.rawExpressionData, testStructMicroData);
 %       end  
         
         function testnumGenes(testCase)
@@ -89,7 +89,7 @@ classdef LocalizedVariablesReadInputSheetTest < matlab.unittest.TestCase
         end  
         
     %    function testStrain(testCase)
-     %       testCase.verifyEqual(testCase.GRNstruct.microData.Strain,  {{'wt'};{'dcin5'}});
+     %       testCase.verifyEqual(testCase.GRNstruct.rawExpressionData.Strain,  {{'wt'};{'dcin5'}});
       %  end  
         
 

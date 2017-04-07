@@ -15,13 +15,13 @@ classdef InitializeArraysTest < matlab.unittest.TestCase
     
     methods (Test)
 %         function testAverageSize(testCase)
-%             testCase.verifyTrue(isequal(testCase.GRNstruct.microData(1).avg, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
-%             testCase.verifyTrue(isequal(testCase.GRNstruct.microData(2).avg, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
+%             testCase.verifyTrue(isequal(testCase.GRNstruct.rawExpressionData(1).avg, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
+%             testCase.verifyTrue(isequal(testCase.GRNstruct.rawExpressionData(2).avg, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
 %         end
 %         
 %         function testStandardDevSize(testCase)
-%             testCase.verifyTrue(isequal(testCase.GRNstruct.microData(1).stdev, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
-%             testCase.verifyTrue(isequal(testCase.GRNstruct.microData(2).stdev, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
+%             testCase.verifyTrue(isequal(testCase.GRNstruct.rawExpressionData(1).stdev, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
+%             testCase.verifyTrue(isequal(testCase.GRNstruct.rawExpressionData(2).stdev, [0 0 0 0; 0 0 0 0; 0 0 0 0; 0 0 0 0]));
 %         end
         
         function testInitialAndEstimatedGuessesSize(testCase)

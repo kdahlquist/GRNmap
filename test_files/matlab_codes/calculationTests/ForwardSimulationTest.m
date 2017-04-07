@@ -32,8 +32,8 @@ classdef ForwardSimulationTest < matlab.unittest.TestCase
             GRNstruct.controlParams.production_function = 'Sigmoid';
             GRNstruct.controlParams.simulation_timepoints = 0:0.1:0.5;
             GRNstruct.GRNParams.x0 = ones(4,1);
-            GRNstruct.microData(1).deletion = 0;
-            GRNstruct.microData(2).deletion = 3;
+            GRNstruct.rawExpressionData(1).deletion = 0;
+            GRNstruct.rawExpressionData(2).deletion = 3;
             GRNstruct.GRNParams.is_forced = ones(4,1);
 
             adjacency_mat = GRNstruct.GRNParams.adjacency_mat;

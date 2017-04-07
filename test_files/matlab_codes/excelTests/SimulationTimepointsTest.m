@@ -15,10 +15,10 @@ classdef SimulationTimepointsTest < matlab.unittest.TestCase
     methods (Test)
         function testSimulationTimepoints(testCase)
             expected_timepoints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-            for sheet = 1:length(testCase.GRNstruct.microData)
+            for sheet = 1:length(testCase.GRNstruct.rawExpressionData)
                 timepoints = [];
-                for repetitions = 1:size(testCase.GRNstruct.microData(sheet).t, 2);
-                    timepoints = [timepoints testCase.GRNstruct.microData(sheet).t(repetitions).indx];
+                for repetitions = 1:size(testCase.GRNstruct.rawExpressionData(sheet).t, 2);
+                    timepoints = [timepoints testCase.GRNstruct.rawExpressionData(sheet).t(repetitions).indx];
                 end
                 missing_cols = setdiff(expected_timepoints, timepoints);
                 testCase.verifyEqual(missing_cols, zeros(1,0));
@@ -27,10 +27,10 @@ classdef SimulationTimepointsTest < matlab.unittest.TestCase
         
         function testSimTimepointsLength(testCase)
             cols_in_sheets = [12,12];
-            for sheet = 1:length(testCase.GRNstruct.microData)
+            for sheet = 1:length(testCase.GRNstruct.rawExpressionData)
                 count = 0;
-                for timepoint = 1:size(testCase.GRNstruct.microData(sheet).t,2)
-                    count = count + length(testCase.GRNstruct.microData(sheet).t(timepoint).indx);
+                for timepoint = 1:size(testCase.GRNstruct.rawExpressionData(sheet).t,2)
+                    count = count + length(testCase.GRNstruct.rawExpressionData(sheet).t(timepoint).indx);
                 end
                 testCase.verifyEqual(count,cols_in_sheets(sheet));
             end

@@ -16,14 +16,14 @@ classdef MatrixDimensionsTest < matlab.unittest.TestCase
         function testCorrectlyReadsStrains(testCase)
             testCase.GRNstruct.inputFile = [testCase.test_dir '4-gene_6-edges_wt-dcin5'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
-            testCase.verifyFalse(length(testCase.GRNstruct.microData) == 3);
+            testCase.verifyFalse(length(testCase.GRNstruct.rawExpressionData) == 3);
         end
         
         function testCorrectlyReadsNetwork(testCase)
             testCase.GRNstruct.inputFile = [testCase.test_dir '3-gene_6-edges_wt-dcin5'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
-            testCase.verifyEqual(size(testCase.GRNstruct.microData(1).data), [4 12]);
-            testCase.verifyEqual(size(testCase.GRNstruct.microData(2).data), [4 12]);
+            testCase.verifyEqual(size(testCase.GRNstruct.rawExpressionData(1).data), [4 12]);
+            testCase.verifyEqual(size(testCase.GRNstruct.rawExpressionData(2).data), [4 12]);
         end
     end
 end

@@ -19,9 +19,9 @@ classdef LSETest < matlab.unittest.TestCase
            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
            
            testCase.counter       = 0;
-           testCase.log2FC        = testCase.GRNstruct.microData;
+           testCase.log2FC        = testCase.GRNstruct.rawExpressionData;
            testCase.prorate       = testCase.GRNstruct.GRNParams.prorate;
-           testCase.strain_length = length(testCase.GRNstruct.microData);
+           testCase.strain_length = length(testCase.GRNstruct.rawExpressionData);
            testCase.b             = testCase.GRNstruct.GRNParams.b;
            testCase.is_forced     = testCase.GRNstruct.GRNParams.is_forced;
        end
