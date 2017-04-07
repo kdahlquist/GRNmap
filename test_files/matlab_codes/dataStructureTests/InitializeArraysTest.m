@@ -29,8 +29,8 @@ classdef InitializeArraysTest < matlab.unittest.TestCase
             testCase.verifyEqual(testCase.GRNstruct.locals.estimated_guesses, [0; 0; 0; 0; 0; 0; 0; 0; 0; 0]);
         end
 
-        function testGRNOutputSSESize(testCase)
-            testCase.verifyEqual(testCase.GRNstruct.GRNOutput.SSE, [0 0; 0 0; 0 0; 0 0]);
+        function testGRNOutputMSESize(testCase)
+            testCase.verifyEqual(testCase.GRNstruct.GRNOutput.MSE, [0 0; 0 0; 0 0; 0 0]);
         end
         
         function testGRNOutputDSize(testCase)
