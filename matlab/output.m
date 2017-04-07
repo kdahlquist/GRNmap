@@ -41,7 +41,7 @@ fix_b                       = GRNstruct.controlParams.fix_b;
 initial_guesses             = GRNstruct.locals.initial_guesses;
 estimated_guesses           = GRNstruct.locals.estimated_guesses;
 
-strain_length               = length(GRNstruct.rawExpressionData);
+strain_length               = length(GRNstruct.expressionData);
 
 [~,name,ext]                = fileparts(GRNstruct.inputFile);
 output_file                 = [directory name '_output' ext];
@@ -68,8 +68,8 @@ for qq = 1:strain_length
                 outputcells{ik,jj} = GRNstruct.GRNModel(qq).model(ik-1,jj-1);
             end
             for jj = 2:num_times+1
-                outputdata{ik,jj} = GRNstruct.rawExpressionData(qq).data(ik,jj-1);
-                outputsigmas{ik,jj} = GRNstruct.rawExpressionData(qq).stdev(ik-1,jj-1);
+                outputdata{ik,jj} = GRNstruct.expressionData(qq).raw(ik,jj-1);
+                outputsigmas{ik,jj} = GRNstruct.expressionData(qq).stdev(ik-1,jj-1);
             end
             for jj = 2:num_genes+1
                 outputnet{jj,ik} = adjacency_mat(jj-1,ik-1);
@@ -93,11 +93,11 @@ for qq = 1:strain_length
     end
 
     outputSigmaCells{qq} = outputsigmas;
-    GRNstruct.GRNOutput.d = GRNstruct.rawExpressionData(qq).data(2:end,:);
-    xlswrite(output_file,outputcells,[cell2mat(GRNstruct.rawExpressionData(qq).strain) '_log2_optimized_expression']);
+    GRNstruct.GRNOutput.d = GRNstruct.expressionData(qq).raw(2:end,:);
+    xlswrite(output_file,outputcells,[cell2mat(GRNstruct.expressionData(qq).strain) '_log2_optimized_expression']);
 end
 for qq = 1:strain_length
-    xlswrite(output_file,outputSigmaCells{qq},[cell2mat(GRNstruct.rawExpressionData(qq).strain) '_sigmas']);
+    xlswrite(output_file,outputSigmaCells{qq},[cell2mat(GRNstruct.expressionData(qq).strain) '_sigmas']);
 end
 
 % Change to if not fix_p. Basically if we don't fix the production
@@ -160,7 +160,7 @@ outputDiag{7,1} = 'Gene';
 
 for qq = 1: strain_length
 
-    strainString = [cell2mat(GRNstruct.rawExpressionData(qq).strain) ' MSE'];
+    strainString = [cell2mat(GRNstruct.expressionData(qq).strain) ' MSE'];
     outputDiag{7,1+qq} = strainString;
 end
 

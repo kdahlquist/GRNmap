@@ -9,7 +9,7 @@ function [L,strain_x1] = general_least_squares_error(theta)
 % Input:  theta = vector of parameters we modify to fit data to model
 % Output: L     = penalized least squares fit criterion
 
-global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function strain_length expression_timepoints wts 
+global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function strain_length expression_timepoints wts
 global SSE
 
 counter = counter + 1;
@@ -54,12 +54,12 @@ strain_x1 = [];
 for qq = 1: strain_length
 
     deletion = log2FC(qq).deletion;
-    d        = log2FC(qq).data(2:end,:);
-    
+    d        = log2FC(qq).raw(2:end,:);
+
     nData = nData + length(d(:));
-    
+
 % % Replaces lines 57-59 above -TR
-%     elemCount = cellfun(@length, log2FC(qq).expressionData(qq).data(2:end, :));
+%     elemCount = cellfun(@length, log2FC(qq).expressionData(qq).raw(2:end, :));
 %     elemCount = sum(elemCount(:));
 %     nData = nData + elemCount;
 
@@ -82,21 +82,21 @@ for qq = 1: strain_length
 
     nSE = 0;
     errMatStrain = 0;
-    
+
     % This probably will eventually replace errMatStrain -TR
     errorVal = 0;
-    
-%     for gene = 1:num_genes        
+
+%     for gene = 1:num_genes
         for iT = 1:length(expression_timepoints)
 %             Some changes here -TR
 %             truncatedData = log2FC(qq).expressionData(2:end, :);
 %             dataCell = truncatedData{gene, iT};
-% 
+%
 %             for replicate = 1:length(dataCell)
 %                 errorVal = errorVal + (log2(x1(iT, gene)) - dataCell(1, replicate))^2;
 %                 nSE      = nSE + 1;
 %             end
-            
+
             for iF =  1:length(log2FC(qq).t(iT).indx)
                 errMatStrain = errMatStrain+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
                 nSE      = nSE + 1;
