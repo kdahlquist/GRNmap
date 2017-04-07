@@ -3,7 +3,7 @@ function populateGlobals(GRNstruct)
    global adjacency_mat alpha b degrate fix_b fix_P num_genes prorate ...
        production_function expression_timepoints is_forced strain_length ...
        log2FC
-   
+
     adjacency_mat         = GRNstruct.GRNParams.adjacency_mat;
     alpha                 = GRNstruct.GRNParams.alpha;
     b                     = GRNstruct.GRNParams.b;
@@ -15,6 +15,14 @@ function populateGlobals(GRNstruct)
     prorate               = GRNstruct.GRNParams.prorate;
     is_forced             = GRNstruct.GRNParams.is_forced;
     production_function   = GRNstruct.controlParams.production_function;
-    strain_length         = length(GRNstruct.microData);
-    log2FC                = GRNstruct.microData;
+    strain_length         = length(GRNstruct.expressionData);
+    log2FC                = GRNstruct.expressionData;
+
+    % just going to insert expressionData WITH raw data because idk how to
+    % separate them yet. need to ask in meeting
+
+%     for strain = 1:strain_length
+%         log2FC(strain).expressionData = GRNstruct.expressionData(strain).raw;
+%     end
+
 end

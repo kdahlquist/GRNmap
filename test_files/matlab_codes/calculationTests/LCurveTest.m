@@ -1,6 +1,6 @@
 classdef LCurveTest < matlab.unittest.TestCase
    properties
-       test_dir = [pwd '\..\perturbation_tests\math_post_L-curve_corrected\']
+       test_dir = [pwd '\..\..\perturbation_tests\math_post_L-curve_corrected\']
        previous_dir = pwd
        GRNstruct
        alphaList
@@ -10,7 +10,6 @@ classdef LCurveTest < matlab.unittest.TestCase
    
    methods (TestClassSetup)
        function runGRNmap (testCase)
-           addpath([pwd '/../../matlab']);
            testCase.alphaList = [0.8,0.5,0.2,0.1,0.08,0.05,0.02,0.01,0.008,0.005,0.002,0.001,0.0008,0.0005,0.0002,0.0001];
            testCase.general_LCurve_file = [testCase.test_dir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-1_no-graph_test1_LCurve.xlsx'];
            testCase.GRNstruct.inputFile = testCase.general_LCurve_file;

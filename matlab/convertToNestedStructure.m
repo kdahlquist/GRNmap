@@ -1,25 +1,25 @@
-function expressionData = convertToNestedStructure( timepoints, rawExpressionData )
+function compressedData = convertToNestedStructure( timepoints, raw )
 
-    if (isempty(rawExpressionData))
+    if (isempty(raw))
         errorMsg = 'Empty input sheet given.';
         errordlg(errorMsg, 'Missing Data');
         error('convertToNestedStructure:MissingData', errorMsg);
     end
-    expressionData = cell(size(rawExpressionData, 1), length(timepoints));
-    
+    compressedData = cell(size(raw, 1), length(timepoints));
+
     % This takes care of heading (timepoints) for each column
     for index = 1:length(timepoints)
-        expressionData{1, index} = timepoints(index).t;
+        compressedData{1, index} = timepoints(index).t;
     end
 
-    firstRowData = rawExpressionData (1, 1:end);
+    firstRowData = raw (1, 1:end);
 
-    for row = 2:size(rawExpressionData, 1)
+    for row = 2:size(raw, 1)
         dataMat = [];
         dataIndex = 1;
-        expressionDataColumnCounter = 1;
+        compressedDataColumnCounter = 1;
         previousTimepoint = firstRowData(1, 1);
-        for col = 1:length(rawExpressionData)
+        for col = 1:length(raw)
 
             if previousTimepoint ~= firstRowData(1, col)
                 if isequal(dataMat, [])
@@ -34,14 +34,14 @@ function expressionData = convertToNestedStructure( timepoints, rawExpressionDat
                     warning('convertToNestedStructure:SingleReplicateData', warningMsg);
                 end
 
-                expressionData{row, expressionDataColumnCounter} = dataMat;
-                expressionDataColumnCounter = expressionDataColumnCounter + 1;
+                compressedData{row, compressedDataColumnCounter} = dataMat;
+                compressedDataColumnCounter = compressedDataColumnCounter + 1;
                 dataMat = [];
                 dataIndex = 1;
             end
 
-            if ~isnan(rawExpressionData(row, col))
-                currentDataMat = [rawExpressionData(row, col); dataIndex];
+            if ~isnan(raw(row, col))
+                currentDataMat = [raw(row, col); dataIndex];
                 dataMat = [dataMat currentDataMat];
             end
 
@@ -49,7 +49,7 @@ function expressionData = convertToNestedStructure( timepoints, rawExpressionDat
             previousTimepoint = firstRowData(1, col);
         end
 
-        expressionData{row, expressionDataColumnCounter} = dataMat;
+        compressedData{row, compressedDataColumnCounter} = dataMat;
     end
 
 end

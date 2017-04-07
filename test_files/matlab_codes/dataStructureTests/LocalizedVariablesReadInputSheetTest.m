@@ -1,54 +1,53 @@
-classdef localizedVariablesReadInputSheetTest < matlab.unittest.TestCase
+classdef LocalizedVariablesReadInputSheetTest < matlab.unittest.TestCase
 
-    
+
     properties
-        test_dir = '..\sixteen_tests\'
+        test_dir = '..\..\sixteen_tests\'
         GRNstruct
     end
-    
+
     methods (TestClassSetup)
         function testLocalizedVariablesReadInputSheet(testCase)
-            addpath([pwd '/../../matlab']);
             testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_graph.xlsx'];
-            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);             
+            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
         end
     end
-    
+
 %these values need to be localized and tested
 %log2FC Strain expression_timepoints
 
     methods(Test)
         function testAdjacencyMat(testCase)
             testCase.verifyEqual(testCase.GRNstruct.GRNParams.adjacency_mat, [1 0 0 0; 0 1 0 0; 0 0 1 1; 0 0 1 1]);
-        end    
-        
+        end
+
         function testAlpha(testCase)
             testCase.verifyEqual(testCase.GRNstruct.GRNParams.alpha, 0.001);
-        end 
-        
+        end
+
         function testExpressionTimepoints(testCase)
             testCase.verifyEqual(testCase.GRNstruct.GRNParams.expression_timepoints, [0.4000 0.8000 1.2000 1.6000]);
-        end  
-        
+        end
+
         function testB(testCase)
             testCase.verifyEqual(testCase.GRNstruct.GRNParams.b, [0;0;0;0]);
-        end  
-        
+        end
+
         function testDegRates(testCase)
             testCase.verifyEqual(testCase.GRNstruct.degRates, [1 1 1 1]);
-        end  
+        end
         function testFixB(testCase)
             testCase.verifyEqual(testCase.GRNstruct.controlParams.fix_b, 0);
-        end    
-        
+        end
+
         function testFixP(testCase)
             testCase.verifyEqual(testCase.GRNstruct.controlParams.fix_P, 0);
-        end  
-        
+        end
+
         function testIsForced(testCase)
             testCase.verifyEqual(testCase.GRNstruct.GRNParams.is_forced, [1; 2; 3; 4]);
-        end  
-        
+        end
+
 %        function testMicroData(testCase)
 %             testStructMicroData = struct(...
 %                  'Strain', {{'wt'}, {'dcin5'}},...
@@ -73,26 +72,26 @@ classdef localizedVariablesReadInputSheetTest < matlab.unittest.TestCase
 %                              0	0	0	0
 %                              0	0	0	0]}...
 %              );
-%         
-%            testCase.verifyEqual(testCase.GRNstruct.microData, testStructMicroData);
-%       end  
-        
+%
+%            testCase.verifyEqual(testCase.GRNstruct.expressionData, testStructMicroData);
+%       end
+
         function testnumGenes(testCase)
             testCase.verifyEqual(testCase.GRNstruct.GRNParams.num_genes, 4);
-        end  
-        
+        end
+
          function testProrate(testCase)
             testCase.verifyEqual(testCase.GRNstruct.GRNParams.prorate, [0.5; 1.0; 2.0; 1.0]);
-         end  
-         
+         end
+
         function testProductionFunction(testCase)
             testCase.verifyEqual(testCase.GRNstruct.controlParams.production_function, {'Sigmoid'});
-        end  
-        
+        end
+
     %    function testStrain(testCase)
-     %       testCase.verifyEqual(testCase.GRNstruct.microData.Strain,  {{'wt'};{'dcin5'}});
-      %  end  
-        
+     %       testCase.verifyEqual(testCase.GRNstruct.expressionData.strain,  {{'wt'};{'dcin5'}});
+      %  end
+
 
     end
 end
