@@ -86,7 +86,7 @@ for qq = 1: strain_length
     % This probably will eventually replace errMatStrain -TR
     errorVal = 0;
     
-    for gene = 1:num_genes        
+%     for gene = 1:num_genes        
         for iT = 1:length(expression_timepoints)
 %             Some changes here -TR
 %             truncatedData = log2FC(qq).expressionData(2:end, :);
@@ -105,7 +105,7 @@ for qq = 1: strain_length
         errormat = errormat + errMatStrain;
 
         SSE(:,qq) = errMatStrain/nSE;
-    end
+%     end
 end
 
 graphData = struct('strain_data',strain_x1,...
