@@ -25,7 +25,7 @@ classdef MSETest < matlab.unittest.TestCase
     methods (Test)
         function testMSE (testCase)
             actual_LSE = testCase.GRNstruct.GRNOutput.lse_out;
-            MSEs = testCase.GRNstruct.GRNOutput.SSE;
+            MSEs = testCase.GRNstruct.GRNOutput.MSE;
             number_of_strains = size(testCase.GRNstruct.rawExpressionData,2);
             slides_per_strain = zeros(1,number_of_strains);
             number_of_genes = testCase.GRNstruct.GRNParams.num_genes;

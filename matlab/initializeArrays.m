@@ -16,7 +16,7 @@ function GRNstruct = initializeArrays (GRNstruct)
     GRNstruct.locals.initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1 - fix_P), 1);
     GRNstruct.locals.estimated_guesses = zeros(length(GRNstruct.locals.initial_guesses), 1);
         
-    GRNstruct.GRNOutput.SSE = zeros(num_genes, length(GRNstruct.rawExpressionData));
+    GRNstruct.GRNOutput.MSE = zeros(num_genes, length(GRNstruct.rawExpressionData));
     GRNstruct.GRNOutput.d = zeros(num_genes, length(GRNstruct.rawExpressionData(1).data));
     GRNstruct.GRNOutput.prorate = zeros(num_genes, 1);
     GRNstruct.GRNOutput.degrate = zeros(num_genes, 1);

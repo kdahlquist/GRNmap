@@ -167,7 +167,7 @@ end
 for ii = 1:num_genes
     outputDiag{7+ii,1} = GRNstruct.labels.TX0{1+ii,1};
     for jj = 1: strain_length
-        outputDiag{7+ii,1+jj} = GRNstruct.GRNOutput.SSE(ii,jj);
+        outputDiag{7+ii,1+jj} = GRNstruct.GRNOutput.MSE(ii,jj);
     end
 end
 

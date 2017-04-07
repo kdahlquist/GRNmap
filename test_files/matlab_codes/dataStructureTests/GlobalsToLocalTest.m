@@ -7,7 +7,7 @@ classdef GlobalsToLocalTest < matlab.unittest.TestCase
     methods(TestClassSetup)
         function setupGRNstruct(testCase)
             global adjacency_mat alpha b counter expression_timepoints ...
-            degrate lse_out penalty_out SSE wts prorate log2FC
+            degrate lse_out penalty_out MSE wts prorate log2FC
                    
             adjacency_mat = [1 0 0 0; 0 1 0 0; 0 0 1 1; 0 0 1 1];
             alpha =  0.001;
@@ -21,7 +21,7 @@ classdef GlobalsToLocalTest < matlab.unittest.TestCase
                        1.0];
             lse_out = 0.00562059511211463;
             penalty_out = 2.12482998305364;
-            SSE = [0.00893765262173037	0.0178753052434607;...
+            MSE = [0.00893765262173037	0.0178753052434607;...
                    0.00558249174067118	0.0111649834813424;...
                    0.00395421020246958	0.00395421020246958;...
                    0.275044443910378	0.506582631835732];
@@ -48,7 +48,7 @@ classdef GlobalsToLocalTest < matlab.unittest.TestCase
     
     methods (TestClassTeardown)
         function teardownGlobals (testCase)
-           clearvars -global adjacency_mat alpha b counter expression_timepoints degrate lse_out penalty_out SSE wts prorate
+           clearvars -global adjacency_mat alpha b counter expression_timepoints degrate lse_out penalty_out MSE wts prorate
         end
     end
     
@@ -94,8 +94,8 @@ classdef GlobalsToLocalTest < matlab.unittest.TestCase
            testCase.verifyEqual(testCase.GRNstruct.GRNOutput.reg_out, 2.12482998305364);
         end
         
-        function testSSEAssignedCorrectly(testCase)
-           testCase.verifyEqual(testCase.GRNstruct.GRNOutput.SSE, [0.00893765262173037	0.0178753052434607;...
+        function testMSEAssignedCorrectly(testCase)
+           testCase.verifyEqual(testCase.GRNstruct.GRNOutput.MSE, [0.00893765262173037	0.0178753052434607;...
                                                                    0.00558249174067118	0.0111649834813424;...
                                                                    0.00395421020246958	0.00395421020246958;...
                                                                    0.275044443910378	0.506582631835732]);

@@ -318,7 +318,7 @@ classdef OutputTest < matlab.unittest.TestCase
                                   testCase.GRNstruct.inputFile);
          end
          
-         function testOutputOptimizationDiagnosticsNotSSE (testCase)
+         function testOutputOptimizationDiagnosticsNotMSE (testCase)
             expected_text_values = {'wt MSE', 'dcin5 MSE'};
             [~, actual_text_values] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'optimization_diagnostics');
             testCase.verifyTrue(any(ismember(expected_text_values, actual_text_values)),...
