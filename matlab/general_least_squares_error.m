@@ -9,8 +9,8 @@ function [L,strain_x1] = general_least_squares_error(theta)
 % Input:  theta = vector of parameters we modify to fit data to model
 % Output: L     = penalized least squares fit criterion
 
-global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function strain_length expression_timepoints wts 
-global SSE
+global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function strain_length expression_timepoints wts
+global MSE
 
 counter = counter + 1;
 
@@ -43,7 +43,7 @@ else
 end
 
 errormat = 0;
-SSE      = zeros(num_genes, strain_length);
+MSE      = zeros(num_genes, strain_length);
 
 % % Call for all deletion strains simultaneously
 
@@ -54,14 +54,9 @@ strain_x1 = [];
 for qq = 1: strain_length
 
     deletion = log2FC(qq).deletion;
-    d        = log2FC(qq).data(2:end,:);
-    
+    d        = log2FC(qq).raw(2:end,:);
+
     nData = nData + length(d(:));
-    
-% % Replaces lines 57-59 above -TR
-%     elemCount = cellfun(@length, log2FC(qq).expressionData(qq).data(2:end, :));
-%     elemCount = sum(elemCount(:));
-%     nData = nData + elemCount;
 
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
@@ -82,29 +77,20 @@ for qq = 1: strain_length
 
     nSE = 0;
     errMatStrain = 0;
-    
+
     % This probably will eventually replace errMatStrain -TR
     errorVal = 0;
-    
-%     for gene = 1:num_genes        
-        for iT = 1:length(expression_timepoints)
-%             Some changes here -TR
-%             truncatedData = log2FC(qq).expressionData(2:end, :);
-%             dataCell = truncatedData{gene, iT};
-% 
-%             for replicate = 1:length(dataCell)
-%                 errorVal = errorVal + (log2(x1(iT, gene)) - dataCell(1, replicate))^2;
-%                 nSE      = nSE + 1;
-%             end
-            
-            for iF =  1:length(log2FC(qq).t(iT).indx)
-                errMatStrain = errMatStrain+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
+
+%     for geneIndex = 1:num_genes
+        for timepointIndex = 1:length(expression_timepoints)
+            for replicateIndex =  1:length(log2FC(qq).t(timepointIndex).indx)
+                errMatStrain = errMatStrain+((log2(x1(timepointIndex,:)))'-d(:,log2FC(qq).t(timepointIndex).indx(replicateIndex))).^2;
                 nSE      = nSE + 1;
             end
         end
         errormat = errormat + errMatStrain;
 
-        SSE(:,qq) = errMatStrain/nSE;
+        MSE(:,qq) = errMatStrain/nSE;
 %     end
 end
 

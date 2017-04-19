@@ -22,7 +22,7 @@ Strain = [];
 
 
 input_file = GRNstruct.inputFile;
-GRNstruct.rawExpressionData = {};
+GRNstruct.expressionData = {};
 
 [parms0,parmnames0] = xlsread(input_file,'optimization_parameters');
 [numRows,numCols] = size(parmnames0);
@@ -61,8 +61,8 @@ end
 % This reads the microarray data for each strain.
 for index = 1:length(Strain)
     currentStrain = strtrim(lower(Strain{index}));
-    [GRNstruct.rawExpressionData(index).data,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
-    GRNstruct.rawExpressionData(index).strain = currentStrain;
+    [GRNstruct.expressionData(index).raw,GRNstruct.labels.TX1] = xlsread(input_file,[currentStrain '_log2_expression']);
+    GRNstruct.expressionData(index).strain = currentStrain;
 
     genes = strtrim(lower(GRNstruct.labels.TX1(2:end,1)));
 
@@ -73,8 +73,8 @@ for index = 1:length(Strain)
         deletedRow = find(strcmpi(genes,deletedGene));
     end
 
-    GRNstruct.rawExpressionData(index).deletion = deletedRow;
-    GRNstruct.rawExpressionData(index).strain = Strain(index);
+    GRNstruct.expressionData(index).deletion = deletedRow;
+    GRNstruct.expressionData(index).strain = Strain(index);
 
 end
 
@@ -125,7 +125,7 @@ end
 %TX11 is the list of standard (common) names
 %%Revision to old way of computing TX11
 
-% for ii = 1:length(GRNstruct.rawExpressionData(1).data(:,1));
+% for ii = 1:length(GRNstruct.expressionData(1).data(:,1));
 %     GRNstruct.labels.TX11{ii,1} = GRNstruct.labels.TX1{ii,2};
 % end
 
@@ -142,29 +142,29 @@ GRNstruct.GRNParams.nData   = 0;
 GRNstruct.GRNParams.minLSE  = 0;
 
 for i = 1:length(Strain)
-    GRNstruct.rawExpressionData(i).t = {};
-    % The first row of the GRNstruct.rawExpressionData data indicating all of the replicate timepoints
-    reps = (GRNstruct.rawExpressionData(i).data(1,:));
+    GRNstruct.expressionData(i).t = {};
+    % The first row of the GRNstruct.expressionData data indicating all of the replicate timepoints
+    reps = (GRNstruct.expressionData(i).raw(1,:));
     % Finds the indices in reps that correspond to each timepoint in tspan.
     for jj = 1:length(expression_timepoints)
-        GRNstruct.rawExpressionData(i).t(jj).indx                = find(reps == expression_timepoints(jj));
-        GRNstruct.rawExpressionData(i).t(jj).t                   = expression_timepoints(jj);
+        GRNstruct.expressionData(i).t(jj).indx                = find(reps == expression_timepoints(jj));
+        GRNstruct.expressionData(i).t(jj).t                   = expression_timepoints(jj);
     end
-    % GRNstruct.rawExpressionData data for all strains
-    % GRNstruct.rawExpressionData(i).data  = (GRNstruct.rawExpressionData(i).d(2:end,:));
+    % GRNstruct.expressionData data for all strains
+    % GRNstruct.expressionData(i).raw  = (GRNstruct.expressionData(i).d(2:end,:));
 
     % Preallocate these arrays. Should probably be done somewhere else
-    GRNstruct.rawExpressionData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-    GRNstruct.rawExpressionData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    GRNstruct.expressionData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
+    GRNstruct.expressionData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
 
-    % The average GRNstruct.rawExpressionData for each timepoint for each gene.
+    % The average GRNstruct.expressionData for each timepoint for each gene.
     for iT = 1:GRNstruct.GRNParams.num_times
-        data = GRNstruct.rawExpressionData(i).data(2:end,GRNstruct.rawExpressionData(i).t(iT).indx);
+        data = GRNstruct.expressionData(i).raw(2:end,GRNstruct.expressionData(i).t(iT).indx);
 
-        GRNstruct.rawExpressionData(i).avg(:,iT)    = mean(data,2);
-        GRNstruct.rawExpressionData(i).stdev(:,iT)  = std(data,0,2);
+        GRNstruct.expressionData(i).avg(:,iT)    = mean(data,2);
+        GRNstruct.expressionData(i).stdev(:,iT)  = std(data,0,2);
 
-        delDataAvg = data - GRNstruct.rawExpressionData(i).avg(:,iT)*ones(1,length(data(1,:)));
+        delDataAvg = data - GRNstruct.expressionData(i).avg(:,iT)*ones(1,length(data(1,:)));
 
         GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(data(:));
         GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum(delDataAvg(:).^2);
