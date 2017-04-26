@@ -19,7 +19,7 @@ function compressedData = convertToNestedStructure( timepoints, rawData )
         dataIndex = 1;
         compressedDataColumnCounter = 1;
         previousTimepoint = firstRowData(1, 1);
-        for col = 1:length(rawData)
+        for col = 1:size(rawData, 2)
 
             if previousTimepoint ~= firstRowData(1, col)
                 if isequal(dataMat, [])

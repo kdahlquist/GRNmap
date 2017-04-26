@@ -6,6 +6,10 @@ classdef MSETest < matlab.unittest.TestCase
     end
 
     methods (TestClassSetup)
+        function addGRNmapPath (testCase) %#ok<MANU>
+            addpath([pwd '\..\..\..\matlab'])
+        end
+        
         function setup (testCase)
            testCase.GRNstruct.inputFile = [testCase.test_dir 'dHAP4_15_gene_network_deletion_added_input_KD_20160126.xlsx'];
            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);

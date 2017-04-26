@@ -43,7 +43,7 @@ else
 end
 
 nData           = 0;
-errorWholeModel = zeros(num_genes, 1);
+errorWholeModel = 0;
 MSE             = zeros(num_genes, strain_length);
 
 % This needs to be outputed to create the graph.
@@ -53,6 +53,8 @@ for qq = 1: strain_length
 
     deletion = log2FC(qq).deletion;
     nGSE     = zeros(num_genes, 1);
+    
+    errorMatStrain = zeros(num_genes, 1);
 
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
@@ -77,16 +79,18 @@ for qq = 1: strain_length
             dataCell = truncatedData{geneIndex, timepointIndex};
             
             for replicateIndex = 1:size(dataCell, 2)                
-                errorWholeModel(geneIndex) = errorWholeModel(geneIndex) + ...
+                errorMatStrain(geneIndex) = errorMatStrain(geneIndex) + ...
                     (log2(x1(timepointIndex, geneIndex)) - dataCell(1, replicateIndex))^2;
                 nGSE(geneIndex) = nGSE(geneIndex) + 1;
                 nData = nData + 1;
             end
         end
-        
-        for geneIndex = 1:num_genes
-            MSE(geneIndex, qq) = errorWholeModel(geneIndex) / nGSE(geneIndex);
-        end
+    end
+    
+    errorWholeModel = errorWholeModel + errorMatStrain;
+
+    for geneIndex = 1:num_genes
+        MSE(geneIndex, qq) = errorMatStrain(geneIndex) / nGSE(geneIndex);
     end
 end
 
