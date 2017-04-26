@@ -28,6 +28,8 @@ onlyShortTestsSuite = calculationSuite.selectIf( ...
     HasName(ContainsSubstring('LSETest')) | ...
     HasName(ContainsSubstring('GeneralLSETest')));
 
+% onlyReadInputSuite = excelSuite.selectIf(HasName(ContainsSubstring('ReadInputSheetTest')));
+
 allSuites = [dataStructureSuite, excelSuite, onlyShortTestsSuite];
 
 warning('on', 'convertToNestedStructure:SingleReplicateData');
