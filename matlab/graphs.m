@@ -10,7 +10,7 @@ function GRNstruct = graphs(GRNstruct)
 
 directory = GRNstruct.directory;
 expression_timepoints = GRNstruct.GRNParams.expression_timepoints;
-strain_length = length(GRNstruct.microData);
+strain_length = length(GRNstruct.expressionData);
 
 tmin = 0;
 tmax = max(expression_timepoints);
@@ -35,17 +35,17 @@ plot_colors = [
 ];
 
 if strain_length == 1
-    Targets = {[cell2mat(GRNstruct.microData(1).strain) ' data'],[cell2mat(GRNstruct.microData(1).strain) ' model']};
+    Targets = {[cell2mat(GRNstruct.expressionData(1).strain) ' data'],[cell2mat(GRNstruct.expressionData(1).strain) ' model']};
 else
     Targets = cell(1,(strain_length * 2));
     for i = 0:(strain_length-1)
-        Targets{2*(i)+1} = [cell2mat(GRNstruct.microData(i+1).strain) ' data'];
-        Targets{(i+1)*2} = [cell2mat(GRNstruct.microData(i+1).strain) ' model'];
+        Targets{2*(i)+1} = [cell2mat(GRNstruct.expressionData(i+1).strain) ' data'];
+        Targets{(i+1)*2} = [cell2mat(GRNstruct.expressionData(i+1).strain) ' model'];
     end
 end
 
 for qq = 1: strain_length;
-    td  = GRNstruct.microData(qq).data(1,:);
+    td  = GRNstruct.expressionData(qq).raw(1,:);
     % Remove the if line and its corresponding end
     if GRNstruct.controlParams.make_graphs
         % Delete these two statements, maybe. They are not
@@ -55,7 +55,7 @@ for qq = 1: strain_length;
 %         error_dn = (log2FC(qq).avg - 1.96*log2FC(qq).stdev);
         for ii=1:GRNstruct.GRNParams.num_genes
             figure(ii+offset),hold on
-            plot(td,GRNstruct.microData(qq).data(ii+1,:),'o','Color',plot_colors(qq,:),'LineWidth',3),axis([tmin tmax -3 3]);
+            plot(td,GRNstruct.expressionData(qq).raw(ii+1,:),'o','Color',plot_colors(qq,:),'LineWidth',3),axis([tmin tmax -3 3]);
             plot(GRNstruct.controlParams.simulation_timepoints,GRNstruct.GRNModel(qq).model(ii,:),'-','Color',plot_colors(qq,:));
             legend(Targets,'Location','NorthEastOutside');
             title(GRNstruct.labels.TX1{1+(ii),1},'FontSize',16)

@@ -9,8 +9,8 @@ function [L,strain_x1] = general_least_squares_error(theta)
 % Input:  theta = vector of parameters we modify to fit data to model
 % Output: L     = penalized least squares fit criterion
 
-global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function strain_length expression_timepoints wts 
-global SSE
+global adjacency_mat alpha b is_forced counter deletion fix_b fix_P log2FC lse_out penalty_out prorate production_function strain_length expression_timepoints wts
+global MSE
 
 counter = counter + 1;
 
@@ -42,21 +42,19 @@ else
     addzero = 0;
 end
 
-errormat = 0;
-SSE      = zeros(num_genes, strain_length);
+nData           = 0;
+errorWholeModel = 0;
+MSE             = zeros(num_genes, strain_length);
 
-% % Call for all deletion strains simultaneously
-
-nData = 0;
 % This needs to be outputed to create the graph.
 strain_x1 = [];
 
 for qq = 1: strain_length
 
     deletion = log2FC(qq).deletion;
-    d        = log2FC(qq).data(2:end,:);
-
-    nData = nData + length(d(:));
+    nGSE     = zeros(num_genes, 1);
+    
+    errorMatStrain = zeros(num_genes, 1);
 
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
     %     [t,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
@@ -75,26 +73,32 @@ for qq = 1: strain_length
 
     strain_x1 = [strain_x1;x1];
 
-    nSE = 0;
-    errMatStrain = 0;
-    for iT = 1:length(expression_timepoints)
-        for iF =  1:length(log2FC(qq).t(iT).indx)
-            errMatStrain = errMatStrain+((log2(x1(iT,:)))'-d(:,log2FC(qq).t(iT).indx(iF))).^2;
-            nSE      = nSE + 1;
+    for timepointIndex = 1:length(expression_timepoints)        
+        for geneIndex = 1:num_genes
+            truncatedData = log2FC(qq).compressed(2:end, :);
+            dataCell = truncatedData{geneIndex, timepointIndex};
+            
+            for replicateIndex = 1:size(dataCell, 2)                
+                errorMatStrain(geneIndex) = errorMatStrain(geneIndex) + ...
+                    (log2(x1(timepointIndex, geneIndex)) - dataCell(1, replicateIndex))^2;
+                nGSE(geneIndex) = nGSE(geneIndex) + 1;
+                nData = nData + 1;
+            end
         end
     end
-    errormat = errormat + errMatStrain;
+    
+    errorWholeModel = errorWholeModel + errorMatStrain;
 
-%     SSE(:,qq) = errormat/nSE;
-    SSE(:,qq) = errMatStrain/nSE;
-
+    for geneIndex = 1:num_genes
+        MSE(geneIndex, qq) = errorMatStrain(geneIndex) / nGSE(geneIndex);
+    end
 end
 
 graphData = struct('strain_data',strain_x1,...
                    'estimated_guesses',theta,...
                    'log2FC',log2FC,...
                    'num_of_strains', strain_length,...
-                   'LSE',  sum(errormat(:))/nData);
+                   'LSE',  sum(errorWholeModel(:))/nData);
 
 % Output graph every 100 iterations.
 if rem(counter,100) ==  0
@@ -106,7 +110,7 @@ end
 
 
 % This is the sum of all the errors
-L        = sum(errormat(:))/nData;
+L        = sum(errorWholeModel(:))/nData;
 lse_out  = L;
 
 % Add the penalty term to get the bowl shape for better optimization

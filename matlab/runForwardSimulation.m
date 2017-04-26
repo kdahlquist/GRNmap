@@ -1,9 +1,13 @@
+% This is the forward simulation, which is performed for every single strain
+% The simulation gives the gene expression at each of the time
+% points specified by simulation_timepoints
+
 function GRNstruct = runForwardSimulation (GRNstruct)
     global deletion
     simulation_timepoints = GRNstruct.controlParams.simulation_timepoints;
     x0 = GRNstruct.GRNParams.x0;
-    for qq = 1:length(GRNstruct.microData)
-        deletion = GRNstruct.microData(qq).deletion;
+    for qq = 1:length(GRNstruct.expressionData)
+        deletion = GRNstruct.expressionData(qq).deletion;
         % t is the time points for which we did the forward simulation. It's
         % always the same as simulation_timepoints.
         % model is the expression of each gene in the network at each of those

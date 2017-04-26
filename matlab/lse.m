@@ -26,7 +26,10 @@ fix_b           = GRNstruct.controlParams.fix_b;
 fix_P           = GRNstruct.controlParams.fix_P;
 b               = GRNstruct.GRNParams.b;
 
+GRNstruct = compressMissingData(GRNstruct);
+
 populateGlobals(GRNstruct);
+
 % initial_guesses contains all weights, and optionally the threshholds for
 % controlled genes and optionally the production rates
 initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P),1);
@@ -84,10 +87,8 @@ if estimate_params
     end
 end
 
-% Make optimization diagnostic ih the counter is
+% Make optimization diagnostic if the counter is
 % less than 100.
-
-
 if counter < 100 && estimate_params
     graphData = struct('strain_data',strain_data,...
                    'estimated_guesses',estimated_guesses,...
@@ -98,12 +99,6 @@ if counter < 100 && estimate_params
     createDiagnosticsGraph(graphData, counter);
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% This is the forward simulation, which is performed for every single strain
-% The simulation gives the gene expression at each of the time
-% points specified by simulation_timepoints
 GRNstruct = runForwardSimulation(GRNstruct);
 
 % We need initial_guesses and w1 later on, so we'll append them to the structure.
