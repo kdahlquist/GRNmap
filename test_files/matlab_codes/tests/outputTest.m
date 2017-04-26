@@ -32,24 +32,11 @@ classdef outputTest < matlab.unittest.TestCase
     
     methods (TestClassSetup)
         function setupGRNstruct(testCase, test_files)
-            global adjacency_mat alpha b degrate fix_b is_forced log2FC num_genes num_times no_inputs prorate production_function Strain expression_timepoints wts
-            testCase.GRNstruct = getfield(ConstantGRNstructs, test_files.GRNstruct);
+%             global log2FC Strain
+            testCase.GRNstruct = getfield(OutputGRNstructs, test_files.GRNstruct);
             
-            adjacency_mat = testCase.GRNstruct.globals.adjacency_mat;
-            alpha = testCase.GRNstruct.globals.alpha;
-            b = testCase.GRNstruct.globals.b;
-            degrate = testCase.GRNstruct.globals.degrate;
-            fix_b = testCase.GRNstruct.globals.fix_b;
-            is_forced = testCase.GRNstruct.globals.is_forced;
-            log2FC = testCase.GRNstruct.globals.log2FC;
-            num_genes = testCase.GRNstruct.globals.num_genes;
-            num_times = testCase.GRNstruct.globals.num_times;
-            no_inputs = testCase.GRNstruct.globals.no_inputs;
-            prorate = testCase.GRNstruct.globals.prorate;
-            production_function = testCase.GRNstruct.globals.production_function;
-            Strain = testCase.GRNstruct.globals.Strain;
-            expression_timepoints = testCase.GRNstruct.globals.expression_timepoints;
-            wts = testCase.GRNstruct.globals.wts;
+%             log2FC = testCase.GRNstruct.globals.log2FC;
+%             Strain = testCase.GRNstruct.globals.strain;
             
             testCase.GRNstruct.output_file = [test_files.file '_output'];
             testCase.GRNstruct.inputFile = [pwd testCase.test_dir test_files.file '.xlsx'];
@@ -105,7 +92,7 @@ classdef outputTest < matlab.unittest.TestCase
                for strain_index = 1:length(testCase.GRNstruct.microData)
                    expected_sigmas = zeros(testCase.GRNstruct.GRNParams.num_genes, testCase.GRNstruct.GRNParams.num_times);
                    output_sigmas  = xlsread(testCase.GRNstruct.output_file, ...
-                                            [testCase.GRNstruct.microData(strain_index).Strain{:} '_sigmas']);
+                                            [testCase.GRNstruct.microData(strain_index).strain{:} '_sigmas']);
                    testCase.assertEqual(round(output_sigmas(1,:), 6),...
                                         round((0.4:0.4:1.6), 6),...
                                         testCase.GRNstruct.inputFile);
@@ -158,7 +145,7 @@ classdef outputTest < matlab.unittest.TestCase
         
         function testOptimizedExpressionExists (testCase)
             for strain_index = 1:length(testCase.GRNstruct.microData)
-                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).Strain{:} '_log2_optimized_expression'],...
+                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).strain{:} '_log2_optimized_expression'],...
                                      testCase.GRNstruct.output_sheets)),...
                                      testCase.GRNstruct.inputFile);
             end
@@ -166,7 +153,7 @@ classdef outputTest < matlab.unittest.TestCase
         
         function testSigmaExists (testCase)
             for strain_index = 1:length(testCase.GRNstruct.microData)
-                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).Strain{:} '_sigmas'],...
+                testCase.verifyTrue(any(ismember([testCase.GRNstruct.microData(strain_index).strain{:} '_sigmas'],...
                                     testCase.GRNstruct.output_sheets)),...
                                     testCase.GRNstruct.inputFile);
             end
@@ -288,7 +275,7 @@ classdef outputTest < matlab.unittest.TestCase
         end
         
         function testOutputOptimizedProductionRatesCorrect (testCase)
-            if ~testCase.GRNstruct.controlParams.fix_P
+            if ~testCase.GRNstruct.controlParams.fix_P && testCase.GRNstruct.controlParams.estimate_params
                 [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'optimized_production_rates');
                 [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'optimized_production_rates');
                 testCase.verifyEqual (round(actual_output_data, 6),...
@@ -298,7 +285,7 @@ classdef outputTest < matlab.unittest.TestCase
         end
         
         function testOutputOptimizedProductionRatesNamesCorrect (testCase)
-            if ~testCase.GRNstruct.controlParams.fix_P
+            if ~testCase.GRNstruct.controlParams.fix_P && testCase.GRNstruct.controlParams.estimate_params
                 [~, expected_output_names] = xlsread (testCase.GRNstruct.output_file, 'optimized_production_rates');
                 [~, actual_output_names] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'optimized_production_rates');
                 testCase.verifyEqual (actual_output_names, expected_output_names,...
@@ -341,6 +328,24 @@ classdef outputTest < matlab.unittest.TestCase
             testCase.verifyTrue(any(ismember(expected_text_values, actual_text_values)),...
                                 testCase.GRNstruct.inputFile);
          end
+        
+%        The following tests are for when we update the sixteen_tests files
+%        Right now the optimization_diagnostics for some of the files show
+%        incorrect penalty_out and counters
+%        (i.e., the correct penalty_out should be NaN and counter = 0 if 
+%           estimate_params = 0)
+%    
+%          function testOptimizationDiagnosticsPenaltyOut(testCase)
+%             if ~testCase.GRNstruct.controlParams.estimate_params
+%                testCase.verifyTrue(isnan(testCase.GRNstruct.GRNOutput.reg_out)); 
+%             end
+%          end
+%          
+%          function testCounter(testCase)
+%             if ~testCase.GRNstruct.controlParams.estimate_params
+%                testCase.verifyEqual(testCase.GRNstruct.GRNOutput.counter, 0); 
+%             end
+%          end
     end
        
 end
