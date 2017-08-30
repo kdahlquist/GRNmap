@@ -153,6 +153,9 @@ for i = 1:length(Strain)
     % GRNstruct.expressionData data for all strains
     % GRNstruct.expressionData(i).raw  = (GRNstruct.expressionData(i).d(2:end,:));
 
+    % TODO Move the code below into a function of its own, and call that function
+    %      only after 'compressData' is called.
+
     % Preallocate these arrays. Should probably be done somewhere else
     GRNstruct.expressionData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
     GRNstruct.expressionData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
