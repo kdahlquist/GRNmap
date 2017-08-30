@@ -154,7 +154,11 @@ for i = 1:length(Strain)
     % GRNstruct.expressionData(i).raw  = (GRNstruct.expressionData(i).d(2:end,:));
 
     % TODO Move the code below into a function of its own, and call that function
-    %      only after 'compressData' is called.
+    %      only after 'compressMissingData' is called.
+    %
+    % 1. Check that minLSE is calculated correctly (#353)
+    % 2. Check that sigmas (stdev) are calculated correctly (#352)
+    % 3. Check that means (avg) are calculated correctly
 
     % Preallocate these arrays. Should probably be done somewhere else
     GRNstruct.expressionData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
