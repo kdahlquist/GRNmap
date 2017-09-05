@@ -8,6 +8,9 @@ function computeStatistics(GRNstruct)
     % Input and output: a GRNstruct with compressMissingData having already
     %                    been called on it
 
+    %TODO ensure the loop is adjusted to properly accomdate through the new
+    %     data structure
+    
     for i = 1:length(GRNstruct.expressionData.strain)
         GRNstruct.expressionData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
         GRNstruct.expressionData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
