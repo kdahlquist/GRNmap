@@ -1,5 +1,14 @@
 function computeStatistics(GRNstruct)
-    for i = 1:length(Strain)
+
+    % USAGE: GRNstruct = computeStatistics(GRNstruct)
+    %
+    % Purpose: perform minLSE, stdev, and avg calculations and stores them in
+    %          the struct.
+    %
+    % Input and output: a GRNstruct with compressMissingData having already
+    %                    been called on it
+
+    for i = 1:length(GRNstruct.expressionData.strain)
         GRNstruct.expressionData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
         GRNstruct.expressionData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
 
