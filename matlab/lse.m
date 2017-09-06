@@ -27,7 +27,7 @@ fix_P           = GRNstruct.controlParams.fix_P;
 b               = GRNstruct.GRNParams.b;
 
 GRNstruct = compressMissingData(GRNstruct);
-% GRNstruct = computeStatistics(GRNstruct);
+GRNstruct = computeStatistics(GRNstruct);
 
 populateGlobals(GRNstruct);
 
