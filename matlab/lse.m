@@ -6,7 +6,7 @@ function GRNstruct = lse(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global counter log2FC prorate strain_length b is_forced     
+global counter log2FC prorate strain_length b is_forced
 
 % We store relevant values and matrices from
 % the struct into local variables
@@ -27,6 +27,7 @@ fix_P           = GRNstruct.controlParams.fix_P;
 b               = GRNstruct.GRNParams.b;
 
 GRNstruct = compressMissingData(GRNstruct);
+% GRNstruct = computeStatistics(GRNstruct);
 
 populateGlobals(GRNstruct);
 
