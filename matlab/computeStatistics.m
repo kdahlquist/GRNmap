@@ -1,5 +1,4 @@
 function computeStatistics(GRNstruct)
-
     % USAGE: GRNstruct = computeStatistics(GRNstruct)
     %
     % Purpose: perform minLSE, stdev, and avg calculations and stores them in
