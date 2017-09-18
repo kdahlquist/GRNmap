@@ -107,9 +107,7 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
 
             testCase.GRNstruct = compressMissingData(testCase.GRNstruct);
             testCase.GRNstruct = computeStatistics(testCase.GRNstruct);
-            
-            a = testCase.GRNstruct
-            
+                        
             expectedMinLSE = testCase.GRNstruct.expectedMinLSE;
             expectedStdev =  testCase.GRNstruct.expectedStdev;
             expectedAvg = testCase.GRNstruct.expectedAvg;
@@ -129,24 +127,34 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
 
         function testWithMultipleMissingDataPoints (testCase)
             testCase.GRNstruct.expressionData = struct( ...
-                  't', struct ('indx', {[1 2]; [4 5]; [6 7 8]; [9]}, 't', {10; 20; 30; 40}), ...
+                  't', struct ('indx', {[1 2]; [3 4]; [5 6 7]; [8]}, 't', {10; 20; 30; 40}), ...
                   'raw', {[10    10    20    20    30    30    30    40;...
                            1     1.1   2     2     NaN   3     3.3     4;...
                            NaN   5     6     NaN   7     7     NaN     8;...
                            ];...
                          }...
             );
+        
+            testCase.GRNstruct.GRNParams = struct(...
+                    'num_genes', 2, ...
+                    'num_times', 4, ...
+                    'expression_timepoints', [10 20 30 40], ...
+                    'num_strains', 1 ...
+            );
 
 
-            %TODO calculate minLSE
-            testCase.GRNstruct.expectedMinLSE = [];
-            testCase.GRNstruct.expectedAvg = {[
-                                                 -0.37633430629205195    -0.706666467343382
-                                            ];
-                                            [
-                                           ]};
-            %TODO calculate actualStdev
-            testCase.GRNstruct.expectedStdev = [];
+            testCase.GRNstruct = compressMissingData(testCase.GRNstruct);
+            testCase.GRNstruct = computeStatistics(testCase.GRNstruct);
+        
+            testCase.GRNstruct.expectedMinLSE = 0.0042;
+            testCase.GRNstruct.expectedAvg = [
+                                                 1.0500    2    3.1500    4
+                                                 5         6    7         8
+                                             ];
+            testCase.GRNstruct.expectedStdev = [
+                                                 0.0707    0    0.2121    0
+                                                 0         0    0         0
+                                               ];
 
             expectedMinLSE = testCase.GRNstruct.expectedMinLSE;
             expectedStdev =  testCase.GRNstruct.expectedStdev;
@@ -156,10 +164,10 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
             actualStdev = testCase.GRNstruct.expressionData.stdev;
             actualAvg = testCase.GRNstruct.expressionData.avg;
 
-            errorStdev = abs(actualStdev - expectedStdev) < 1E-15;
+            errorStdev = abs(actualStdev - expectedStdev) < 1E-04;
             errorAvg = abs(actualAvg - expectedAvg) < 1E-04;
 
-            testCase.verifyTrue(abs(actualMinLSE - expectedMinLSE) < 1E-15);
+            testCase.verifyTrue(abs(actualMinLSE - expectedMinLSE) < 1E-04);
             testCase.verifyTrue(all(errorStdev(:)));
             testCase.verifyTrue(all(errorAvg(:)));
 
