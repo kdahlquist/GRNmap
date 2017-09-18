@@ -6,8 +6,8 @@ function GRNstruct = computeStatistics(GRNstruct)
     %
     % Input and output: a GRNstruct with compressMissingData having already
     %                    been called on it is given as input and outputs a
-    %                    GRNstruct with statistics data stored in it
-
+    %                    GRNstruct with the statistics data stored in it.
+    
     GRNstruct.GRNParams.nData   = 0;
     GRNstruct.GRNParams.minLSE  = 0;
     expression_timepoints = GRNstruct.GRNParams.expression_timepoints;
