@@ -162,8 +162,6 @@ for i = 1:length(Strain)
     % 3. Check that means (avg) are calculated correctly
 end
 
-GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE/GRNstruct.GRNParams.nData;
-
 % # of interactions between controlling and affected TF's
 % sum each row of matrix adjacency_mat (network)
 num_controlling_genes = sum(GRNstruct.GRNParams.adjacency_mat,2);

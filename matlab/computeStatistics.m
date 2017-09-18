@@ -31,8 +31,10 @@ function GRNstruct = computeStatistics(GRNstruct)
 
                 delDataAvg = dataCell(1,:) - GRNstruct.expressionData(i).avg(geneIndex,timepointIndex) * ones(1,length(dataCell(1,:)));
 
-                GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(dataCell(:));
+                GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(dataCell);
                 GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum(delDataAvg(:).^2);
             end
         end
     end
+    
+    GRNstruct.GRNParams.minLSE = GRNstruct.GRNParams.minLSE / GRNstruct.GRNParams.nData;
