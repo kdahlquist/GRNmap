@@ -77,91 +77,89 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
         end
 
         function testWithOneMissingDataPoint (testCase)
-            constantStruct = CompressMissingDataStruct.GRNstruct_with_one_NaN;
             testCase.GRNstruct.expressionData = struct( ...
-              'expressionData', struct(...
-                  't', struct ('indx', {[1 2]; [4 5]}, 't', {10; 20}), ...
+                  'Strain', {{'wt'};{'dcin5'}}, ...
+                  't', struct ('indx', {[1 2]; [3 4 5]}, 't', {10; 20}), ...
                   'raw', {[10    10    20   20   20;...
                            1.5   1     2.1  2    NaN;...
                            3     3     4    4.6    4.3;...
-                          ];
-
-                          [10    10     20    20    20;...
-                           1.2   1      2.4   2     2;...
-                           3.4   3.3    4.3     4     4.9;...
                           ]}...
-                 )...
-            );
+              );
+            testCase.GRNstruct.GRNParams = struct(...
+                 'num_genes', 2, ...
+                 'num_times', 2, ...
+                 'expression_timepoints', [10 20], ...
+                 'num_strains', 2 ...
+             );
+          
+           
             %TODO calculate minLSE
-            testCase.GRNstruct.actualMinLSE = 0;
-            testCase.GRNstruct.actualAvg = {[
-
-                                             ]};
-            testCase.GRNstruct.actualStdev = {[
+            testCase.GRNstruct.expectedMinLSE = 0;
+            testCase.GRNstruct.expectedAvg = [
+                                              1.2500    2.0500
+                                              3         4.3000
+                                             ];
+                                             
+            testCase.GRNstruct.expectedStdev = [
                                                 0.3536    0.0707
                                                 0         0.3000
-                                           ];[
-                                                0.1414    0.2309
-                                                0.0707    0.4583
-                                           ]};
+                                               ];
 
-            testCase.GRNstruct = compressMissingData(testStruct);
-            expectedMinLSE = constantStruct.GRNParams.minLSE;
-            expectedStdev = constantStruct.expressionData.stdev;
-            expectedAvg = constantStruct.expressionData.avg;
+            testCase.GRNstruct = compressMissingData(testCase.GRNstruct);
+            testCase.GRNstruct = computeStatistics(testCase.GRNstruct);
+            
+            expectedMinLSE = testCase.GRNstruct.expectedMinLSE;
+            expectedStdev =  testCase.GRNstruct.expectedStdev;
+            expectedAvg = testCase.GRNstruct.expectedAvg;
+            
+            actualMinLSE = testCase.GRNstruct.GRNParams.minLSE;
+            actualStdev = testCase.GRNstruct.expressionData.stdev;
+            actualAvg = testCase.GRNstruct.expressionData.avg;
 
-            actualMinLSE = testStruct.GRNParams.minLSE;
-            actualStdev = testStruct.expressionData.stdev;
-            actualAvg = testStruct.expressionData.avg;
+            errorStdev = abs(actualStdev - expectedStdev) < 1E-04;
+            errorAvg = abs(actualAvg - expectedAvg) < 1E-04;
 
-            testCase.verifyEqual(abs(actualMinLSE - expectedMinLSE) < 1E-17);
-            testCase.verifyEqual(actualStdev, expectedStdev);
-            testCase.verifyEqual(actualAvg, expectedAvg);
+            testCase.verifyTrue(abs(actualMinLSE - expectedMinLSE) < 1E-15);
+            testCase.verifyTrue(all(errorStdev(:)));
+            testCase.verifyTrue(all(errorAvg(:)));
+
         end
 
         function testWithMultipleMissingDataPoints (testCase)
-            constantStruct = ConstantGRNstructs.MM_estimation_fixP0_graph;
             testCase.GRNstruct.expressionData = struct( ...
-              'expressionData', struct(...
-                  't', struct ('indx', {[1 2]; [4 5]}, 't', {10; 20}), ...
+                  't', struct ('indx', {[1 2]; [4 5]; [6 7 8]; [9]}, 't', {10; 20; 30; 40}), ...
                   'raw', {[10    10    20    20    30    30    30    40;...
                            1     1.1   2     2     NaN   3     3.3     4;...
                            NaN   5     6     NaN   7     7     NaN     8;...
-                           ];
-
-                           [10   10    20    20    30    30    30    40;...
-                            1    1     2     2     3     3     3     4;...
-                            5    5     6     6.1   7     7     7    8;...
-                            ]}...
-                 )...
+                           ];...
+                         }...
             );
 
 
             %TODO calculate minLSE
-            testCase.GRNstruct.actualMinLSE = [];
-            testCase.GRNstruct.actualAvg = {[
+            testCase.GRNstruct.expectedMinLSE = [];
+            testCase.GRNstruct.expectedAvg = {[
                                                  -0.37633430629205195    -0.706666467343382
-
-
                                             ];
                                             [
                                            ]};
             %TODO calculate actualStdev
-            testCase.GRNstruct.actualStdev = [];
+            testCase.GRNstruct.expectedStdev = [];
 
+            expectedMinLSE = testCase.GRNstruct.expectedMinLSE;
+            expectedStdev =  testCase.GRNstruct.expectedStdev;
+            expectedAvg = testCase.GRNstruct.expectedAvg;
+            
+            actualMinLSE = testCase.GRNstruct.GRNParams.minLSE;
+            actualStdev = testCase.GRNstruct.expressionData.stdev;
+            actualAvg = testCase.GRNstruct.expressionData.avg;
 
-            testCase.GRNstruct = compressMissingData(testStruct);
-            expectedMinLSE = constantStruct.GRNParams.minLSE;
-            expectedStdev = constantStruct.expressionData.stdev;
-            expectedAvg = constantStruct.expressionData.avg;
+            errorStdev = abs(actualStdev - expectedStdev) < 1E-15;
+            errorAvg = abs(actualAvg - expectedAvg) < 1E-04;
 
-            actualMinLSE = testStruct.GRNParams.minLSE;
-            actualStdev = testStruct.expressionData.stdev;
-            actualAvg = testStruct.expressionData.avg;
-
-            testCase.verifyEqual(actualMinLSE, expectedMinLSE);
-            testCase.verifyEqual(actualStdev, expectedStdev);
-            testCase.verifyEqual(actualAvg, expectedAvg);
+            testCase.verifyTrue(abs(actualMinLSE - expectedMinLSE) < 1E-15);
+            testCase.verifyTrue(all(errorStdev(:)));
+            testCase.verifyTrue(all(errorAvg(:)));
 
         end
     end
