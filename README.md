@@ -1,5 +1,3 @@
-﻿sample edit
-
 # GRNmap:  Gene Regulatory Network modeling and parameter estimation
 
 ## About GRNmap
