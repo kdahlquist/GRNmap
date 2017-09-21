@@ -153,13 +153,6 @@ for i = 1:length(Strain)
     end
     % GRNstruct.expressionData data for all strains
     % GRNstruct.expressionData(i).raw  = (GRNstruct.expressionData(i).d(2:end,:));
-
-    % TODO Move the code below into a function of its own, and call that function
-    %      only after 'compressMissingData' is called.
-    %
-    % 1. Check that minLSE is calculated correctly (#353)
-    % 2. Check that sigmas (stdev) are calculated correctly (#352)
-    % 3. Check that means (avg) are calculated correctly
 end
 
 % # of interactions between controlling and affected TF's
