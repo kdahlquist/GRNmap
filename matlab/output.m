@@ -125,7 +125,7 @@ if strcmpi(production_function, 'Sigmoid')
             outputpro{is_forced(ii)+1,2} = estimated_guesses(ii+num_edges);
         end
         for ii = 1:length(GRNstruct.GRNParams.no_inputs)
-            outputpro{GRNstruct.GRNParams.no_inputs(ii)+1,3} = 0;
+            outputpro{GRNstruct.GRNParams.no_inputs(ii)+1,2} = 0;
         end
         xlswrite(output_file,outputpro,'optimized_threshold_b');
     else
