@@ -172,6 +172,13 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
             actualMinLSE = testCase.GRNstruct.GRNParams.minLSE;
             actualStdev = testCase.GRNstruct.expressionData.stdev;
             actualAvg = testCase.GRNstruct.expressionData.avg;
+            
+            
+            % Note as our tests are already truncated for simplicity's sake 
+            % while we can perform more specific calculations we deemed it 
+            % unnecessary as we are not testing specific calculation.
+            % In this case we felt rough similarity was more approriate than
+            % extreme precision.
 
             errorStdev = abs(actualStdev - expectedStdev) < 1E-04;
             errorAvg = abs(actualAvg - expectedAvg) < 1E-04;
@@ -220,7 +227,7 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
             actualMinLSE = testCase.GRNstruct.GRNParams.minLSE;
             actualStdev = testCase.GRNstruct.expressionData.stdev;
             actualAvg = testCase.GRNstruct.expressionData.avg;
-
+            
             errorStdev = abs(actualStdev - expectedStdev) < 1E-04;
             errorAvg = abs(actualAvg - expectedAvg) < 1E-04;
 
