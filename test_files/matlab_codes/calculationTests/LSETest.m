@@ -61,23 +61,30 @@ classdef LSETest < matlab.unittest.TestCase
        end
 
        function testInitialGuessesIsCorrect (testCase)
-
+           actual = testCase.GRNstruct.locals.initial_guesses;
+           expected = 0;
+           testCase.verifyEqual(actual, expected);
        end
 
-       function testEstimatedGuessesIsCorrect (testCase)
-
+       function testEstimatedGuessesIsEqualToInitialGuesses (testCase)
+           if testCase.GRNstruct.controlParams.estimate_params
+               actual = testCase.GRNstruct.locals.estimated_guesses;
+               expected = testCase.GRNstruct.locals.initial_guesses;
+               testCase.verifyEqual(actual, expected);
+           end
        end
 
        function testLSEFinalIsCorrect (testCase)
-
-       end
-
-       function testStrainDataIsCorrect (testCase)
-
+           if testCase.GRNstruct.controlParams.estimate_params
+               actual = testCase.GRNstruct;
+               expected = 0;
+           end
        end
 
        function testLSE_0IsCorrect (testCase)
-
+           actual = testCase.GRNstruct.GRNOutput.lse_0;
+           expected = general_least_squares_error(testCase.GRNstruct.locals.initial_guesses);
+           testCase.verifyEqual(actual, expected);
        end
 
    end
