@@ -61,6 +61,7 @@ classdef LSETest < matlab.unittest.TestCase
        end
 
        function testInitialGuessesIsCorrect (testCase)
+           %TODO%
            actual = testCase.GRNstruct.locals.initial_guesses;
            expected = 0;
            testCase.verifyEqual(actual, expected);
@@ -76,14 +77,15 @@ classdef LSETest < matlab.unittest.TestCase
 
        function testLSEFinalIsCorrect (testCase)
            if testCase.GRNstruct.controlParams.estimate_params
-               actual = testCase.GRNstruct;
-               expected = 0;
+               actual = testCase.GRNstruct.GRNOutput.lse_final;
+               expected = 0.001761881584203;
+               testCase.verifyEqual(actual, expected);
            end
        end
 
        function testLSE_0IsCorrect (testCase)
            actual = testCase.GRNstruct.GRNOutput.lse_0;
-           expected = general_least_squares_error(testCase.GRNstruct.locals.initial_guesses);
+           expected = 0.047177143360482;
            testCase.verifyEqual(actual, expected);
        end
 
