@@ -31,7 +31,7 @@ onlyShortTestsSuite = calculationSuite.selectIf( ...
 
 % onlyReadInputSuite = excelSuite.selectIf(HasName(ContainsSubstring('ReadInputSheetTest')));
 
-allSuites = [dataStructureSuite, excelSuite, calculationSuite];
+allSuites = [dataStructureSuite, excelSuite, onlyShortTestsSuite];
 
 warning('on', 'convertToNestedStructure:SingleReplicateData');
 
