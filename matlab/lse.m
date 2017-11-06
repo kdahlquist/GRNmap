@@ -33,7 +33,7 @@ populateGlobals(GRNstruct);
 
 % initial_guesses contains all weights, and optionally the threshholds for
 % controlled genes and optionally the production rates
-initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P),1);
+initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P), 1);
 
 % We read across the weight matrix row by row and add all nonzero entries
 % to the initial_guesses vector.
