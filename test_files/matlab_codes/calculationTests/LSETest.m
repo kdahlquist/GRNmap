@@ -49,26 +49,24 @@ classdef LSETest < matlab.unittest.TestCase
    end
 
    methods (Test)
-       function testGlobalCounterIsNotZeroIfEstimating (testCase)
-           global counter
-
+       function testLocalCounterIsNotZeroIfEstimating (testCase)
+           
            if testCase.GRNstruct.controlParams.estimate_params
                % counter for 4-gene 6-edge Sigmoid estimation fix- b=0, P=0 >= 1600
-               testCase.verifyTrue (counter ~= 0);
+               testCase.verifyTrue(testCase.GRNstruct.GRNOutput.counter ~= 0);
            else
-               testCase.verifyEqual (counter, 0);
+               testCase.verifyEqual(testCase.GRNstruct.GRNOutput.counter, 0);
            end
        end
 
        function testInitialGuessesIsCorrect (testCase)
-           %TODO%
            actual = testCase.GRNstruct.locals.initial_guesses;
-           expected = 0;
+           expected = [1; 1; 1; 1; 1; 1; 0; 0; 0; 0; 0.5000; 1; 2; 1;];
            testCase.verifyEqual(actual, expected);
        end
 
        function testEstimatedGuessesIsEqualToInitialGuesses (testCase)
-           if testCase.GRNstruct.controlParams.estimate_params
+           if ~testCase.GRNstruct.controlParams.estimate_params
                actual = testCase.GRNstruct.locals.estimated_guesses;
                expected = testCase.GRNstruct.locals.initial_guesses;
                testCase.verifyEqual(actual, expected);
@@ -79,14 +77,14 @@ classdef LSETest < matlab.unittest.TestCase
            if testCase.GRNstruct.controlParams.estimate_params
                actual = testCase.GRNstruct.GRNOutput.lse_final;
                expected = 0.001761881584203;
-               testCase.verifyEqual(actual, expected);
+               testCase.verifyTrue(abs(actual - expected) < 1E-14);
            end
        end
 
        function testLSE_0IsCorrect (testCase)
            actual = testCase.GRNstruct.GRNOutput.lse_0;
            expected = 0.047177143360482;
-           testCase.verifyEqual(actual, expected);
+           testCase.verifyTrue(abs(actual - expected) < 1E-16);
        end
 
    end
