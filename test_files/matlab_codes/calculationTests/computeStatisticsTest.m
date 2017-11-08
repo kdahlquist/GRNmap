@@ -172,10 +172,10 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
             actualMinLSE = testCase.GRNstruct.GRNParams.minLSE;
             actualStdev = testCase.GRNstruct.expressionData.stdev;
             actualAvg = testCase.GRNstruct.expressionData.avg;
-            
-            
-            % Note as our tests are already truncated for simplicity's sake 
-            % while we can perform more specific calculations we deemed it 
+
+
+            % Note as our tests are already truncated for simplicity's sake
+            % while we can perform more specific calculations we deemed it
             % unnecessary as we are not testing specific calculation.
             % In this case we felt rough similarity was more approriate than
             % extreme precision.
@@ -227,7 +227,7 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
             actualMinLSE = testCase.GRNstruct.GRNParams.minLSE;
             actualStdev = testCase.GRNstruct.expressionData.stdev;
             actualAvg = testCase.GRNstruct.expressionData.avg;
-            
+
             errorStdev = abs(actualStdev - expectedStdev) < 1E-04;
             errorAvg = abs(actualAvg - expectedAvg) < 1E-04;
 
@@ -284,7 +284,7 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
             testCase.verifyTrue(all(errorAvg(:)));
 
         end
-        
+
          function testWithZerosAndNegativeNumbers (testCase)
             testCase.GRNstruct.expressionData = struct( ...
                   'Strain', {{'wt'}}, ...
@@ -330,7 +330,52 @@ classdef computeStatisticsTest < matlab.unittest.TestCase
             testCase.verifyTrue(abs(actualMinLSE - expectedMinLSE) < 1E-04);
             testCase.verifyTrue(all(errorStdev(:)));
             testCase.verifyTrue(all(errorAvg(:)));
-
         end
+
+        function testWithAllZeros(testCase)
+           testCase.GRNstruct.expressionData = struct( ...
+                 'Strain', {{'wt'}}, ...
+                 't', struct ('indx', {[1 2]; [3 4]; [5 6]; [7]}, 't', {10; 20; 30; 40}), ...
+                 'raw', {[10    10    20    20    30    30     40
+                          0     0     0     0     0     0      0
+                          0     0     0     0     0     0      0
+                         ]}...
+             );
+           testCase.GRNstruct.GRNParams = struct(...
+                'num_genes', 2, ...
+                'num_times', 4, ...
+                'expression_timepoints', [10 20 30 40], ...
+                'num_strains', 1 ...
+            );
+
+
+           testCase.GRNstruct.expectedMinLSE = 0;
+           testCase.GRNstruct.expectedAvg = [
+                                             0    0    0    0;
+                                             0    0    0    0;
+                                            ];
+
+           testCase.GRNstruct.expectedStdev = [
+                                               0    0    0    0;
+                                               0    0    0    0;
+                                              ];
+           testCase.GRNstruct = compressMissingData(testCase.GRNstruct);
+           testCase.GRNstruct = computeStatistics(testCase.GRNstruct);
+
+           expectedMinLSE = testCase.GRNstruct.expectedMinLSE;
+           expectedStdev =  testCase.GRNstruct.expectedStdev;
+           expectedAvg = testCase.GRNstruct.expectedAvg;
+
+           actualMinLSE = testCase.GRNstruct.GRNParams.minLSE;
+           actualStdev = testCase.GRNstruct.expressionData.stdev;
+           actualAvg = testCase.GRNstruct.expressionData.avg;
+
+           errorStdev = abs(actualStdev - expectedStdev) < 1E-04;
+           errorAvg = abs(actualAvg - expectedAvg) < 1E-04;
+
+           testCase.verifyTrue(abs(actualMinLSE - expectedMinLSE) < 1E-04);
+           testCase.verifyTrue(all(errorStdev(:)));
+           testCase.verifyTrue(all(errorAvg(:)));
+       end
     end
 end
