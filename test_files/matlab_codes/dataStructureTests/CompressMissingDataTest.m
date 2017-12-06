@@ -2,16 +2,15 @@ classdef CompressMissingDataTest < matlab.unittest.TestCase
 
     properties
         GRNstruct
+        test_dir = [pwd '\..\..\compress_missing_data_test']
     end
-    
-    
 
     methods (TestClassTeardown)
         function addGRNmapPath (testCase) %#ok<MANU>
             addpath([pwd '\..\..\..\matlab'])
             addpath([pwd '\..\testStructs'])
         end
-        
+
         function closeErrorDialogBoxes(testCase)
             close(findall(0, 'Type', 'figure', 'Name', 'Missing Data'));
         end
@@ -57,6 +56,15 @@ classdef CompressMissingDataTest < matlab.unittest.TestCase
         function testExpressionDataStructureWithTooMuchMissingData(testCase)
             testCase.GRNstruct = CompressMissingDataStruct.GRNstruct_with_too_much_missing_data;
             testCase.verifyError(@()compressMissingData(testCase.GRNstruct), 'convertToNestedStructure:MissingData');
+        end
+
+        function testWithReadInputSheet(testCase)
+            testCase.GRNstruct.inputFile = [testCase.test_dir '\4-genes_6-edges-compress-missing-data-sheet.xlsx'];
+            testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
+            actual = compressMissingData(testCase.GRNstruct);
+            expected = CompressMissingDataStruct.expected_output_for_GRNstruct_from_readinputsheet;
+            testCase.verifyEqual(actual.expressionData(1).compressed, expected.expressionData(1).compressed);
+            testCase.verifyEqual(actual.expressionData(2).compressed, expected.expressionData(2).compressed);
         end
     end
 end
