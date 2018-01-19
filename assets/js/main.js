@@ -53,6 +53,43 @@ $(function() {
             $elementToOpen.parents('.collapse:not(.in)').collapse('show');
             $elementToOpen.collapse('show');
         }
-    }  
+    }
+    // Same code as GRNSight's function to display the cookie banner
+    
+    var PRIVACY_COOKIE = "_grnsight_privacy_";
+    var checkForPrivacyCookie = function () {
+        // Thank you http://stackoverflow.com/questions/4825683/how-do-i-create-and-read-a-value-from-cookie
+        var createCookie = function (name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toGMTString();
+            }
 
+            document.cookie = name + "=" + value + expires + "; path=/";
+        };
+
+        var getCookie = function (name) {
+            if (document.cookie.length > 0) {
+                var cookieStart = document.cookie.indexOf(name + "=");
+                if (cookieStart !== -1) {
+                    cookieStart = cookieStart + name.length + 1;
+                    var cookieEnd = document.cookie.indexOf(";", cookieStart);
+                    if (cookieEnd === -1) {
+                        cookieEnd = document.cookie.length;
+                    }
+                    return unescape(document.cookie.substring(cookieStart, cookieEnd));
+                }
+            }
+
+            return "";
+        };
+
+        if (!getCookie(PRIVACY_COOKIE)) {
+            $("#cookie-notice").removeClass("hidden");
+            createCookie(PRIVACY_COOKIE, "shown", 3650);
+        }
+    };
+    
 })
