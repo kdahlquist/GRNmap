@@ -66,7 +66,7 @@ This File can be converted to a data-driven format, medium priority
         </div> <!--panel-heading-->
         <div id="HowToFormatTheInputFile" class="panel-collapse collapse">
             <div class="panel-body">
-                <h2>production_rates sheet</h2>
+                <h3>production_rates sheet</h3>
                 <p>
                     This sheet contains initial guesses for the production rate parameters,
                     <em>P</em>, for all genes in the network. Assuming that the system is in steady
@@ -79,7 +79,7 @@ This File can be converted to a data-driven format, medium priority
                     described above, rounded to four decimal places. The genes should be
                     listed in the same order in all the sheets in the Excel workbook.
                 </p>
-                <h2>degredation_rates sheet</h2>
+                <h3>degredation_rates sheet</h3>
                 <p>
                     This sheet contains degradation rates for all genes in the network,
                     which are provided by the user. Currently, the Dahlquist Lab is using
@@ -94,7 +94,7 @@ This File can be converted to a data-driven format, medium priority
                     four decimal places. The genes should be listed in the same order in all the
                     sheets in the Excel workbook.
                 </p>
-                <h2>Expression Data Sheets for Individual Yeast Strains</h2>
+                <h3>Expression Data Sheets for Individual Yeast Strains</h3>
                 <p>
                     Expression data can be provided for either a single strain or multiple strains of yeast
                     (for example, the wild type strain and a transcription factor deletion strain).
@@ -129,31 +129,31 @@ This File can be converted to a data-driven format, medium priority
                     21-genes_50-edges_Dahlquist-data_Sigmoid_estimation.xls input workbooks found in the test_files
                     > data_samples directory on GitHub has the following STRAIN_log2_expression sheets:
                 </p>
-                <h3>wt_log2_expression sheet</h3>
+                <h4>wt_log2_expression sheet</h4>
                 <p>
                    Log2 fold change expression data from the BY4741 wild type strain at 15, 30, and 60
                    minutes of cold shock.</p>
-                <h3>dcin5_log2_expression sheet</h3>
+                <h4>dcin5_log2_expression sheet</h4>
                 <p>
                     Log2 fold change expression data from the BY4741 <em>CIN5</em>
                     deletion strain at 15, 30, and 60 minutes of cold shock.
                 </p>
-                <h3>dgln3_log2_expression sheet</h3>
+                <h4>dgln3_log2_expression sheet</h4>
                 <p>
                     Log2 fold change expression data from the BY4741 <em>GLN3</em>
                     deletion strain at 15, 30, and 60 minutes of cold shock.
                 </p>
-                <h3>dhmo1_log2_expression sheet</h3>
+                <h4>dhmo1_log2_expression sheet</h4>
                 <p>
                     Log2 fold change expression data from the BY4741 <em>HMO1</em>
                     deletion strain at 15, 30, and 60 minutes of cold shock.
                 </p>
-                <h3>dzap1_log2_expression sheet</h3>
+                <h4>dzap1_log2_expression sheet</h4>
                 <p>
                     Log2 fold change expression data from the BY4741 <em>ZAP1</em>
                     deletion strain at 15, 30, and 60 minutes of cold shock.
                 </p>
-                <h2>network sheet</h2>
+                <h3>network sheet</h3>
                 <p>
                     Adjacency matrix representation of the gene regulatory network.
                     The columns correspond to the transcription factors and the rows correspond
@@ -189,14 +189,14 @@ This File can be converted to a data-driven format, medium priority
                         </li>
                     </ul>
                 </p>
-                <h2>network_weights sheet</h2>
+                <h3>network_weights sheet</h3>
                 <p>
                     The same format as the “network” sheet above. These are the initial guesses for the
                     estimation of the weight parameters, w. Since these weights are initial guesses which
                     will be optimized by GRNmap, the content of this sheet can be identical to the network
                     sheet.
                 </p>
-                <h2>optimization_parameters sheet</h2>
+                <h3>optimization_parameters sheet</h3>
                 <p>
                     The optimization_parameters sheet should have two columns (from left to right) entitled,
                     "optimization_parameter" and "value". The "optimization_parameter" column should contain the following:
@@ -206,7 +206,7 @@ This File can be converted to a data-driven format, medium priority
                             alpha: Penalty term weighting (from the L-curve analysis)
                         </li>
                         <li>
-                            kk_max: Number of times to re-run the optimization loop. In some cases re-starting the optimization loop can improve performance of the estimation.  
+                            kk_max: Number of times to re-run the optimization loop. In some cases re-starting the optimization loop can improve performance of the estimation.
                         </li>
                         <li>
                             MaxIter: Number of times MATLAB iterates through the optimization scheme. If this is set too low, MATLAB will stop before the parameters are optimized.
@@ -269,13 +269,13 @@ This File can be converted to a data-driven format, medium priority
                             same units (e.g. minutes).
                         </li>
                     </ul>
-                <h2>threshold_b sheet</h2>
+                <h3>threshold_b sheet</h3>
                 <p>
                     These are the initial guesses for the estimation of the <em>threshold_b</em> parameters.
                     There should be two columns. The left-most column should contain the header "id"
                     and list the standard names for the genes in the model in the same order as in the
                     other sheets. The second column should have the header "threshold_b" and should contain
-                     the initial guesses, typically all 0.
+                    the initial guesses, typically all 0.
                 </p>
 
             </div>
@@ -292,16 +292,109 @@ This File can be converted to a data-driven format, medium priority
         </div> <!--panel-heading-->
         <div id="HowToInterpretTheOutputFile" class="panel-collapse collapse">
             <div class="panel-body">
-                <em>Under construction.</em>
+                <h3>STRAIN_log2_optimized_expression sheet</h3>
+                <p>
+                    One worksheet is created for each strain specified in the optimization_parameters sheet in the input workbook.
+                    The word "STRAIN" is replaced by the actual strain designation, e.g., wt_log2_optimized_expression.
+                    This worksheet contains the "SystematicName" and the "StandardName" in the first two columns in
+                    accordance to the "STRAIN_log2_expression" sheets from the input file. The rest of row 1 contains
+                    the time points specified by the "simtime" parameter in the optimization_parameters worksheet in the input
+                    workbook. The values in each cell for the remainder of the sheet correspond to the simulated log2 fold
+                    change expression values for each gene for each timepoint. The program evaluates the differential equation
+                    for each gene using the <em>w</em>, <em>P</em>, and <em>b</em> parameters. If the user has chosen to run a forward
+                    simulation only, these parameters are taken from the network_weights, production_rates, and
+                    threshold_b worksheets, respectively. If the user has chosen to estimate parameters, the <em>w</em>
+                    parameter is taken from the network_optimized_weights sheet. If <em>P</em> has been estimated, its
+                    value is taken from the optimized_production_rates sheet; if <em>b</em> has been estimated, its value
+                    is taken from the optimized_threshold_b sheet.
+                </p>
+                <h3>STRAIN_sigmas sheet</h3>
+                <p>
+                    One worksheet is created for each strain specified in the optimization_parameters sheet
+                    in the input workbook. The word "STRAIN" is replaced by the actual strain designation,
+                    e.g., wt_sigmas. This worksheet contains the "SystematicName" and the "StandardName"
+                    in the first two columns in accordance to the "STRAIN_log2_expression" sheets from
+                    the input file. There is then one column for each timepoint specified by the "time" parameter in the
+                    optimization_diagnostics sheet in the input workbook. The values are the standard deviations of the
+                    log2 fold changes of expression for each gene and timepoint computed from the data contained in the
+                    corresponding STRAIN_log2_expression sheet.
+                </p>
+                <h3>optimized_production_rates sheet</h3>
+                <p>
+                    If fix_P = 0 in the optimization_parameters sheet in the input workbook, the production rates
+                    are estimated and this sheet is created. This sheet contains the "SystematicName" and "StandardName"
+                    just like in the production_rates sheet in the input workbook.
+                    The "prorate" column contains the optimized production rates from the estimation procedure.
+                </p>
+                <h3>optimized_threshold_b sheet</h3>
+                <p>
+                    If fix_b = 0 from the optimization parameters sheet in the input workbook,
+                    the threshold (<em>b</em>) parameters are estimated and this sheet is created.
+                    This sheet contains the "SystematicName" and "StandardName" just like in the
+                    worksheet described above. The third column, entitled "b", contains the optimized
+                    threshold b parameters for each gene in the network.
+                </p>
+                <h3>network_optimized_weights sheet</h3>
+                <p>
+                    If estimateParams = 1 in the optimization_parameters sheet in the input workbook,
+                    the weight parameters, w, are estimated and this sheet is created. The format of
+                    this sheet is the same as the "network" sheet in the input workbook. However, the
+                    "1's" of the adjacency matrix are replaced by the estimated w parameters. These
+                    values represent the magnitude and sign of the regulatory relationship between
+                    the transcription factors (genes located in the very first row) and the target
+                    genes (genes in the leftmost column). Cell A1 contains the text "rows genes
+                    affected/cols genes controlling" as a reminder of the direction of the regulatory
+                    relationships specified by the adjacency matrix. If the value in the cell is negative,
+                    the target gene is repressed. If the value is positive, the target gene is activated.
+                    A value of 0 means that there is no regulatory relationship between those two transcription
+                    factors.
+                </p>
+                <h3>optimization_diagnostics sheet</h3>
+                <p>
+                    This worksheet contains some diagnostic information about the estimation that can
+                    be used to evaluate the performance of the model. The following information is presented.
+                </p>
+                <ul>
+                    <li>Top block</li>
+                    <ul>
+                        <li>
+                            LSE: the value of the overall least squares error for the estimation
+                        </li>
+                        <li>
+                            Penalty: the value of the sum of squares of all parameters being estimated
+                        </li>
+                        <li>
+                            min LSE: the value of the minimum least squares error possible for the estimation
+                            that could be achieved given this particular set of expression data.
+                            This value is obtained from the variance of the flask data for each time and for each gene
+                        </li>
+                        <li>
+                            iteration count: the count of the total number times the least squares function is
+                            evaluated by the optimization algorithm at the termination of the program
+                        </li>
+                    </ul>
+                    <li>The bottom block of data has gene-specific information.</li>
+                    <ul>
+                        <li>
+                            The left column, entitled "Gene", lists the IDs of the genes in the regulatory network,
+                            in the order they appear in the other worksheets.
+                        </li>
+                        <li>
+                            Each column to the right is entitled "STRAIN SSE", where the word STRAIN is replaced by
+                            the strain designation from the optimization_parameters sheet in the input workbook, for
+                            example "wt MSE". The MSE value is the mean squared error comparing the simulated expression
+                            data found in that particular strain's STRAIN_log2_optimized_expression sheet to the experimental
+                            data found in the corresponding STRAIN_log2_expression sheet. The MSE gives an indication of how
+                            well the model fits each individual gene's expression data, whereas the LSE value in the top block
+                            indicates the overall performance of the model across all the genes.
+                        </li>
+                    </ul>
+                </ul>
             </div>
         </div>
     </div>
 
 </div>
-
-<p>
-     This page is still under construction. For current documentation, please see the GRNmap <a href='https://github.com/kdahlquist/GRNmap/wiki/How-to-format-the-input-file-for-GRNmap'>wiki</a>.
-</p>
 
 <!--                <h3>How to format the input file for GRNmap</h3>
 <div id='accordian' class='panel-group'>
