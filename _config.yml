@@ -1,5 +1,4 @@
 # Dependencies
-markdown:    rdiscount
 highlighter: rouge
 
 # Permalinks
