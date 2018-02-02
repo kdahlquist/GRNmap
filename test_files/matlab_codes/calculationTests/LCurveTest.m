@@ -53,7 +53,8 @@ classdef LCurveTest < matlab.unittest.TestCase
                for i = 1:length(testCase.alphaList) - 1
                    [output_values, output_texts] = xlsread([tempdir fileName '_' num2str(i) '_output.xlsx'], 'optimized_threshold_b');
                    [input_values, input_texts] = xlsread([tempdir fileName '_' num2str(i+1) '.xlsx'], 'threshold_b');
-
+                    
+                   testCase.verifyEqual(size(output_texts, 2), 2, testCase.general_LCurve_file);
                    testCase.verifyEqual(output_values, input_values, testCase.general_LCurve_file);
                    testCase.verifyEqual(output_texts, input_texts, testCase.general_LCurve_file);
                end
