@@ -80,14 +80,11 @@ iframe.embedded-demo {
 #navBar {
 	margin-top:20px;
 	padding-top:1px;
+	padding-left: 20px;
 	width: 160px;
 	height:300px;
 	position: absolute;
-}
-
-#stickyBar.affix {
-	top: 0px;
-}
+} 
 
 .nav {
 	list-style-type: none;
