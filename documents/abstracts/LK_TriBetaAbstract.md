@@ -1,4 +1,6 @@
-Lauren Kelly, Margaret ONeil, Kam Dahlquist, and Ben Fitzpatrick. Epsilon Delta, Loyola Marymount University.  Using Regulatory Dynamics to Investigate the Interactions between Transcription Factors of a Gene Regulatory Network that may Control the Cold Shock Response in Saccharomyces Cerevisiae
+Lauren M. Kelly, Margaret J. ONeil, Ben G. Fitzpatrick, and Kam D. Dahlquist, Epsilon Delta, Loyola Marymount University.  
+
+Modeling of Gene Regulatory Network Dynamics Predicts which Regulatory Relationships are Important for Controlling the Cold Shock Response in Saccharomyces Cerevisiae
 
 
 
