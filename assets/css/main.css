@@ -84,7 +84,7 @@ iframe.embedded-demo {
 	width: 160px;
 	height:300px;
 	position: absolute;
-} 
+}
 
 .nav {
 	list-style-type: none;
@@ -342,4 +342,9 @@ html {
 .cookie-action:active {
 	color: #125432;
     text-decoration: underline;
+}
+
+.carousel-image {
+	height:1%;
+	max-width:100%;
 }
