@@ -1,6 +1,6 @@
 ---
 layout: default
-title: GRNmap - Home
+title: GRNmap - Publications
 subTitle: GRNmap
 lastModified: 6/21/2016
 ---
@@ -47,6 +47,58 @@ This File can be converted to a data-driven format, low-priority
         </div><!-- panel-heading -->
         <div id="presentations" class="panel-collapse collapse">
             <div class="panel-body">
+                <p class="abstract">
+                    <b><a href="https://academics.lmu.edu/media/lmuacademics/undergraduateresearchsymposium/documents/URS9_Program_LONG_with_Pages.pdf">Loyola Marymount University 9<sup>th</sup> Annual Undergraduate Research Symposium</a></b><br><br>
+                    <b>March 25, 2017</b><br>
+                    Systems Modeling and Statistical Analysis Allows Comparison in the Response to Cold Shock in <i>Saccharomyces cerevisiae</i> Between HAP4 and Randomly Generated Networks<br>
+                    <b>Kristen M. Horstmann</b>, Ben J. Fitzpatrick, and Kam D. Dahlquist<br><br>
+                    <b>Abstract</b><br>
+                    A gene regulatory network (GRN) is a set of transcription factors which regulate the level of
+                    expression of genes encoding other transcription factors. The dynamics of a GRN show how
+                    gene expression in the network changes over time. A MATLAB software package called
+                    GRNmap uses ordinary differential equations to model the dynamics of medium-scale GRNs and
+                    estimates production rates, expression thresholds, and regulatory weights for each transcription
+                    factor in the network based on DNA microarray data. Microarray data were obtained from a
+                    Saccharomyces cerevisiae strain deleted for the Hap4 transcription factor and subjected to cold
+                    shock at 13°C for 15, 30, and 60 minutes. A modified ANOVA showed that 1794 genes had a
+                    log2 fold change significantly different than zero at any of the time points. These genes were
+                    submitted to the YEASTRACT database to determine which transcription factors regulated them.
+                    From this set, we generated a database-derived candidate GRN of 15 genes and 28 edges as well
+                    as random networks of similar size. GRNmap was used to estimate the production rates,
+                    expression thresholds, and regulatory weights for these networks. The Gephi software was used
+                    to analyze the networks’ structures in terms of the node in- and out-degrees, eccentricity, and
+                    betweenness centrality. We found that the random networks had different degree distributions
+                    than the database-derived network. Also, Hap4 had a different betweenness centrality value in
+                    the random networks, which affected the estimated parameter values, helping us further
+                    understand its role in the cold shock response in yeast.<br><br>
+                    To download the presentation slides, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/presentations/Horstmann_LMU-Symposium_20170325_talk.pptx?raw=true'>here</a>.
+                 <br>
+                 <br>
+                 <br>
+                    Comparison of the regulatory dynamics of related small gene regulatory networks that
+                    control the cold shock response in <i>Saccharomyces cerevisiae</i><br>
+                    <b>Natalie E. Williams</b>, Kam D. Dahlquist, Ben G. Fitzpatrick<br><br>
+                    <b>Abstract</b><br>
+                    The Dahlquist lab has investigated the global, transcriptional response of <i>Sacchromyces
+                    cerevisiae</i>, baker’s yeast, to the environmental stress of cold shock using DNA microarrays in
+                    the wild type strain and five strains deleted for a particular regulatory transcription factor. Gene
+                    regulatory networks (GRNs) consist of transcription factors, genes, and the regulatory
+                    connections between them that control the resulting mRNA and protein expression levels. A
+                    family of six related GRNs were derived from the YEASTRACT database which ranged in size
+                    from 15 to 20 genes and 27 to 36 edges. We used mathematical modeling to determine the
+                    dynamics of these GRNs to determine the relative influence of each transcription factor in the
+                    network. We then compared the modeling results from the database-derived network to random
+                    networks with the same number of genes and edges. An initial sample of ten random networks
+                    were generated. After performing parameter estimation, we found that the database-derived
+                    networks performed better with smaller least-squares error values than seven of the ten random
+                    networks. To perform a more robust analysis, a larger collection of random networks was
+                    generated. Comparisons made between the random networks and the database-derived networks
+                    consistently showed better modeling of the database-derived networks. These comparisons also
+                    revealed key network motifs in both the database-derived and random networks that correlated
+                    with better fits to the data. <br><br>
+                    To download the presentation slides, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/presentations/LMUURS17_NEW.pptx?raw=true'>here</a>.
+                </p>
+                <br>
                 <p class="abstract">
                     <b><a href="https://www.open-bio.org/wiki/BOSC_2016">Bioinformatics Open Source Conference (BOSC) 2016, Orlando, FL</a></b><br><br>
                     July 9, 2016<br>
@@ -126,6 +178,108 @@ This File can be converted to a data-driven format, low-priority
         <div id="posters" class="panel-collapse collapse">
             <div class="panel-body">
                 <p class="abstract">
+                    <b><a href="https://www.sccur.org/sccur/fall_2017_conference/poster_3/107/">Southern California Conference for Undergraduate Research, California State Polytechnic University, Pomona</a></b><br><br>
+                    <b>November 18, 2017</b><br>
+                    Restructuring the Data Architecture of GRNmap, a Gene Regulatory Network Modeling Application<br>
+                    <b>Chukwuemeka E Azinge</b>, <b>Justin Kyle T. Torres</b>, John David N. Dionisio, Ben G. Fitzpatrick, and Kam D. Dahlquist<br><br>
+                    <b>Abstract</b><br>
+                    A gene regulatory network (GRN) consists of a set of transcription factors that regulate the level of expression of genes encoding other transcription factors. The dynamics of a GRN describe how gene expression in the network changes over time. GRNmap is a complex MATLAB software package that uses ordinary differential equations to model the dynamics of small- to medium-scale GRNs. The program estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data, using forward simulations of model dynamics. Input is provided in the form of a multisheet Excel workbook with multiple types of data. Since our last major release, we have improved GRNmap’s usability and robustness. We changed our simple matrix into a nested cell array of matrices to handle inputs with missing values, which required a paradigm shift in our data structure. Additionally, we revisited design, implemented new features, fixed bugs, expanded the test suite, and improved documentation. We localized extraneous global variables by grouping them into a single function call to limit their scope and prevent persistence between subsequent runs, which previously led to incorrect calculations. Finally, we implemented pre-allocation of arrays which makes the program run faster as MATLAB no longer needs to calculate matrix sizes at runtime and ensures matrix operations work smoothly as this method clears previously used data to prevent persistence between runs of differently-sized networks. The open source code and executable are available for download <a href="http://kdahlquist.github.io/GRNmap/"> here </a>0under the BSD license.
+                <br>
+                </p>
+                <p class="abstract">
+                    <b><a href="https://academics.lmu.edu/media/lmuacademics/undergraduateresearchsymposium/documents/URS9_Program_LONG_with_Pages.pdf">Loyola Marymount University 9<sup>th</sup> Annual Undergraduate Research Symposium</a></b><br><br>
+                    <b>March 25, 2017</b><br>
+                    Dynamical Systems Modeling of Six Related Small Gene Regulatory Networks Suggest That the Transcription Factors CIN5, GLN3, HMO1, and YHP1 play a Role in Controlling the Cold Shock Response in<i>Saccharomyces cerevisiae</i><br>
+                    <b>Brandon J. Klein</b>, <b>Natalie E. Williams</b>, Kam D. Dahlquist, and Ben G. Fitzpatrick<br><br>
+                    <b>Abstract</b><br>
+                    A gene regulatory network (GRN) is a group of transcription factors that control the level of
+                    expression of genes encoding other transcription factors. Dynamics of GRNs illustrate how
+                    expression in the network changes over time. GRNmap, a MATLAB software package, uses
+                    differential equations to model the dynamics of medium-scale GRNs. The software estimates
+                    production rates, expression thresholds, and regulatory weights for each transcription factor in
+                    the network based on microarray data. Microarray data was obtained from a cold shock
+                    experiment where wild type budding yeast, Saccharomyces cerevisiae, and five strains from
+                    which the transcription factors Cin5, Gln3, Hap4, Hmo1, and Zap1 were deleted were subjected
+                    to cold shock at 13°C for 15, 30, and 60 minutes. Six related GRNs, which ranged from 15-20
+                    genes and 27-36 edges, were constructed using data from the YEASTRACT database. GRNmap
+                    was then used to estimate production rates, expression thresholds, and regulatory weights for
+                    each of these GRNs. Forward simulation of the model showed a good fit to the experimental
+                    data, as compared to random networks with the same genes and number of edges. The
+                    transcription factors Cin5, Gln3, Hmo1, and Yhp1 comprised a regulatory chain that stood out
+                    because the weights were consistently conserved across five of the six GRNs. These transcription
+                    factors also had among the highest total degree (in- plus out-degree) and betweenness centrality
+                    values of all the genes in the networks, suggesting that they play an important role in regulating
+                    the cold shock response in yeast. <br><br>
+                    To download this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/posters/Klein-Williams_LMU-URS-2017-Poster_20170315.pptx?raw=true'>here</a>.
+                    <br>
+                    <br>
+                    Using Graph Statistics to Investigate the Properties of Six Candidate Gene Regulatory Networks for Controlling the Cold Shock Response in <i>Saccharomyces cerevisiae</i><br>
+                    <b>Margaret J. O’Neil</b>, Kam D. Dahlquist, and Ben G. Fitzpatrick, <br><br>
+                    <b>Abstract</b><br>
+                    A gene regulatory network (GRN) is a set of transcription factors which regulate the level of
+                    expression of genes encoding other transcription factors. The dynamics of a GRN show how
+                    gene expression in the network changes over time. Microarray data were obtained from the wild
+                    type strain and five transcription factor deletion strains (Δcin5, Δgln3, Δhap4, Δhmo1, Δzap1)
+                    before cold shock at 30°C and after 15, 30, and 60 minutes of cold shock at 13°C. A modified
+                    ANOVA showed that for all networks a large number of genes had a log2 fold change
+                    significantly different than zero at any time point. These genes were submitted to the
+                    YEASTRACT database to determine which transcription factors regulated them. Data from each
+                    143
+                    strain were used to generate six candidate GRN’s of between 14 to 17 nodes and 25 to 36 edges,
+                    depending on the specific network. The open source software Gephi was used to analyze graph
+                    properties of each network. In particular, we computed in- and out-degree, betweenness
+                    centrality, eccentricity and closeness centrality. These centrality measures indicate which nodes
+                    are most easily accessed in each network, how central a node is in a network, and which nodes
+                    most frequently appear in the shortest paths of a network. From this analysis we have gained
+                    insight into role of different transcription factors. In particular, the high centralities of Cin5,
+                    Yhp1, and Hmo1 provide additional evidence of their potential importance in the gene regulatory
+                    network that controls the cold shock response in yeast<br><br>
+                    To download this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/posters/ONeil_Undergraduate_Research_Symposium_2017_poster.pptx?raw=true'>here</a>.
+                    <br>
+                    <br>
+                    Restructuring the Data Architecture of GRNmap, a Gene Regulatory Network Modeling Application<br>
+                    <b>Trixie Anne M. Roque</b>, <b>Chukwuemeka E. Azinge</b>, <b>Justin Kyle T. Torres</b>, John David N. Dionisio, Kam D. Dahlquist, and Ben G. Fitzpatrick, <br><br>
+                    <b>Abstract</b><br>
+                    A gene regulatory network (GRN) consists of a set of transcription factors that regulate the level
+                    of expression of genes encoding other transcription factors. The dynamics of a GRN describe
+                    how gene expression in the network changes over time. GRNmap is a complex MATLAB
+                    software package that uses ordinary differential equations to model the dynamics of small- to
+                    medium-scale GRNs. The program estimates production rates, expression thresholds, and
+                    regulatory weights for each transcription factor in the network based on DNA microarray data,
+                    using forward simulations of model dynamics. Since our last major release, we have focused on
+                    changes that have made GRNmap a much more robust application. We revisited the design,
+                    implemented new features, fixed bugs, added new cases to the test suite, and improved
+                    documentation. We localized extraneous global variables by grouping them into a single function
+                    call to limit their scope and prevent persistence between subsequent runs, which previously led
+                    to incorrect calculations. Additionally, we changed our simple two-dimensional matrix into a
+                    nested cell array of matrices to better handle inputs with missing values, which required a
+                    paradigm shift in how we constructed our data structure. We also implemented pre-allocation of
+                    arrays which makes the program run faster as MATLAB no longer needs to calculate matrix
+                    sizes at runtime and ensures matrix operations work smoothly as this method clears previously
+                    used data to prevent persistence between runs of differently-sized networks. The open source
+                    code and executable are available for download at <a href='http://kdahlquist.github.io/GRNmap/'>http://kdahlquist.github.io/GRNmap/</a> under
+                    the BSD license.<br><br>
+                    To download this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/posters/Roque_Azinge_Torres_URS-2017-poster.pdf?raw=true'>here</a>.
+                </p>
+                <br>
+                <p class="abstract">
+                    <b><a href="http://ccbs.uci.edu/scsbc2017">7<super>th</super> Annual Southern California Systems Biology Conference, University of California, Irvine</a></b><br><br>
+                    <b>January 28, 2017</b><br>
+                    Dynamical Systems Modeling and Gene Regulatory Network Structure Analysis Reveals HAP4's Role in Regulating the Response to Cold Shock in <i>Saccharomyces cerevisiae</i><br>
+                    <b>Kristen M. Horstmann</b>,<b>Margaret J. O’Neil</b>,  Ben G. Fitzpatrick, and Kam D. Dahlquist<br><br>
+                    <b>Abstract</b><br>
+                    A gene regulatory network (GRN) is a set of transcription factors which regulates the level of expression of genes encoding other transcription factors. The dynamics of a GRN show how gene expression in the network changes over time. A MATLAB software package called GRNmap uses ordinary differential equations to model the dynamics of medium-scale GRNs and estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on DNA microarray data. Microarray data were obtained from a Saccharomyces cerevisiae strain deleted for the Hap4 transcription factor subjected to cold shock at 13°C for 15, 30, and 60 minutes. A modified ANOVA showed that 1794 genes had a log2 fold change significantly different than zero at any of the time points. These genes were submitted to the YEASTRACT database to determine which transcription factors regulated them. From this we generated a candidate GRN of 15 genes and 28 edges. GRNmap was used to estimate the production rates, expression thresholds, and regulatory weights for this network. Forward simulation of the model showed a good fit with the experimental data.  The program Gephi was then used to analyze the network structure in terms of the node in- and out-degrees, eccentricity, and betweenness centrality. From this analysis we have gained further insight into Hap4's role in the gene regulatory network that controls the cold shock response in yeast.<br><br>
+                    To download this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/posters/Horstmann_ONeil_Southern-California-Systems-Biology-Conference_2017_poster.pptx?raw=true'>here</a>.
+                <br>
+                <br>
+                    Dynamical Systems Modeling of Six Related Small Gene Regulatory Networks Suggest That the Transcription Factors Cin5, Hmo1, Msn2, and Yhp1 Play a Role in Controlling the Cold Shock Response in <i>Saccharomyces cerevisiae</i></a><br>
+                    <b>Natalie E. Williams</b>, <b>Brandon J. Klein</b>,Ben G. Fitzpatrick, and Kam D. Dahlquist<br><br>
+                    <b>Abstract</b><br>
+                    A gene regulatory network (GRN) is a group of transcription factors that control the level of expression of genes encoding other transcription factors. Dynamics of GRNs illustrate how expression in the network changes over time. GRNmap, a MATLAB software package, uses differential equations to model the dynamics of medium-scale GRNs. The software estimates production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on microarray data. Microarray data was obtained from a cold shock experiment where wild type budding yeast, Saccharomyces cerevisiae, and five strains from which the transcription factors Cin5, Gln3, Hap4, Hmo1, and Zap1 were subjected to cold shock at 13°C for 15, 30, and 60 minutes. Six related GRNs, which ranged from 15-20 genes and 27-36 edges, were constructed using data from the YEASTRACT database. GRNmap was then used to estimate production rates, expression thresholds, and regulatory weights for each of these GRNs.  Forward simulation of the model showed a good fit to the experimental data, as compared to random networks with the same genes and number of edges.  The transcription factors Cin5, Hmo1, Msn2, and Yhp1 stood out because the dynamics of their expression varied in the different deletion strains.  They also had among the highest total degree (in- plus out-degree) and betweenness centrality values of all the genes in the networks, suggesting that they play an important role in regulating the cold shock response in yeast.<br><br>
+                    To download this poster, click <a href='https://github.com/kdahlquist/GRNmap/blob/master/documents/posters/Klein-Williams_LMU-URS-2017-Poster_20170315.pptx?raw=true'>here</a>.
+                </p>
+                <br>
+                <p class="abstract">
                     <b><a href="https://www.open-bio.org/wiki/BOSC_2016">Bioinformatics Open Source Conference (BOSC) 2016</a> and <a href="http://www.iscb.org/ismb2016">Intelligent Systems for Molecular Biology (ISMB) 2016</a>, Orlando, FL</a></b><br><br>
                     July 8-12, 2016<br>
                     GRNmap and GRNsight: open source software for dynamical systems modeling and visualization of medium-scale gene regulatory networks<br>
@@ -134,7 +288,6 @@ This File can be converted to a data-driven format, low-priority
                     Abstract: A gene regulatory network (GRN) consists of genes, transcription factors, and the regulatory connections between them that govern the level of expression of mRNA and proteins from those genes. Our open source MATLAB software package, GRNmap (<a href="http://kdahlquist.github.io/GRNmap/">http://kdahlquist.github.io/GRNmap/</a>), uses ordinary differential equations to model the dynamics of medium-scale GRNs. The program uses a penalized least squares approach (Dahlquist et al. 2015, DOI: 10.1007/s11538-015-0092-6) to estimate production rates, expression thresholds, and regulatory weights for each transcription factor in the network based on gene expression data, and then performs a forward simulation of the dynamics of the network. GRNmap has options for using a sigmoidal or Michaelis-Menten production function.  Parameters for a series of related networks, ranging in size from 15 to 35 genes, were optimized against DNA microarray data measuring the transcriptional response to cold shock in budding yeast, Saccharomyces cerevisiae, for the wild type strain and strains deleted for the transcription factors Cin5, Gln3, Hap4, Hmo1, and Zap1, giving biological insights into this process. GRNsight is an open source web application for visualizing such models of gene regulatory networks (<a href="http://dondi.github.io/GRNsight/index.html">http://dondi.github.io/GRNsight/index.html</a>). GRNsight accepts GRNmap- or user-generated Excel spreadsheets containing an adjacency matrix representation of the GRN and automatically lays out the graph. The application colors the edges and adjusts their thicknesses based on the sign (activation or repression) and the strength (magnitude) of the regulatory relationship, respectively. Users can then modify the graph to define the best visual layout for the network. This work was partially supported by NSF award 0921038.<br><br>
                      <a href="http://f1000research.com/posters/5-1618">Click here</a> to view the poster on F1000Research. <a href="//www.slideshare.net/GRNsight/dahlquist-etal-boscismb2016poster-64224013" title="Dahlquist et-al bosc-ismb_2016_poster" target="_blank">Click here</a> to view poster from <a href="//www.slideshare.net/GRNsight" target="_blank">GRNsight</a> on SlideShare.<br><br>
                 </p>
-
                 <p class="abstract">
                     <b><a href="http://experimentalbiology.org/PDFS/2016/EB-2016-Program-Web-FullProgram.aspx">Experimental Biology 2016, San Diego, CA</a></b><br><br>
                     <b>April 4, 2016</b><br>
@@ -170,6 +323,7 @@ This File can be converted to a data-driven format, low-priority
                 </p>
                 <br>
                 <p class='abstract'>
+                    <!--font-weight:bold vs. strong vs. b... idc what you pick but be consistent dang it! -->
                     <span style='font-weight:bold'><a href="http://www.2015sacnas.org/events/2015-sacnas-national-conference/event-summary-6170a953907b4808ab42c5ec7ec147b6.aspx">SACNAS (Society for the Advancement of Chicanos and Native Americans in Science) National Conference</a></span><br><br>
                     <b>October 29-31, 2015</b><br>
                     Test-Driven Development and Functionality Improvements to GRNmap, a Gene Regulatory Network Modeling Application <br>
