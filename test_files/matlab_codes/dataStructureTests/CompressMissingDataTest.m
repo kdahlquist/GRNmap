@@ -59,7 +59,7 @@ classdef CompressMissingDataTest < matlab.unittest.TestCase
         end
 
         function testWithReadInputSheet(testCase)
-            testCase.GRNstruct.inputFile = [testCase.test_dir '\clean_sheet-compress-missing-data.xlsx'];
+            testCase.GRNstruct.inputFile = [testCase.test_dir '\pre-existing_sheet-compress-missing-data-sheet.xlsx'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
             actual = compressMissingData(testCase.GRNstruct);
             expected = CompressMissingDataStruct.expected_output_for_GRNstruct_from_readinputsheet;

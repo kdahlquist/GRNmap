@@ -67,7 +67,6 @@ classdef LCurveTest < matlab.unittest.TestCase
                [output_values, output_texts] = xlsread([tempdir fileName '_' num2str(i) '_output.xlsx'], 'network_optimized_weights');
                [input_values, input_texts] = xlsread([tempdir fileName '_' num2str(i+1) '.xlsx'], 'network_weights');
 
-               testCase.verifyEqual(size(output_texts, 2), 2, testCase.general_LCurve_file);
                testCase.verifyEqual(output_values, input_values,testCase.general_LCurve_file);
                testCase.verifyEqual(output_texts, input_texts, testCase.general_LCurve_file);
            end
