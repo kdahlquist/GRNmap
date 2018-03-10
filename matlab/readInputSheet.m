@@ -86,6 +86,7 @@ end
 % Describes the geometry of the gene regulatory network.
 
 GRNstruct.GRNParams.alpha                            = alpha;
+GRNstruct.GRNParams.num_strains                      = length(Strain);
 GRNstruct.GRNParams.num_edges                        = sum(GRNstruct.GRNParams.adjacency_mat(:));
 GRNstruct.GRNParams.num_genes                        = size(GRNstruct.GRNParams.adjacency_mat,2);
 GRNstruct.GRNParams.active                           = 1:GRNstruct.GRNParams.num_genes;
@@ -152,27 +153,7 @@ for i = 1:length(Strain)
     end
     % GRNstruct.expressionData data for all strains
     % GRNstruct.expressionData(i).raw  = (GRNstruct.expressionData(i).d(2:end,:));
-
-    % Preallocate these arrays. Should probably be done somewhere else
-    GRNstruct.expressionData(i).avg      = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-    GRNstruct.expressionData(i).stdev    = zeros(GRNstruct.GRNParams.num_genes,GRNstruct.GRNParams.num_times);
-
-    % The average GRNstruct.expressionData for each timepoint for each gene.
-    for iT = 1:GRNstruct.GRNParams.num_times
-        data = GRNstruct.expressionData(i).raw(2:end,GRNstruct.expressionData(i).t(iT).indx);
-
-        GRNstruct.expressionData(i).avg(:,iT)    = mean(data,2);
-        GRNstruct.expressionData(i).stdev(:,iT)  = std(data,0,2);
-
-        delDataAvg = data - GRNstruct.expressionData(i).avg(:,iT)*ones(1,length(data(1,:)));
-
-        GRNstruct.GRNParams.nData   = GRNstruct.GRNParams.nData  + length(data(:));
-        GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE + sum(delDataAvg(:).^2);
-
-    end
 end
-
-GRNstruct.GRNParams.minLSE  = GRNstruct.GRNParams.minLSE/GRNstruct.GRNParams.nData;
 
 % # of interactions between controlling and affected TF's
 % sum each row of matrix adjacency_mat (network)

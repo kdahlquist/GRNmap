@@ -6,7 +6,7 @@ function GRNstruct = lse(GRNstruct)
 % Input and output: GRNstruct, a data structure containing all relevant
 %                   GRNmap data
 
-global counter log2FC prorate strain_length b is_forced     
+global counter log2FC prorate strain_length b is_forced
 
 % We store relevant values and matrices from
 % the struct into local variables
@@ -27,12 +27,13 @@ fix_P           = GRNstruct.controlParams.fix_P;
 b               = GRNstruct.GRNParams.b;
 
 GRNstruct = compressMissingData(GRNstruct);
+GRNstruct = computeStatistics(GRNstruct);
 
 populateGlobals(GRNstruct);
 
 % initial_guesses contains all weights, and optionally the threshholds for
 % controlled genes and optionally the production rates
-initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P),1);
+initial_guesses = zeros(num_edges + num_forced * (1 - fix_b) + num_genes * (1- fix_P), 1);
 
 % We read across the weight matrix row by row and add all nonzero entries
 % to the initial_guesses vector.
