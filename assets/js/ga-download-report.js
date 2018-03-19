@@ -19,5 +19,5 @@ $(function () {
 
     $('div[id$="_source"]').each(function (index, element) {
         retrieveVersionCount($(element), ".ga-sourceDownload", $(".source-total"));
-    });            
+    });
 });
