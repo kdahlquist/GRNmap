@@ -125,7 +125,7 @@ else
     % Instead we report a message to the user and error out.
     msg = ['The Michaelis-Menten function is currently disabled until testing can '...
             'be completed. Please select "Sigmoid" in order to run GRNmap.'];
-    msgbox(msg, 'warn');
+    msgbox(msg, 'Disabled Production Function', 'warn');
     ME = MException('readInputSheet:mmDetected', msg);
     throw(ME)
 end
