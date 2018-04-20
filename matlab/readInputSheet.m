@@ -24,7 +24,7 @@ Strain = [];
 input_file = GRNstruct.inputFile;
 GRNstruct.expressionData = {};
 
-[parms0,parmnames0] = xlsread(input_file,'optimization_parameters');
+[parms0,parmnames0] = xlsread(input_file, 'optimization_parameters');
 [numRows,numCols] = size(parmnames0);
 
 % This part of the code reads the optimization parameter sheet and creates
@@ -118,8 +118,16 @@ GRNstruct.controlParams.L_curve                      = L_curve;
 if strcmpi(GRNstruct.controlParams.production_function, 'Sigmoid')
     [GRNstruct.GRNParams.b,GRNstruct.labels.TX6] = xlsread(input_file,'threshold_b');
 else
-    GRNstruct.controlParams.fix_b = 1;
-    GRNstruct.GRNParams.b = zeros(length(GRNstruct.degRates),1);
+    % Currently disabled until testing for Michaelis-Menten is completed!
+    % GRNstruct.controlParams.fix_b = 1;
+    % GRNstruct.GRNParams.b = zeros(length(GRNstruct.degRates),1);
+
+    % Instead we report a message to the user and error out.
+    msg = ['The Michaelis-Menten function is currently disabled until testing can '...
+            'be completed. Please select "Sigmoid" in order to run GRNmap.'];
+    msgbox(msg, 'warn');
+    ME = MException('readInputSheet:mmDetected', msg);
+    throw(ME)
 end
 
 %TX1 contains both the systemic and standard names
