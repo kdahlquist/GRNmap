@@ -15,8 +15,7 @@ function GRNstruct = runForwardSimulation (GRNstruct)
         if strcmpi(GRNstruct.controlParams.production_function, 'Sigmoid')
             [~,model] = ode45(@general_network_dynamics_sigmoid,simulation_timepoints,x0);
         else
-            % Currently disabled until testing for Michaelis-Menten is completed!
-            % [~,model] = ode45(@general_network_dynamics_mm,simulation_timepoints,x0);
+            [~,model] = ode45(@general_network_dynamics_mm,simulation_timepoints,x0);
         end
         GRNstruct.GRNModel(qq).model                             = (log2(model))';
     end

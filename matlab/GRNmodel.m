@@ -19,13 +19,12 @@ if ~strcmp(ext,'.xls') && ~strcmp(ext,'.xlsx')
     msgbox('Select An .xls or .xlsx File To Run GRNmap.','Invalid Input Error');
     return
 end
-% Begin timing the run here
 
 % Back Simulation
 % Populates the structure as well as the global variables
 GRNstruct = readInputSheet(GRNstruct);
 GRNstruct = initializeArrays(GRNstruct);
-if (GRNstruct.controlParams.L_curve)
+if (GRNstruct.controlParams.L_curve) 
    GRNstruct = GRNLCurve(GRNstruct);
 else
     % Do the forward simulation and parameter estimation

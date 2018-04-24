@@ -144,21 +144,16 @@ end
 
 xlswrite(output_file,outputnet,'network_optimized_weights');
 
-outputDiag = logisitics(outputDiag, GRNstruct);
-
-
 outputDiag{1,1} = 'Parameter';
 outputDiag{1,2} = 'Value';
-% Slots 2 - 4 are filled in by our logisitisc function
-outputDiag = logisitics(outputDiag, GRNstruct.lseRuntime);
-outputDiag{5,1} = 'LSE';
-outputDiag{5,2} = GRNstruct.GRNOutput.lse_out;
-outputDiag{6,1} = 'Penalty';
-outputDiag{6,2} = GRNstruct.GRNOutput.reg_out;
-outputDiag{7,1} = 'min LSE';
-outputDiag{7,2} = GRNstruct.GRNParams.minLSE;
-outputDiag{8,1} = 'iteration count';
-outputDiag{8,2} = GRNstruct.GRNOutput.counter;
+outputDiag{2,1} = 'LSE';
+outputDiag{2,2} = GRNstruct.GRNOutput.lse_out;
+outputDiag{3,1} = 'Penalty';
+outputDiag{3,2} = GRNstruct.GRNOutput.reg_out;
+outputDiag{4,1} = 'min LSE';
+outputDiag{4,2} = GRNstruct.GRNParams.minLSE;
+outputDiag{5,1} = 'iteration count';
+outputDiag{5,2} = GRNstruct.GRNOutput.counter;
 
 outputDiag{6,1} = ' ';
 outputDiag{7,1} = 'Gene';
@@ -190,7 +185,6 @@ close all
 if isfield(GRNstruct,'copy_counter') && GRNstruct.copy_counter >= GRNstruct.alpha_list_length
    GRNstruct.copy_counter = 0;
 end
-
 
 xlswrite(output_file,outputDiag,'optimization_diagnostics');
 
