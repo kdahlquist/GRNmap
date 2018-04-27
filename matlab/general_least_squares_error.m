@@ -64,10 +64,7 @@ for qq = 1: strain_length
     else if strcmpi(production_function, 'MM')
         % Currently disabled until testing for Michaelis-Menten is completed!
         % [~,x] = ode45('general_network_dynamics_mm',tspan1,x0);
-    else
-        msg = ['Illegal production function given: ' production_function ', Only Sigmoid is permitted.']
-        ME = MException('MyComponent:untestedComponent', msg);
-        throw(ME)
+        disp('Warning: MM detected for GLSE');
     end
 
     if addzero == 1;
