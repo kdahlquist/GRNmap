@@ -1,6 +1,4 @@
 function GRNstruct = initializeArrays (GRNstruct)
-    % We can get rid of these globals later
-
     num_edges             = GRNstruct.GRNParams.num_edges;
     num_forced            = GRNstruct.GRNParams.num_forced;
     num_genes             = GRNstruct.GRNParams.num_genes;

@@ -7,7 +7,7 @@ classdef InitializeArraysTest < matlab.unittest.TestCase
 
     methods(TestClassSetup)
         function setup(testCase)
-            testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-0_fixP-0_graph.xlsx'];
+            testCase.GRNstruct.inputFile = [testCase.test_dir '4-genes_6-edges_artificial-data_Sigmoidal_estimation_fixb-1_fixP-0_graph.xlsx'];
             testCase.GRNstruct = readInputSheet(testCase.GRNstruct);
             testCase.GRNstruct = initializeArrays(testCase.GRNstruct);
         end
