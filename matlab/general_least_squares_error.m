@@ -61,10 +61,8 @@ for qq = 1: strain_length
     if strcmpi(production_function, 'Sigmoid')
         % The ~ was previously a t, which was previously unused
         [~,x] = ode45('general_network_dynamics_sigmoid',tspan1,x0);
-    else if strcmpi(production_function, 'MM')
-        % Currently disabled until testing for Michaelis-Menten is completed!
-        % [~,x] = ode45('general_network_dynamics_mm',tspan1,x0);
-        disp('Warning: MM detected for GLSE');
+    else
+        [~,x] = ode45('general_network_dynamics_mm',tspan1,x0);
     end
 
     if addzero == 1;
