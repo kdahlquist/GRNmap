@@ -31,7 +31,7 @@ onlyShortTestsSuite = calculationSuite.selectIf( ...
 
 % shortSuite = calculationSuite.selectIf(HasName(ContainsSubstring('computeStatisticsTest')));
 % onlyReadInputSuite = excelSuite.selectIf(HasName(ContainsSubstring('ReadInputSheetTest')));
-allSuites = [dataStructureSuite];
+allSuites = [calculationSuite excelSuite dataStructureSuite];
 
 % onlyShortTestSuite = calculationSuite.selectIf(HasName(ContainsSubstring('computeStatisticsTest')));
 % allSuites = onlyShortTestSuite;
