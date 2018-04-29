@@ -53,7 +53,7 @@ for qq = 1: strain_length
 
     deletion = log2FC(qq).deletion;
     nGSE     = zeros(num_genes, 1);
-    
+
     errorMatStrain = zeros(num_genes, 1);
 
     % % Matlab uses the o.d.e. solver function to obtain the data from our model
@@ -73,12 +73,12 @@ for qq = 1: strain_length
 
     strain_x1 = [strain_x1;x1];
 
-    for timepointIndex = 1:length(expression_timepoints)        
+    for timepointIndex = 1:length(expression_timepoints)
         for geneIndex = 1:num_genes
             truncatedData = log2FC(qq).compressed(2:end, :);
             dataCell = truncatedData{geneIndex, timepointIndex};
-            
-            for replicateIndex = 1:size(dataCell, 2)                
+
+            for replicateIndex = 1:size(dataCell, 2)
                 errorMatStrain(geneIndex) = errorMatStrain(geneIndex) + ...
                     (log2(x1(timepointIndex, geneIndex)) - dataCell(1, replicateIndex))^2;
                 nGSE(geneIndex) = nGSE(geneIndex) + 1;
@@ -86,7 +86,7 @@ for qq = 1: strain_length
             end
         end
     end
-    
+
     errorWholeModel = errorWholeModel + errorMatStrain;
 
     for geneIndex = 1:num_genes

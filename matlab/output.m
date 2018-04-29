@@ -144,6 +144,7 @@ end
 
 xlswrite(output_file,outputnet,'network_optimized_weights');
 
+
 outputDiag{1,1} = 'Parameter';
 outputDiag{1,2} = 'Value';
 outputDiag{2,1} = 'LSE';
@@ -185,6 +186,7 @@ close all
 if isfield(GRNstruct,'copy_counter') && GRNstruct.copy_counter >= GRNstruct.alpha_list_length
    GRNstruct.copy_counter = 0;
 end
+
 
 xlswrite(output_file,outputDiag,'optimization_diagnostics');
 
