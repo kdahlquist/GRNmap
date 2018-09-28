@@ -52,10 +52,6 @@ classdef OutputTest < matlab.unittest.TestCase
         end
     end
 
-    methods (TestMethodTeardown)
-
-    end
-
     methods (TestClassTeardown)
         function clearTempDir(testCase)
             deleteAllTempsCreated();
