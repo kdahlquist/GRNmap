@@ -40,21 +40,16 @@ classdef OutputTest < matlab.unittest.TestCase
             testCase.GRNstruct = getfield(OutputGRNstructs, test_files.GRNstruct);
             testCase.GRNstruct.output_file = [test_files.file '_output'];
             testCase.GRNstruct.inputFile = [pwd testCase.test_dir test_files.file '.xlsx'];
+            testCase.GRNstruct.expected_output_file = [pwd testCase.test_dir test_files.file '_output'];
             [~, testCase.GRNstruct.sheets] = xlsfinfo(testCase.GRNstruct.inputFile);
             testCase.previous_dir = pwd;
             testCase.input_file = [pwd testCase.test_dir test_files.file];
             fprintf('\n%s\n', testCase.input_file);
             testCase.GRNstruct.directory = tempdir;
             cd(tempdir);
-
             output(testCase.GRNstruct);
-            [~, testCase.GRNstruct.output_sheets] = xlsfinfo (testCase.GRNstruct.output_file);
-
+            [~, testCase.GRNstruct.output_sheets] = xlsfinfo (testCase.GRNstruct.output_file);            
         end
-    end
-
-    methods (TestMethodTeardown)
-
     end
 
     methods (TestClassTeardown)
@@ -196,7 +191,7 @@ classdef OutputTest < matlab.unittest.TestCase
                                                  && ~testCase.GRNstruct.controlParams.fix_b);
 
             if optimized_thresholds_should_exist
-                [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'optimized_threshold_b');
+                [expected_output_data, ~] = xlsread (testCase.GRNstruct.expected_output_file, 'optimized_threshold_b');
                 [actual_output_data, ~] = xlsread ([tempdir testCase.GRNstruct.output_file], 'optimized_threshold_b');
                 testCase.verifyEqual (round(actual_output_data, 6),...
                                       round(expected_output_data, 6),...
@@ -210,44 +205,44 @@ classdef OutputTest < matlab.unittest.TestCase
                                                  && ~testCase.GRNstruct.controlParams.fix_b);
 
             if optimized_thresholds_should_exist
-                [~, expected_output_names] = xlsread (testCase.GRNstruct.output_file, 'optimized_threshold_b');
-                [~, actual_output_names] = xlsread ([tempdir testCase.GRNstruct.output_file], 'optimized_threshold_b');
+                [~, expected_output_names] = xlsread(testCase.GRNstruct.expected_output_file, 'optimized_threshold_b');
+                [~, actual_output_names] = xlsread([tempdir testCase.GRNstruct.output_file], 'optimized_threshold_b');
                 testCase.verifyEqual (actual_output_names, expected_output_names,...
                                       testCase.GRNstruct.inputFile);
             end
         end
 
         function testOutputWildTypeExpressionCorrect (testCase)
-            [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'wt_log2_optimized_expression');
-            [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'wt_log2_optimized_expression');
+            [expected_output_data, ~] = xlsread(testCase.GRNstruct.expected_output_file, 'wt_log2_optimized_expression');
+            [actual_output_data, ~] = xlsread([tempdir '\' testCase.GRNstruct.output_file], 'wt_log2_optimized_expression');
             testCase.verifyEqual (round(actual_output_data, 6),...
                                   round(expected_output_data, 6),...
                                   testCase.GRNstruct.inputFile);
         end
 
         function testOutputWildTypeExpressionNamesCorrect (testCase)
-            [~, expected_output_names] = xlsread (testCase.GRNstruct.output_file, 'wt_log2_optimized_expression');
-            [~, actual_output_names] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'wt_log2_optimized_expression');
+            [~, expected_output_names] = xlsread(testCase.GRNstruct.expected_output_file, 'wt_log2_optimized_expression');
+            [~, actual_output_names] = xlsread([tempdir '\' testCase.GRNstruct.output_file], 'wt_log2_optimized_expression');
             testCase.verifyEqual (actual_output_names, expected_output_names,...
                                   testCase.GRNstruct.inputFile);
         end
 
         function testOutputCin5ExpressionCorrect (testCase)
-            [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'dcin5_log2_optimized_expression');
+            [expected_output_data, ~] = xlsread (testCase.GRNstruct.expected_output_file, 'dcin5_log2_optimized_expression');
             [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'dcin5_log2_optimized_expression');
             testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6),...
                                   testCase.GRNstruct.inputFile);
         end
 
         function testOutputCin5ExpressionNamesCorrect (testCase)
-            [~, expected_output_names] = xlsread (testCase.GRNstruct.output_file, 'dcin5_log2_optimized_expression');
+            [~, expected_output_names] = xlsread (testCase.GRNstruct.expected_output_file, 'dcin5_log2_optimized_expression');
             [~, actual_output_names] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'dcin5_log2_optimized_expression');
             testCase.verifyEqual (actual_output_names, expected_output_names,...
                                   testCase.GRNstruct.inputFile);
         end
 
         function testOutputWildTypeSigmasCorrect (testCase)
-            [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'wt_sigmas');
+            [expected_output_data, ~] = xlsread (testCase.GRNstruct.expected_output_file, 'wt_sigmas');
             [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'wt_sigmas');
             testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6),...
                                   testCase.GRNstruct.inputFile);
@@ -261,7 +256,7 @@ classdef OutputTest < matlab.unittest.TestCase
         end
 
         function testOutputCin5SigmasCorrect (testCase)
-            [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'dcin5_sigmas');
+            [expected_output_data, ~] = xlsread (testCase.GRNstruct.expected_output_file, 'dcin5_sigmas');
             [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'dcin5_sigmas');
             testCase.verifyEqual (round(actual_output_data, 6), ...
                                   round(expected_output_data, 6),...
@@ -269,7 +264,7 @@ classdef OutputTest < matlab.unittest.TestCase
         end
 
         function testOutputCin5SigmasNamesCorrect (testCase)
-            [~, expected_output_names] = xlsread (testCase.GRNstruct.output_file, 'dcin5_sigmas');
+            [~, expected_output_names] = xlsread (testCase.GRNstruct.expected_output_file, 'dcin5_sigmas');
             [~, actual_output_names] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'dcin5_sigmas');
             testCase.verifyEqual (actual_output_names, expected_output_names,...
                                   testCase.GRNstruct.inputFile);
@@ -277,7 +272,7 @@ classdef OutputTest < matlab.unittest.TestCase
 
         function testOutputOptimizedProductionRatesCorrect (testCase)
             if ~testCase.GRNstruct.controlParams.fix_P && testCase.GRNstruct.controlParams.estimate_params
-                [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'optimized_production_rates');
+                [expected_output_data, ~] = xlsread (testCase.GRNstruct.expected_output_file, 'optimized_production_rates');
                 [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'optimized_production_rates');
                 testCase.verifyEqual (round(actual_output_data, 6),...
                                       round(expected_output_data, 6),...
@@ -287,7 +282,7 @@ classdef OutputTest < matlab.unittest.TestCase
 
         function testOutputOptimizedProductionRatesNamesCorrect (testCase)
             if ~testCase.GRNstruct.controlParams.fix_P && testCase.GRNstruct.controlParams.estimate_params
-                [~, expected_output_names] = xlsread (testCase.GRNstruct.output_file, 'optimized_production_rates');
+                [~, expected_output_names] = xlsread (testCase.GRNstruct.expected_output_file, 'optimized_production_rates');
                 [~, actual_output_names] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'optimized_production_rates');
                 testCase.verifyEqual (actual_output_names, expected_output_names,...
                                       testCase.GRNstruct.inputFile);
@@ -295,22 +290,22 @@ classdef OutputTest < matlab.unittest.TestCase
         end
 
         function testOutputNetworkOptimizedWeightsCorrect (testCase)
-            [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'network_optimized_weights');
+            [expected_output_data, ~] = xlsread (testCase.GRNstruct.expected_output_file, 'network_optimized_weights');
             [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'network_optimized_weights');
             testCase.verifyEqual (round(actual_output_data, 6), round(expected_output_data, 6),...
                                   testCase.GRNstruct.inputFile);
         end
 
         function testOutputNetworkOptimizedWeightsNamesCorrect (testCase)
-            [~, expected_output_names] = xlsread (testCase.GRNstruct.output_file, 'network_optimized_weights');
-            [~, actual_output_names] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'network_optimized_weights');
+            [~, expected_output_names] = xlsread(testCase.GRNstruct.expected_output_file, 'network_optimized_weights');
+            [~, actual_output_names] = xlsread([tempdir '\' testCase.GRNstruct.output_file], 'network_optimized_weights');
             testCase.verifyEqual (actual_output_names, expected_output_names,...
                                   testCase.GRNstruct.inputFile);
         end
 
          function testOutputOptimizationDiagnostics (testCase)
-            [expected_output_data, ~] = xlsread (testCase.GRNstruct.output_file, 'optimization_diagnostics');
-            [actual_output_data, ~] = xlsread ([tempdir '\' testCase.GRNstruct.output_file], 'optimization_diagnostics');
+            [expected_output_data, ~] = xlsread(testCase.GRNstruct.expected_output_file, 'optimization_diagnostics');
+            [actual_output_data, ~] = xlsread([tempdir '\' testCase.GRNstruct.output_file], 'optimization_diagnostics');
             testCase.verifyEqual (round(actual_output_data, 6), ...
                                   round(expected_output_data, 6),...
                                   testCase.GRNstruct.inputFile);

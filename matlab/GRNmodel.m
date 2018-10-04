@@ -14,10 +14,21 @@ if ~GRNstruct.inputFile
 end
 
 % If the file is not an xls or xlsx file, abort
-[p,n,ext] = fileparts( GRNstruct.inputFile );
+[p,n,ext] = fileparts(GRNstruct.inputFile);
 if ~strcmp(ext,'.xls') && ~strcmp(ext,'.xlsx')
     msgbox('Select An .xls or .xlsx File To Run GRNmap.','Invalid Input Error');
     return
+end
+
+if outputFileConflictCheck(GRNstruct.directory, GRNstruct.inputFile) 
+    question = ['Warning: The output file for the given input file will conflict ' ...
+        'with an existing output file. Press OK and the output file will be overwritten.' ...
+        'Click Cancel to stop the process and rename the file.'];
+    title = 'Output File will Conflict';
+    answer = questdlg(question, title, 'OK', 'Cancel');
+    if strcmp(answer, 'Cancel')
+        return;
+    end
 end
 % Begin timing the run here
 
