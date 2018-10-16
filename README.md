@@ -1,3 +1,7 @@
+[![DOI](https://zenodo.org/badge/24078380.svg)](https://zenodo.org/badge/latestdoi/24078380)
+
+http://kdahlquist.github.io/GRNmap/index.html
+
 # GRNmap:  Gene Regulatory Network modeling and parameter estimation
 
 ## About GRNmap
