@@ -20,13 +20,16 @@ if ~strcmp(ext,'.xls') && ~strcmp(ext,'.xlsx')
     return
 end
 
-if outputFileConflictCheck(GRNstruct.directory, GRNstruct.inputFile) 
-    question = ['Warning: The output file for the given input file will conflict ' ...
-        'with an existing output file. Press OK and the output file will be overwritten.' ...
-        'Click Cancel to stop the process and rename the file.'];
-    title = 'Output File will Conflict';
-    answer = questdlg(question, title, 'OK', 'Cancel');
-    if strcmp(answer, 'Cancel')
+if outputFileConflictCheck(GRNstruct.directory, GRNstruct.inputFile)
+    question = ['Warning: the output file that will be created for the chosen input file ' ...
+        'will have the same name as an existing output file. Click OK to proceed with the ' ...
+        'model run, overwriting the existing output file. Click Cancel to stop the run so ' ... 
+        'that you can rename the file.'];
+    title = 'Output File Name Conflict';
+    answer = questdlg(question, title, 'OK', 'Cancel', 'Cancel');
+    % We will get back 'Cancel' if the user clicks cancel or an empty character vector if they click
+    % X or press ESC.
+    if strcmp(answer, 'Cancel') || strcmp(answer, '')
         return;
     end
 end
