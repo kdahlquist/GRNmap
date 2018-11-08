@@ -9,12 +9,11 @@ A gene regulatory network (GRN) consists of genes, transcription factors, and th
 
 Although originally developed to model GRNs from budding yeast, <i>Saccharomyces cerevisiae</i>, GRNmap can be used with any species for which you have timecourse gene expression data.
 
-There are several options for running GRNmap:
-* Sigmoidal or Michaelis-Menten production function
+There are several options for running GRNmap with a sigmoidal production function:
 * Estimate parameters or perform a forward simulation only
   * Estimate production rates or fix them to a particular value
   * Estimate expression threholds or fix them to a particular value
-  * Automatically perform multiple successive estimation runs for fine tuning of the optimization parameter, alpha
+  * Automatically perform multiple successive estimation runs for fine tuning of the optimization parameter, alpha ("L-curve" analysis)
 * Automatically generate expression plots or not
 
 GRNmap can be run from source code in MATLAB.
@@ -64,10 +63,10 @@ For documentation on how to format the input workbooks and how to interpret the 
 
 ## Acknowledgments
 ### People
-GRNmap is a project of the Loyola Marymount University Biomathematics Group, headed by Dr. Kam Dahlquist, and Dr. Ben G. Fitzpatrick, in collaboration with Dr. John David N. Dionisio. The forerunner to GRNmap was initiated through a collaboration between Dr. Dahlquist and Dr. Erika T. Camacho, who co-mentored undergraduate Nathan C. Wanner (Applied Mathematics '07). Dr. Ben G. Fitzpatrick joined the project in 2007 as part of the NSF-funded UBM (Interdisciplinary Training for Undergraduates in Biological and Mathematical Sciences; 0634613) Project where he and Dr. Dahlquist co-mentored Stephanie D. (Kuelbs) Entzminger (Applied Mathematics '09). The project took its current form with an NSF-funded RUI award (0921038) to Drs. Dahlquist and Fitzpatrick, enabling work by students Alondra J. Vega (Biomathematics '12), Nicholas A. Rohacz (Biochemistry '13), and Katrina Sherbina (Biomathematics '14), and was christened GRNmap in September 2014 with the work of Juan S. Carrillo (Computer Science, Applied Mathematics '16). Subsequent students joined either the coding or data analysis subgroups. The current coding team includes Trixie Anne M. Roque (Computer Science '17) and Chukwuemeka (Eddie) Azinge (Computer Science '19). The current data analysis team includes Natalie E. Williams (Biology '17), Kristen M. Horstmann (Biomathematics '17), Brandon J. Klein (Biology '18) and Magaret J. O’Neil (Biology '18), with recent contributions by Tessa A. Morris (Biomathematics '16), K. Grace Johnson (Biochemistry '17), and Kayla C. Jackson (Spelman College Mathematics '17). GRNmap is featured as a project in the course Biology 398: Biomathematical Modeling/Mathematics 388: Survey of Biomathematics taught by Drs. Dahlquist and Fitzpatrick.
+GRNmap is a project of the Loyola Marymount University Biomathematics Group, headed by Dr. Kam Dahlquist, and Dr. Ben G. Fitzpatrick, in collaboration with Dr. John David N. Dionisio. The forerunner to GRNmap was initiated through a collaboration between Dr. Dahlquist and Dr. Erika T. Camacho, who co-mentored undergraduate Nathan C. Wanner (Applied Mathematics '07). Dr. Ben G. Fitzpatrick joined the project in 2007 as part of the NSF-funded UBM (Interdisciplinary Training for Undergraduates in Biological and Mathematical Sciences; 0634613) Project where he and Dr. Dahlquist co-mentored Stephanie D. (Kuelbs) Entzminger (Applied Mathematics '09). The project took its current form with an NSF-funded RUI award (0921038) to Drs. Dahlquist and Fitzpatrick, enabling work by students Alondra J. Vega (Biomathematics '12), Nicholas A. Rohacz (Biochemistry '13), and Katrina Sherbina (Biomathematics '14), and was christened GRNmap in September 2014 with the work of Juan S. Carrillo (Computer Science, Applied Mathematics '16). Subsequent students joined either the coding or data analysis subgroups. See the [People](http://kdahlquist.github.io/GRNmap/people/) page for a full list of students. GRNmap is featured as a project in the course Biology 388: Biomathematical Modeling/Mathematics 388: Survey of Biomathematics taught by Drs. Dahlquist and Fitzpatrick.
 
 ### Funding
-This work is partially supported by NSF award 0921038 (Kam D. Dahlquist and Ben G. Fitzpatrick), the Loyola Marymount University Summer Undergraduate Research Program 2014 (Juan Carrillo) and 2015 (Trixie Roque), the LMU Honors Summer Research Fellowship 2015 (K. Grace Johnson and Natalie Williams), and the LMU Rains Research Assistant Program 2015 (Tessa Morris).
+This work is partially supported by NSF award 0921038 (Kam D. Dahlquist and Ben G. Fitzpatrick), LMU Biology Kadner-Pitts Research Grants (Kam D. Dahlquist), the Loyola Marymount University Summer Undergraduate Research Program 2014 (Juan Carrillo) and 2015 (Trixie Roque), the LMU Honors Summer Research Fellowship 2015 (K. Grace Johnson and Natalie Williams), and the LMU Rains Research Assistant Program 2015 (Tessa Morris).
 
 ### Contact
 
@@ -81,7 +80,7 @@ Department of Biology<br>
 Loyola Marymount University<br>
 Tel: 310-338-7697<br>
 kdahlquist@lmu.edu<br>
-http://myweb.lmu.edu/kdahlqui<br>
+http://kdahlquist.github.io/DahlquistLab/<br>
 
 **Ben G. Fitzpatrick, Ph.D.**<br>
 Professor<br>
@@ -89,4 +88,3 @@ Department of Mathematics<br>
 Loyola Marymount University<br>
 Tel: 310-338-7892<br>
 bfitzpatrick@lmu.edu<br>
-http://myweb.lmu.edu/bfitzpatrick<br>
