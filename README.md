@@ -75,7 +75,7 @@ To request support or features or report bugs, please go to [GRNmap @ GitHub](ht
 For all other correspondence, please contact:
 
 **Kam D. Dahlquist, Ph.D.**<br>
-Associate Professor<br>
+Professor<br>
 Department of Biology<br>
 Loyola Marymount University<br>
 Tel: 310-338-7697<br>
